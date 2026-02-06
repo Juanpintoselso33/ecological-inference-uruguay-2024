@@ -1,0 +1,206 @@
+% ================================================================================
+% DOCUMENTO PRINCIPAL: Inferencia Ecológica - Elecciones Uruguay 2024
+% ================================================================================
+% Autor: Proyecto de Análisis Electoral
+% Fecha: Febrero 2025
+% Descripción: Análisis comprehensivo de transferencias de votos en las
+%              elecciones presidenciales uruguayas de 2024 usando inferencia
+%              ecológica bayesiana
+% ================================================================================
+
+\documentclass[12pt,a4paper]{article}
+
+% ========================================
+% PACKAGES
+% ========================================
+% Codificación y idioma
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=1in]{geometry}
+
+% Fuentes escalables (necesario para microtype)
+\usepackage{lmodern}
+
+% Tipografía moderna (ESENCIAL - mejora calidad visual automáticamente)
+\usepackage{microtype}
+
+% Espaciado de líneas (1.5× - estándar académico)
+\usepackage[onehalfspacing]{setspace}
+
+% Matemáticas y símbolos
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+% Gráficos y figuras
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[labelfont=bf]{caption}
+\usepackage{subcaption}              % Moderno para subfiguras (si necesario en futuro)
+
+% Tablas
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{siunitx}                 % Alineación decimal y formato profesional
+\usepackage{adjustbox}               % Auto-ajuste de tablas anchas
+\usepackage{tabularx}                % Tablas con ancho flexible
+\renewcommand{\arraystretch}{1.1}    % Más espacio vertical en celdas
+
+% Control de floats (CRÍTICO - evita que figuras/tablas se vayan al final)
+\usepackage[section]{placeins}       % FloatBarrier automático en cada \section
+
+% Optimización de parámetros de floats
+\renewcommand{\topfraction}{0.85}           % 85% de página puede ser floats arriba
+\renewcommand{\bottomfraction}{0.4}         % 40% abajo
+\renewcommand{\textfraction}{0.15}          % Mínimo 15% de texto
+\renewcommand{\floatpagefraction}{0.7}      % Página de solo floats si >70%
+
+% Auto-centrado de todas las figuras y tablas
+\makeatletter
+\g@addto@macro\@floatboxreset\centering
+\makeatother
+
+% Configuración de párrafos (sangría académica estándar)
+\setlength{\parindent}{15pt}
+\setlength{\parskip}{0pt plus 1pt}
+
+% Prevención de widows y orphans (líneas solas al inicio/fin de página)
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+\raggedbottom                        % Permite páginas cortas para evitar widows/orphans
+
+% Citas y referencias
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+% Hipervínculos (cargar al final)
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+    pdfauthor={Proyecto de Análisis Electoral},
+    pdftitle={Inferencia Ecológica de las Elecciones Uruguayas 2024}
+}
+
+% ========================================
+% METADATOS DEL DOCUMENTO
+% ========================================
+\title{%
+    \textbf{Inferencia Ecológica de las Elecciones Uruguayas 2024:}\\
+    \Large Análisis de Transferencias de Votos a Nivel Circuital
+}
+\author{Electoral Analysis Project}
+\date{Febrero 2025}
+
+% ========================================
+% COMANDOS PERSONALIZADOS
+% ========================================
+\newcommand{\rhat}{$\hat{R}$}
+\newcommand{\CI}[2]{[#1, #2]}
+
+% Ruta a figuras y tablas
+\graphicspath{{../../outputs/figures/}}
+\newcommand{\tablepath}{../../outputs/tables/latex/}
+
+% ========================================
+% INICIO DEL DOCUMENTO
+% ========================================
+\begin{document}
+
+% ========================================
+% PRELIMINARES
+% ========================================
+\maketitle
+
+\begin{abstract}
+\noindent
+Esta investigación emplea métodos bayesianos de inferencia ecológica para estimar las transferencias de votos entre la primera vuelta y el balotaje de las elecciones presidenciales uruguayas de 2024 y 2019. Utilizando datos de 7,271 circuitos electorales en 2024 y 7,213 en 2019, se revela una paradoja fundamental: la Coalición Republicana perdió en 2024 a pesar de mejorar dramáticamente su cohesión interna. El modelo nacional de inferencia ecológica con PI para 2024 estima que el 46.5\% de los votantes de Cabildo Abierto (CA) defectó al Frente Amplio (FA), con un 49.1\% retenido por el Partido Nacional (PN); el Partido Colorado (PC) transfirió el 10.0\% de sus votos a FA, y el PN solo el 6.3\%. La comparación temporal---realizada mediante promedios departamentales ponderados por votos para garantizar comparabilidad entre años---muestra mejoras generalizadas en cohesión coalicional entre 2019 y 2024: CA redujo su defección a FA en 41.9 puntos porcentuales, PC en 26.6 pp, PN en 32.4 pp, y PI en 92.1 pp. Sin embargo, la coalición perdió igual. El factor determinante fue el colapso del tamaño de CA, que perdió 208,722 votos (-78\%) entre elecciones, dejando a la coalición con 154 mil votos menos para retener en segunda vuelta. El análisis geográfico revela nula estabilidad temporal (correlaciones $r < 0.13$), sugiriendo reconfiguración profunda del electorado uruguayo. En 2024, los circuitos rurales exhibieron tasas de defección 13.3 puntos porcentuales más altas que los urbanos, contradiciendo supuestos convencionales sobre conservadurismo rural. La lección política clave: la cohesión en segunda vuelta no compensa la derrota en primera vuelta---se concluye que las coaliciones deben enfocarse en crecer o mantener su base electoral inicial.
+\end{abstract}
+
+\vspace{0.5cm}
+\noindent
+\textbf{Palabras clave:} Inferencia ecológica, elecciones Uruguay 2024, elecciones Uruguay 2019, transferencias de votos, análisis temporal, heterogeneidad geográfica, análisis bayesiano, comportamiento electoral
+
+\newpage
+
+% ========================================
+% TABLA DE CONTENIDOS
+% ========================================
+\tableofcontents
+\newpage
+
+% ========================================
+% SECCIONES PRINCIPALES
+% ========================================
+
+% Incluir sección de introducción
+\input{sections/introduction}
+\newpage
+
+% Incluir sección de metodología
+\input{sections/methodology}
+\newpage
+
+% Incluir sección de resultados
+\input{sections/results}
+\newpage
+
+% ========================================
+% FASE B: ANÁLISIS DE ROBUSTEZ
+% ========================================
+
+% Análisis de Sensibilidad
+\input{sections/08_sensitivity_analysis}
+\newpage
+
+% Patrones de Voto en Blanco
+\input{sections/09_blank_votes}
+\newpage
+
+% ========================================
+% DISCUSIÓN Y CONCLUSIONES
+% ========================================
+
+% Incluir sección de discusión
+\input{sections/discussion}
+\newpage
+
+% ========================================
+% NOTA: Tablas y figuras están integradas en las secciones correspondientes
+% ========================================
+% Las tablas se incluyen directamente después de ser referenciadas en:
+% - sections/results.tex (tablas 2024)
+% - sections/results_temporal.tex (tablas análisis temporal)
+% - sections/08_sensitivity_analysis.tex (tablas sensibilidad)
+% - sections/09_blank_votes.tex (tablas votos en blanco)
+% Las figuras están integradas en sus secciones respectivas
+
+% ========================================
+% BIBLIOGRAFÍA
+% ========================================
+\FloatBarrier                        % Procesar todos los floats pendientes
+\newpage
+\bibliography{references}
+
+% ========================================
+% APÉNDICES: VALIDACIÓN TÉCNICA
+% ========================================
+\newpage
+\appendix
+
+% Posterior Predictive Checks
+\input{sections/appendix_ppc}
+\newpage
+
+% Covariables Demográficas del Censo 2023
+\input{sections/appendix_census}
+
+\end{document}
+
+% ================================================================================
+% FIN DEL DOCUMENTO
+% ================================================================================

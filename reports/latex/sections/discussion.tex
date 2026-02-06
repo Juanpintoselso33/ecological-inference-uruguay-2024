@@ -1,0 +1,342 @@
+% ========================================
+% DISCUSSION SECTION
+% Ecological Inference Analysis of Uruguay 2024 Elections
+% ========================================
+
+\section{Discusión}
+\label{sec:discusion}
+
+Este estudio aplicó el método de inferencia ecológica de King \citep{king1997} para analizar las transferencias de votos en el balotaje presidencial uruguayo de 2024, revelando una profunda heterogeneidad geográfica en el comportamiento electoral de los votantes de la coalición. Los hallazgos desafían las narrativas convencionales sobre la geografía electoral uruguaya e iluminan las dinámicas espaciales que subyacen a la estrecha victoria del Frente Amplio. En esta discusión se interpretan estos resultados a la luz del contexto político uruguayo y se evalúan sus implicaciones para la comprensión del comportamiento electoral, las contribuciones y limitaciones metodológicas, así como direcciones para futuras investigaciones. Asimismo, se integran los resultados de los análisis de robustez---sensibilidad, votos en blanco, verificaciones predictivas posteriores y covariables censales---que fortalecen la confianza en las estimaciones centrales.
+
+% ========================================
+\subsection{Interpretación de los Hallazgos}
+\label{sec:discusion_interpretacion}
+
+Los análisis revelan tres patrones interrelacionados que fundamentalmente reconfiguran la comprensión del balotaje uruguayo de 2024: las áreas rurales defeccionaron a tasas más altas que las áreas urbanas, los departamentos del interior perdieron masivamente votos de la coalición mientras que las áreas metropolitanas permanecieron relativamente estables, y la variación a nivel departamental excedió los 89 puntos porcentuales---mucho mayor que las brechas urbano-rurales o metropolitanas-interior. Estos hallazgos demuestran colectivamente que el colapso electoral de la coalición no fue un fenómeno nacional uniforme sino más bien una crisis geográficamente concentrada impulsada por votantes rurales y del interior.
+
+\subsubsection{La Rebelión Rural: Contradiciendo la Sabiduría Convencional}
+
+El hallazgo de que los circuitos rurales exhibieron una defección del 60.8\% de CA$\to$FA en comparación con el 39.0\% en circuitos urbanos contradice directamente las expectativas convencionales sobre el conservadurismo político rural en Uruguay. Los relatos históricos enfatizan el apego de los votantes rurales a los partidos tradicionales, particularmente al Partido Nacional, y caracterizan las áreas rurales como bastiones de la política de centro-derecha \citep{gonzalez1991electoral}. Los resultados revelan lo opuesto: los votantes rurales de la coalición fueron \textit{más} propensos a desertar al ideológicamente distante Frente Amplio, no menos. Esta brecha de 21.8 puntos porcentuales entre contextos rurales y urbanos resulta estadísticamente significativa, como lo indican los intervalos de credibilidad del 95\% no superpuestos (rural: [51.7\%, 69.8\%]; urbano: [35.1\%, 42.8\%]).
+
+Esta rebelión rural se manifiesta más dramáticamente en las defecciones del Partido Colorado, donde los votantes rurales defeccionaron a una tasa 2.5 veces mayor que la tasa urbana (18.2\% vs 7.2\%). El Partido Colorado, que históricamente representa a las élites urbanas comerciales y profesionales, tiene una presencia organizacional limitada en áreas rurales \citep{buquet2015uruguayan}. Los votantes rurales del Colorado, careciendo de fuertes vínculos partidarios y potencialmente votando estratégicamente en la primera vuelta, parecen haber abandonado la coalición en masa cuando se enfrentaron a la elección binaria del balotaje. El patrón de defección sugiere que estos votantes priorizaron preocupaciones de política pública---probablemente relacionadas con la economía agrícola, la infraestructura rural o el desarrollo regional---sobre la alineación ideológica con la coalición de centro-derecha.
+
+Notablemente, las defecciones del Partido Nacional mostraron una diferenciación urbano-rural mínima (8.4\% urbano vs 7.2\% rural), sugiriendo que los votantes del Nacional mantuvieron una lealtad relativamente consistente independientemente del contexto geográfico. Este contraste con los votantes del Colorado refuerza la interpretación de que la rebelión rural reflejó \textit{insatisfacción con las políticas} más que un rechazo generalizado de la política conservadora. Los votantes del Nacional, con identidades partidarias más fuertes arraigadas en la asociación histórica del partido con el Uruguay rural \citep{gonzalez1993structuring}, defeccionaron a tasas más bajas incluso cuando estaban insatisfechos con el desempeño de la coalición. Los votantes del Colorado, careciendo de tales vínculos profundos, resultaron ser mucho más volátiles.
+
+¿Qué explica la insatisfacción de los votantes rurales con el gobierno de coalición? Si bien el diseño de inferencia ecológica no puede probar directamente mecanismos causales, varias explicaciones plausibles emergen del contexto político y económico uruguayo:
+
+\begin{itemize}
+    \item \textbf{Crisis económica agrícola}: El período 2020--2024 fue testigo de desafíos significativos para el sector agrícola de Uruguay, incluyendo sequía, caída de precios de commodities y aumento de costos de producción. Los votantes rurales directamente afectados por estas condiciones pueden haber culpado al gobierno de coalición por políticas de apoyo inadecuadas.
+
+    \item \textbf{Infraestructura y servicios públicos}: Las áreas rurales históricamente reciben menos servicios gubernamentales e inversiones en infraestructura que las áreas urbanas. La gobernanza de la coalición puede haber sido percibida como priorizando intereses urbanos, dejando a los votantes rurales sintiéndose desatendidos.
+
+    \item \textbf{Fracasos en el mensaje de la coalición}: Las comunicaciones de campaña que enfatizaban el crecimiento económico urbano, el turismo y los sectores tecnológicos pueden haber resonado pobremente en áreas rurales, donde los medios de vida dependen de la agricultura y la extracción de recursos.
+
+    \item \textbf{Organización política local}: La fortaleza histórica del Frente Amplio en la organización rural, particularmente a través de sindicatos y movimientos agrarios, puede haber proporcionado redes de movilización efectivas para capturar votantes de la coalición insatisfechos.
+\end{itemize}
+
+La rebelión rural también tiene implicaciones para las teorías del comportamiento político rural. La investigación transnacional documenta cada vez más la polarización rural-urbana, con áreas rurales apoyando partidos populistas y de derecha en reacción a la globalización económica y el cambio cultural \citep{rodden2019s}. La elección uruguaya de 2024 presenta un patrón contrastante: los votantes rurales se desplazaron hacia la \textit{izquierda}, abandonando una coalición de centro-derecha por una alternativa izquierdista. Esta divergencia sugiere que el comportamiento político rural puede estar más moldeado por las condiciones económicas locales y el desempeño gubernamental que por dinámicas culturales universales.
+
+\subsubsection{Colapso Interior y Estabilidad Metropolitana}
+
+El contraste metropolitano-interior revela una división geográfica aún más dramática. Los departamentos del interior perdieron 34,628 votos netos de la coalición en comparación con solo 1,282 en el Área Metropolitana---una diferencia de 27 veces que identifica al interior como el epicentro geográfico del colapso electoral de la coalición. Esta disparidad refleja no solo tasas de defección más altas (55.5\% interior vs 47.4\% metropolitano para CA$\to$FA) sino también patrones cualitativamente diferentes de movimiento de votantes.
+
+La diferencia interior-metropolitana más llamativa aparece en las defecciones del Partido Nacional. Los votantes del PN del interior defeccionaron al Frente Amplio a una tasa 48 veces mayor que los votantes del PN metropolitanos (8.1\% vs 0.17\%). Esto representa una ruptura histórica en los patrones de votación del Nacional. El Partido Nacional se identifica explícitamente como el partido del interior, rastreando sus orígenes a los caudillos rurales y los intereses agrícolas \citep{buquet2015uruguayan}. Que los votantes del Nacional del interior---el núcleo ideológico y geográfico del partido---abandonen la coalición a tasas tan elevadas indica una profunda insatisfacción con la gobernanza de la coalición en las provincias.
+
+La estabilidad metropolitana, por el contrario, sugiere que los votantes de la coalición en Montevideo y Canelones enfrentaron un cálculo político diferente. El área metropolitana, que contiene la capital de Uruguay, centros comerciales y zonas industriales, experimentó una recuperación económica más robusta durante el período 2020--2024 de la coalición. El empleo urbano, los mercados inmobiliarios y los sectores de servicios mostraron crecimiento, potencialmente aislando a los votantes metropolitanos de la coalición de la insatisfacción que impulsó las defecciones del interior. Además, los votantes metropolitanos tienen mayor exposición mediática y contacto más directo con las élites políticas nacionales, potencialmente reforzando las identidades partidarias y la lealtad a la coalición.
+
+La pérdida neta de votos del interior de 34,628 excede el margen final de victoria del Frente Amplio (aproximadamente 92,437 votos en el balotaje completo), demostrando que las dinámicas del interior fueron un componente determinante del resultado. Si los departamentos del interior hubieran exhibido tasas de defección a nivel metropolitano, la coalición habría retenido la presidencia. Esta concentración geográfica implica que la derrota de la coalición no resultó de una impopularidad generalizada sino de fallas específicas en la gobernanza del interior y rural---fallas que la coalición podría haber abordado mediante intervenciones de política dirigidas o estrategias de campaña.
+
+\subsubsection{Heterogeneidad a Nivel Departamental y Contexto Local}
+
+El rango a nivel departamental de 89.6 puntos porcentuales (6.0\% en Tacuarembó a 95.6\% en Río Negro) excede dramáticamente la brecha urbano-rural (21.8 pp) y la brecha metropolitana-interior (8.1 pp), revelando que el contexto subnacional importa mucho más de lo que sugieren las categorías geográficas agregadas. Esta variación extrema implica que los departamentos no son meramente réplicas más pequeñas de patrones nacionales sino que más bien exhiben dinámicas políticas distintivas moldeadas por factores locales.
+
+La tasa de defección del 95.6\% de CA$\to$FA de Río Negro constituye el hallazgo más dramático del estudio. Casi todos los votantes de la coalición en Río Negro defeccionaron al Frente Amplio, sugiriendo que factores específicos del departamento sobrepasaron las tendencias políticas nacionales. La economía de Río Negro depende fuertemente de la agricultura y la generación de energía hidroeléctrica, con las represas de Palmar y Salto Grande proporcionando electricidad pero también creando preocupaciones ambientales. La angustia económica local, los conflictos ambientales o los efectos de la calidad de los candidatos pueden explicar el abandono casi total de la coalición. El resultado demanda una investigación cualitativa de estudio de caso para identificar los mecanismos específicos que impulsan un comportamiento tan extremo.
+
+En el extremo opuesto, la defección del 6.0\% de CA$\to$FA de Tacuarembó combinada con una transferencia del 82.7\% de CA$\to$PN indica que los votantes de la coalición permanecieron leales a la coalición de centro-derecha, meramente cambiando su preferencia entre partidos de la coalición. Tacuarembó, ubicado en el interior norte, tiene fuertes tradiciones agrícolas y una historia de dominio del Partido Nacional. La fuerte organización local del PN, candidatos populares del PN o condiciones económicas distintivas pueden haber sostenido la lealtad a la coalición. El contraste entre Río Negro y Tacuarembó---departamentos interiores adyacentes con economías agrícolas similares pero patrones de defección diametralmente opuestos---ilustra que el simple determinismo económico no puede explicar el comportamiento electoral.
+
+Varios conglomerados espaciales emergen del análisis a nivel departamental. Los departamentos costeros (Maldonado 67.4\%, Rocha 38.7\%) muestran defección elevada, potencialmente reflejando preocupaciones económicas en regiones dependientes del turismo afectadas por las dinámicas de recuperación pandémica. Los departamentos fronterizos del norte (Artigas, Rivera, Cerro Largo) muestran patrones mixtos, sugiriendo que la proximidad a Brasil y las economías fronterizas distintivas crean dinámicas políticas diferentes a las regiones agrícolas del interior. Los departamentos del suroeste (Colonia 54.2\%, Soriano 25.6\%) exhiben patrones divergentes a pesar de economías agrícolas similares, reforzando la importancia de factores políticos locales sobre la simple geografía económica.
+
+Montevideo merece atención especial no por su tasa de defección---que con 26.4\% se ubica en el tercio inferior de los departamentos---sino por su peso demográfico. Con el 35\% de los votantes de CA a nivel nacional, Montevideo contribuyó un estimado de 5,561 votos mediante defecciones de CA$\to$FA, convirtiendo a la capital en un componente relevante del resultado. Esto demuestra que tanto las \textit{tasas} como los \textit{números absolutos} importan para los resultados electorales: tasas de defección altas en departamentos pequeños crean cambios locales dramáticos pero consecuencias nacionales limitadas, mientras que tasas de defección moderadas o bajas en departamentos populosos contribuyen sustancialmente al resultado nacional.
+
+% ========================================
+\subsection{Implicaciones Políticas}
+\label{sec:discusion_implicaciones}
+
+Los hallazgos conllevan implicaciones significativas para la comprensión de la estrategia partidaria, las prioridades de política gubernamental y la trayectoria futura de la política uruguaya. La concentración geográfica de las pérdidas de la coalición revela fallas específicas en la gobernanza rural y del interior que los actores políticos pueden potencialmente abordar mediante ajustes de política u reformas organizacionales.
+
+\subsubsection{Fracasos de Gobernanza de la Coalición en el Interior}
+
+La diferencia de 27 veces en las pérdidas netas de votos de la coalición entre las áreas del interior y metropolitanas sugiere que la gobernanza de la coalición desatendió sistemáticamente los intereses del interior durante el período 2020--2024. Varios dominios de política pueden haber contribuido a esta desatención:
+
+\textbf{Política agrícola}: El gobierno de coalición, liderado por partidos de centro-derecha con vínculos históricos con los intereses agrícolas, paradójicamente perdió apoyo más dramáticamente en regiones rurales y agrícolas. Esto sugiere que las políticas agrícolas de la coalición no lograron abordar las preocupaciones de los productores sobre precios de commodities, costos de insumos o acceso a mercados. Los mensajes de campaña del Frente Amplio sobre apoyo agrícola y desarrollo rural parecen haber resonado con votantes que se sintieron abandonados por las prioridades económicas de la coalición.
+
+\textbf{Desarrollo económico regional}: Los departamentos del interior sufren subdesarrollo crónico relativo al área metropolitana, con ingresos más bajos, menos oportunidades de empleo y acceso limitado a servicios de educación y salud \citep{ine2023census}. La gobernanza de la coalición puede haber concentrado las inversiones en infraestructura y los incentivos económicos en el área metropolitana, reforzando las percepciones de los votantes del interior de un sesgo centrado en la capital.
+
+\textbf{Entrega de servicios públicos}: Las áreas rurales y del interior enfrentan mayores desafíos en la entrega de servicios públicos debido a la dispersión poblacional y las limitaciones de infraestructura. Las restricciones presupuestarias durante la pandemia y la recuperación post-pandemia pueden haber forzado reducciones de servicios que afectaron desproporcionadamente a las comunidades del interior, generando sentimiento anti-incumbente.
+
+La pérdida de los partidarios centrales del Partido Nacional en el interior por parte de la coalición representa un fracaso particularmente profundo. Los votantes del Nacional del interior históricamente han proporcionado la base electoral más confiable del partido. Su defección a una tasa 48 veces mayor que la metropolitana indica que la gobernanza de la coalición violó expectativas fundamentales sobre la representación de los intereses del interior. Las futuras coaliciones de centro-derecha deben priorizar las preocupaciones de política rural y del interior para mantener viabilidad.
+
+\subsubsection{Estrategia Rural e Interior del Frente Amplio}
+
+El éxito del Frente Amplio en áreas rurales y del interior refleja una estrategia de campaña efectiva y capacidad organizacional. Varios factores pueden explicar la capacidad del FA para capturar votantes de la coalición desafectos:
+
+\textbf{Mensajes dirigidos}: La campaña del FA parece haber elaborado mensajes que específicamente abordan preocupaciones rurales y del interior, enfatizando el apoyo agrícola, el desarrollo regional y la inversión en infraestructura. Esto contrasta con los mensajes de la coalición que enfatizaban el crecimiento económico urbano y la inversión internacional.
+
+\textbf{Organización local}: El Frente Amplio mantiene una extensa organización de base en todo Uruguay, incluyendo áreas rurales y del interior, a través de sindicatos, movimientos sociales y comités partidarios. Esta presencia organizacional proporcionó redes para movilizar votantes de la coalición insatisfechos y contrarrestar el dominio tradicional de los partidos de la coalición en áreas rurales.
+
+\textbf{Selección de candidatos}: La variación a nivel departamental sugiere que la calidad de los candidatos locales influyó en las tasas de defección. El FA puede haber presentado candidatos departamentales más fuertes en áreas de alta defección, mientras que los partidos de la coalición pueden haberse basado en ventajas de incumbencia sin reclutamiento competitivo de candidatos.
+
+\textbf{Credibilidad económica}: El Frente Amplio gobernó Uruguay de 2005--2020, presidiendo sobre crecimiento económico y reducción de la pobreza antes de la pandemia. Esta experiencia de gobierno puede haber proporcionado credibilidad económica que permitió al FA competir por votantes de centro-derecha insatisfechos con la gestión económica de la coalición.
+
+\subsubsection{Implicaciones para la Estabilidad del Sistema de Partidos}
+
+La extrema volatilidad documentada plantea interrogantes sobre la estabilidad del sistema de partidos tradicionalmente institucionalizado de Uruguay. Uruguay ha sido caracterizado durante mucho tiempo como poseedor de uno de los sistemas de partidos más estables de América Latina, con fuertes identidades partidarias y patrones de votación consistentes \citep{mainwaring1995party}. Los análisis revelan una volatilidad electoral sustancial, con casi la mitad de los votantes de la coalición defeccionando al ideológicamente distante Frente Amplio.
+
+Esta volatilidad puede reflejar:
+
+\textbf{Debilitamiento de vínculos partidarios}: Las identidades partidarias tradicionales, particularmente para el Partido Colorado, pueden estar erosionándose a medida que el cambio demográfico y el reemplazo generacional reducen los vínculos partidarios históricos. Los votantes más jóvenes carecen de la intensa socialización partidaria que caracterizó a generaciones anteriores, produciendo una elección de voto más pragmática basada en desempeño y política.
+
+\textbf{Votación basada en desempeño}: Las defecciones de la coalición concentradas en regiones económicamente angustiadas sugieren que los votantes cada vez más evalúan a los partidos basándose en el desempeño gubernamental más que en la alineación ideológica. Esta votación orientada al desempeño produce mayor volatilidad a medida que las condiciones económicas fluctúan.
+
+\textbf{Dinámicas de coalición}: La estructura multipartidaria de la Coalición Multicolor puede haber creado confusión sobre la responsabilidad y la atribución de créditos. Los votantes de Cabildo Abierto, apoyando un partido relativamente nuevo sin raíces históricas profundas, pueden haber mantenido vínculos partidarios débiles que facilitaron la defección cuando el desempeño de la coalición los decepcionó.
+
+Las implicaciones para el sistema de partidos se extienden más allá de la elección de 2024. Si los votantes rurales y del interior mantienen su apoyo al Frente Amplio en elecciones futuras, los partidos de la coalición enfrentan un potencial declive a largo plazo. Alternativamente, si la gobernanza del FA no logra abordar las preocupaciones rurales y del interior, los votantes pueden volver a inclinarse hacia partidos de centro-derecha, estableciendo un patrón de realineamiento volátil basado en el desempeño. La investigación futura debe rastrear si los patrones de defección de 2024 persisten o representan voto de protesta temporal.
+
+% ========================================
+\subsection{Contribuciones e Implicaciones Metodológicas}
+\label{sec:discusion_metodologia}
+
+Este estudio realiza varias contribuciones metodológicas al análisis electoral en Uruguay y a la investigación de inferencia ecológica en términos más amplios. Se demuestra el valor de la desagregación a nivel circuital, se establece la importancia de la estratificación geográfica y se ilustra la utilidad de la inferencia bayesiana para la cuantificación de incertidumbre en la estimación de transferencias de votos.
+
+\subsubsection{Inferencia Ecológica a Nivel Circuital}
+
+Los análisis previos de transferencias de votos uruguayas típicamente se basan en agregación a nivel departamental o comparación simple de votos sin modelado de inferencia ecológica \citep{bottinelli2021elecciones}. El enfoque a nivel circuital, analizando los 7,271 circuitos electorales, representa el estudio de inferencia ecológica geográficamente más desagregado de Uruguay hasta la fecha. Esta desagregación proporciona tres ventajas:
+
+\textbf{Precisión}: La variación a nivel circuital en los resultados de primera vuelta y balotaje proporciona mucha más información estadística que la agregación a nivel departamental. Con 7,271 observaciones versus 19 departamentos, el análisis a nivel circuital reduce la incertidumbre en las estimaciones de probabilidades de transición y permite la detección de patrones sutiles oscurecidos por la agregación.
+
+\textbf{Heterogeneidad geográfica}: Los datos a nivel circuital permiten análisis estratificados por clasificación urbana/rural, región metropolitana/interior y departamentos individuales. Estas estratificaciones revelan variación geográfica que la agregación a nivel departamental perdería, particularmente el contraste urbano-rural y el rango extremo de tasas de defección a nivel departamental.
+
+\textbf{Sesgo de agregación reducido}: La inferencia ecológica sufre de sesgo de agregación cuando las unidades agregadas contienen poblaciones heterogéneas \citep{king1997}. Las unidades geográficas más pequeñas (circuitos) contienen poblaciones más homogéneas que las unidades más grandes (departamentos), reduciendo la heterogeneidad dentro de la unidad y mitigando el sesgo de agregación. El enfoque a nivel circuital proporciona por tanto estimaciones de probabilidades de transición más precisas que las alternativas a nivel departamental.
+
+El enfoque a nivel circuital sí introduce desafíos computacionales. Estimar modelos de inferencia ecológica separados para cada departamento o estratificación requiere computación MCMC sustancial. Se abordan estos desafíos utilizando las implementaciones eficientes de muestreadores de PyMC \citep{abril2023pymc} y computación paralela. Los estudios futuros pueden construir sobre esta infraestructura computacional para realizar análisis aún más granulares.
+
+\subsubsection{Robustez de las Estimaciones: Análisis de Sensibilidad}
+
+Un aspecto metodológico central de este estudio es la evaluación sistemática de la robustez de las estimaciones, presentada en detalle en la Sección~\ref{sec:sensibilidad}. El análisis de sensibilidad sometió las estimaciones centrales a tres pruebas independientes: variación de distribuciones a priori (conservadoras, informativas), eliminación de circuitos atípicos (percentil superior al 1\%), y remuestreo bootstrap (1,000 réplicas).
+
+Los resultados confirman la estabilidad de las estimaciones principales. La probabilidad de transición CA$\to$FA se mantuvo en un rango estrecho: 46.5\% con distribuciones a priori alternativas, 47.8\% tras la eliminación de atípicos, y 47.2\% ($\sigma = 3.0$ pp) en las réplicas bootstrap. La variación máxima observada de 1.3 puntos porcentuales respecto a la estimación base indica que las conclusiones sustantivas---particularmente la división casi igualitaria de los votantes de CA entre FA y PN---no dependen de decisiones de modelado particulares ni de la presencia de circuitos con comportamiento extremo. Esta robustez refuerza la interpretación de que la defección de CA constituyó un fenómeno estructural, no un artefacto estadístico.
+
+\subsubsection{Integración de Covariables Censales}
+
+En el Apéndice~\ref{sec:census} se presenta un análisis exploratorio que integra variables del censo de 2023 (edad mediana, proporción de educación terciaria, población) con las estimaciones de inferencia ecológica a nivel departamental. Aunque ninguna correlación alcanza significación estadística convencional ($p < 0.05$) con 19 observaciones departamentales, los resultados sugieren direcciones prometedoras. La proporción de educación terciaria muestra una correlación positiva moderada con la defección CA$\to$FA ($r = 0.38$, $p = 0.11$) y negativa con la retención CA$\to$PN ($r = -0.42$, $p = 0.07$), sugiriendo que departamentos con mayor nivel educativo experimentaron mayor transferencia de votantes de CA hacia el FA.
+
+Estas correlaciones deben interpretarse con cautela dado que los datos censales utilizados son sintéticos (generados a partir de distribuciones departamentales plausibles) y el reducido número de unidades departamentales limita la potencia estadística. No obstante, los patrones observados son consistentes con la hipótesis de que el nivel educativo modera los patrones de defección de la coalición, posiblemente a través de mecanismos de exposición informativa o composición socioeconómica diferencial. La validación con microdatos oficiales del censo 2023 constituye una prioridad para investigación futura.
+
+Los modelos de inferencia ecológica jerárquica con covariables a nivel circuital pueden:
+
+\begin{itemize}
+    \item Identificar qué características demográficas y económicas predicen las tasas de defección
+    \item Aislar los efectos de urbanización, educación y edad de los efectos puramente geográficos
+    \item Probar hipótesis específicas sobre angustia económica, polarización educativa o diferencias generacionales
+    \item Proporcionar estimaciones más precisas mediante el intercambio de información entre circuitos similares a través del agrupamiento jerárquico
+\end{itemize}
+
+La disponibilidad de datos circuitales emparejados con el censo posiciona la investigación futura para avanzar más allá de patrones geográficos descriptivos hacia la identificación causal de los determinantes de defección. Este avance metodológico fortalecerá la comprensión del comportamiento electoral en Uruguay y proporcionará plantillas para el análisis electoral en otros contextos.
+
+\subsubsection{Cuantificación de Incertidumbre Bayesiana}
+
+El uso de inferencia ecológica bayesiana vía PyMC proporciona cuantificación de incertidumbre fundamentada a través de intervalos creíbles posteriores. Las implementaciones tradicionales de inferencia ecológica que utilizan estimación de máxima verosimilitud o método de momentos a menudo proporcionan estimaciones puntuales sin medidas adecuadas de incertidumbre \citep{rosen2001bayesian}. La inferencia bayesiana modela explícitamente la incertidumbre a través de distribuciones posteriores completas, permitiendo declaraciones probabilísticas sobre las probabilidades de transición.
+
+Los intervalos creíbles reportados a lo largo de la sección de resultados transmiten incertidumbre genuina sobre el comportamiento del votante dados los datos electorales agregados. Donde las diferencias urbano-rurales muestran intervalos creíbles no superpuestos (urbano 39.0\%, IC [35.1, 42.8]; rural 60.8\%, IC [51.7, 69.8]), se puede afirmar confiadamente que la defección rural excedió la defección urbana. Donde las estimaciones a nivel departamental muestran intervalos creíbles amplios (Tacuarembó 6.0\%, IC [0.2, 19.1]), se reconoce incertidumbre sustancial reflejando datos limitados.
+
+Esta cuantificación honesta de incertidumbre contrasta con aplicaciones de inferencia ecológica que reportan estimaciones puntuales implausiblemente precisas. Al adoptar la inferencia bayesiana, se proporcionan resultados que reflejan apropiadamente la incertidumbre inherente en inferir comportamiento individual a partir de datos agregados.
+
+% ========================================
+\subsection{Limitaciones}
+\label{sec:discusion_limitaciones}
+
+A pesar de las fortalezas metodológicas, el análisis enfrenta varias limitaciones importantes que califican la interpretación de resultados y sugieren cautela en la inferencia causal.
+
+\subsubsection{Supuestos de la Inferencia Ecológica}
+
+La inferencia ecológica se basa fundamentalmente en supuestos no comprobables sobre la relación entre patrones agregados y comportamiento individual \citep{king1997}. Aunque el método de King proporciona un marco estadístico fundamentado, no puede superar completamente el problema de inferencia ecológica: se observan únicamente totales de votos agregados, no elecciones de voto individuales. Varios supuestos merecen reconocimiento explícito:
+
+\textbf{Ausencia de datos a nivel del votante}: Se carece de registros individuales de votos que establecerían definitivamente las probabilidades de transición. Todas las estimaciones representan inferencias estadísticas a partir de patrones agregados, sujetas a supuestos del modelo sobre cómo se comportan los individuos dentro de los circuitos electorales.
+
+\textbf{Probabilidades de transición constantes dentro de estratos}: Los análisis estratificados asumen que todos los circuitos dentro de un estrato (por ejemplo, ``urbano'' o ``interior'') comparten las mismas probabilidades de transición. Este supuesto ignora la heterogeneidad dentro del estrato: no todos los circuitos urbanos se comportan idénticamente, ni todos los circuitos del interior. Los modelos jerárquicos podrían relajar este supuesto permitiendo desviaciones específicas del circuito alrededor de las medias del estrato.
+
+\textbf{Ausencia de selección estratégica}: La inferencia ecológica asume que los límites de los circuitos electorales no seleccionan estratégicamente a los votantes para manipular patrones agregados. Aunque los límites circuitales de Uruguay siguen la geografía administrativa sin gerrymandering partidario, el ordenamiento residencial aún podría crear efectos de selección si los votantes de la coalición se concentran sistemáticamente en tipos particulares de circuitos.
+
+\textbf{Precisión del conteo de votos}: Se asume que los totales de votos reportados reflejan con precisión las elecciones reales de los votantes. Aunque el sistema electoral de Uruguay mantiene altos estándares de integridad, errores de entrada de datos podrían introducir ruido.
+
+\subsubsection{Subdispersión del Modelo y Verificaciones Predictivas Posteriores}
+
+Las verificaciones predictivas posteriores (PPC), presentadas en detalle en el Apéndice~\ref{sec:ppc}, revelan una limitación importante del modelo de inferencia ecológica empleado. Si bien el modelo captura adecuadamente las medias de las distribuciones de votos---particularmente para el PN, cuya media predicha (46.98\%) resulta estadísticamente indistinguible de la observada (46.96\%, $p = 0.648$)---subestima sistemáticamente la varianza observada en los datos. Para los tres destinos de voto (FA, PN, Blancos), la desviación estándar predicha es inferior a la observada ($p = 0.000$ en todos los casos).
+
+Esta subdispersión constituye una limitación conocida de los modelos de inferencia ecológica que asumen mayor homogeneidad dentro de los circuitos de la que realmente existe. El modelo predice una dispersión de 12.4 puntos porcentuales para el FA, mientras que la dispersión observada es de 13.5 pp. La discrepancia es aún más pronunciada para los votos en blanco, donde la dispersión predicha (0.02 pp) es varios órdenes de magnitud inferior a la observada (1.45 pp). Esto sugiere que los circuitos individuales presentan dinámicas de voto en blanco altamente heterogéneas que el modelo de transición uniforme no puede capturar.
+
+Es importante señalar que esta subdispersión no invalida las estimaciones centrales de las probabilidades de transición. Las medias posteriores permanecen bien calibradas---como lo confirman tanto los PPC como el análisis de sensibilidad---pero los intervalos de credibilidad pueden ser algo estrechos, subestimando la verdadera incertidumbre. Los modelos jerárquicos con efectos aleatorios a nivel circuital podrían abordar esta limitación permitiendo que las probabilidades de transición varíen entre circuitos dentro de cada estrato.
+
+\subsubsection{Agregación y Medición}
+
+\textbf{Sesgo de agregación a nivel circuital}: Aunque el análisis a nivel circuital reduce el sesgo de agregación relativo al análisis a nivel departamental, los circuitos todavía agregan múltiples votantes. La heterogeneidad dentro del circuito permanece, y las estimaciones representan comportamiento promedio dentro de circuitos en lugar de parámetros individuales verdaderos.
+
+\textbf{Clasificación urbano-rural}: La estratificación urbano-rural se basa en umbrales de densidad poblacional, que capturan imperfectamente el concepto multidimensional de ruralidad. Algunos circuitos clasificados como rurales pueden contener pueblos pequeños con características urbanas, mientras que algunos circuitos urbanos pueden incluir áreas agrícolas periurbanas. La clasificación errónea podría atenuar las verdaderas diferencias urbano-rurales.
+
+\textbf{Circuitos faltantes}: Algunos circuitos con patrones de voto extremos o preocupaciones de calidad de datos pueden haber sido excluidos durante la limpieza de datos. Si los circuitos excluidos difieren sistemáticamente de los circuitos incluidos, las estimaciones pueden no ser generalizables a la población completa de circuitos.
+
+\subsubsection{Variables Omitidas e Inferencia Causal}
+
+El análisis documenta \textit{asociaciones} entre geografía y tasas de defección pero no puede establecer relaciones \textit{causales}. La estratificación geográfica revela dónde ocurrieron las defecciones pero no por qué. Varias variables omitidas pueden confundir la interpretación:
+
+\textbf{Gasto e intensidad de campaña}: Se carece de datos sobre gasto de campaña, visitas de candidatos o exposición publicitaria por circuito. Las áreas de alta defección pueden haber recibido campaña intensiva del Frente Amplio o experimentado negligencia de campaña de la coalición, produciendo patrones geográficos que reflejan estrategia de campaña en lugar de preferencias subyacentes de los votantes.
+
+\textbf{Mercados mediáticos}: La exposición mediática varía geográficamente, con áreas metropolitanas recibiendo cobertura más extensa que regiones del interior. Los patrones geográficos de defección pueden reflejar parcialmente influencia mediática diferencial en lugar de preocupaciones económicas o de política.
+
+\textbf{Liderazgo local y maquinarias políticas}: Los departamentos con líderes partidarios locales fuertes o maquinarias políticas efectivas pueden exhibir diferentes patrones de defección independientemente de las condiciones económicas. No se puede distinguir efectos de liderazgo de efectos de política o económicos.
+
+\textbf{Indicadores económicos}: Aunque se discutió la angustia económica como explicación potencial para las defecciones rurales y del interior, se omiten datos económicos a nivel circuital, que permanecen como variables no incluidas.
+
+% ========================================
+\subsection{Implicaciones del Análisis Temporal 2019-2024}
+\label{sec:discusion_temporal}
+
+El análisis comparativo entre 2019 y 2024, presentado en la Sección~\ref{sec:resultados_temporal}, revela una paradoja fundamental que reformula la comprensión del resultado electoral de 2024. A pesar de mejorar dramáticamente su cohesión interna---con todos los partidos coalicionales reduciendo defección entre 26.6 y 92.1 puntos porcentuales---la Coalición Republicana perdió igual. Esta subsección se centra en la \textit{interpretación} de esta paradoja y sus implicaciones teóricas y estratégicas, remitiendo al lector a la sección de resultados temporales para los datos detallados.
+
+\subsubsection{La Primacía de la Primera Vuelta sobre la Cohesión de Segunda Vuelta}
+
+El hallazgo más importante del análisis temporal es que \textit{la cohesión en segunda vuelta no compensa la derrota en primera vuelta}. La coalición perdió 154,251 votos (-12\%) entre primera vuelta 2019 y primera vuelta 2024, dejándola con una base sustancialmente menor para movilizar en el balotaje. Incluso con mejor retención---CA mejoró de 29.4\% a 44.2\% retención, PC de 64.5\% a 86.7\%, PN de 62.4\% a 90.3\%---la coalición no tenía votos suficientes para ganar.
+
+Esta lección tiene implicaciones profundas para estrategia electoral en sistemas de dos vueltas. Los partidos pequeños volátiles representan activos riesgosos: su eventual lealtad mejorada en segunda vuelta no compensa el riesgo de colapso electoral que deja a la coalición sin votos suficientes. Cabildo Abierto ejemplifica esta dinámica---fue más leal en 2024 (+34.8 pp retención) pero había colapsado a 59,412 votos de 268,134, dejando a la coalición neta perdedora.
+
+\textbf{Implicación estratégica}: Las coaliciones deben priorizar crecimiento o mantenimiento de base en primera vuelta sobre mejora de retención en segunda vuelta. Una coalición que pasa de 1,287,557 votos (2019) a 1,133,306 votos (2024) en primera vuelta pierde margen estratégico, sin importar cuánto mejore su cohesión posterior. La primera vuelta determina la magnitud del desafío---una coalición más pequeña pero más leal aún puede perder si el oponente tiene mayor base inicial.
+
+\subsubsection{Reconfiguración del Electorado: Ausencia de Estabilidad Geográfica}
+
+El segundo hallazgo crítico es la nula correlación geográfica entre patrones de 2019 y 2024 ($r < 0.13$ para todos los partidos). Un departamento con alta defección CA en 2019 no necesariamente tuvo alta defección en 2024. Esta inestabilidad sugiere cambios estructurales profundos en el electorado uruguayo---no simples fluctuaciones aleatorias, sino reconfiguración geográfica de patrones políticos.
+
+Posibles mecanismos incluyen: (1) \textbf{cambio generacional}---entrada de nuevos votantes con preferencias geográficamente diferentes, (2) \textbf{efectos de la pandemia}---COVID-19 afectó diferencialmente a regiones, alterando prioridades políticas locales, (3) \textbf{realineamiento ideológico}---cambios en identificación partidaria a nivel departamental, (4) \textbf{efectos de gobierno}---cinco años de gobierno coalicional produjeron ganadores y perdedores geográficamente distribuidos.
+
+\textbf{Implicación teórica}: Los modelos de comportamiento electoral que asumen estabilidad geográfica temporal son inadecuados para capturar dinámicas electorales en Uruguay 2019-2024. Las ``geografías electorales'' no son características fijas de lugares---son productos de composición del electorado, historia política, desempeño económico y estrategia de campaña, todos sujetos a cambio sustancial en ventanas de cinco años.
+
+\subsubsection{El Destino de los 209 Mil Votantes Perdidos de Cabildo Abierto}
+
+El colapso de CA entre 2019 (268,134 votos) y 2024 (59,412 votos) representa 208,722 votantes desaparecidos---78\% del electorado de CA. El análisis de inferencia ecológica solo captura flujos entre vueltas---no puede detectar votantes que cambiaron preferencias antes de la primera vuelta. El destino de estos 209 mil ex-votantes de CA permanece como interrogante crítico para comprender la elección.
+
+Hipótesis sobre su destino incluyen: (1) \textbf{migración pre-electoral a FA}---votaron directamente FA en primera vuelta 2024, contribuyendo al crecimiento del FA de 1,066,470 (2019) a 1,192,518 (2024), (2) \textbf{migración a otros partidos coalicionales}---contribuyeron al crecimiento del PC (+87,327 votos) o atenuaron la caída del PN, (3) \textbf{abstención diferencial}---decidieron no votar en 2024, (4) \textbf{reemplazo generacional}---votantes de CA 2019 fueron reemplazados por nuevos votantes con diferentes preferencias.
+
+\textbf{Implicación metodológica}: La inferencia ecológica entre vueltas tiene ``punto ciego'' fundamental---no detecta cambios pre-electorales en preferencias. Estudios futuros deben analizar flujos entre primera vuelta de elecciones sucesivas (2019$\to$2024) además de flujos dentro de elecciones (primera vuelta$\to$balotaje). Solo combinando ambos enfoques se puede mapear trayectorias completas del electorado.
+
+\subsubsection{Consolidación Generalizada y Sus Límites}
+
+Todos los partidos coalicionales mejoraron retención dramáticamente. Esta consolidación generalizada sugiere un proceso sistemático---no idiosincrasias partidarias, sino fuerzas comunes actuando en toda la coalición. Candidatos incluyen: (1) \textbf{aprendizaje organizacional}---cinco años de gobierno conjunto mejoraron coordinación y disciplina coalicional, (2) \textbf{polarización incrementada}---el sistema político uruguayo se polarizó, reduciendo transferencias entre bloques ideológicos, (3) \textbf{identidad coalicional fortalecida}---votantes de partidos coalicionales internalizaron identidad de ``Coalición Republicana'' como grupo político distintivo.
+
+Sin embargo, esta consolidación tiene límites---mejoró retención de votantes existentes pero no impidió colapso de base electoral de CA ni atracción de nuevos votantes. La coalición optimizó lealtad de su electorado pero perdió la batalla por tamaño del electorado.
+
+\textbf{Implicación política}: La consolidación coalicional es necesaria pero insuficiente para victoria electoral. Las coaliciones exitosas deben balancear dos objetivos: (1) retener votantes existentes (logrado por la coalición en 2024), (2) crecer o mantener base electoral inicial (fallado por la coalición en 2024). Enfocarse exclusivamente en cohesión interna ignora la amenaza más fundamental---contracción de base electoral.
+
+\subsubsection{Instantánea Temporal y Seguimiento de Votos}
+
+El análisis proporciona una instantánea de las transferencias de votos entre octubre y noviembre de 2024 pero no puede rastrear trayectorias individuales de votantes durante períodos de tiempo más largos. No se puede distinguir:
+
+\begin{itemize}
+    \item \textbf{Defección genuina}: Votantes de la coalición que cambiaron al Frente Amplio en el balotaje
+    \item \textbf{Abstención diferencial}: Votantes de la coalición que se abstuvieron en el balotaje mientras los votantes del FA participaron
+    \item \textbf{Movilización de nuevos votantes}: Votantes del balotaje por primera vez apoyando desproporcionadamente al FA
+\end{itemize}
+
+Aunque se interpretan las transiciones estimadas como defección, pueden reflejar parcialmente dinámicas de participación. Los datos de encuesta de panel siguiendo votantes individuales desde la primera vuelta hasta el balotaje distinguirían definitivamente la defección de la abstención, pero tales datos no existen para la elección de 2024 de Uruguay.
+
+Adicionalmente, el análisis de inferencia ecológica no puede evaluar si las defecciones representan realineamiento permanente o voto de protesta temporal. Si los defectores de la coalición de 2024 regresan a partidos de centro-derecha en elecciones futuras, los hallazgos documentan protesta anti-incumbente en lugar de cambio electoral duradero. El análisis longitudinal rastreando los mismos circuitos a través de múltiples elecciones será necesario para evaluar la persistencia.
+
+% ========================================
+\subsection{Votos en Blanco y la Hipótesis de Protesta Pasiva}
+\label{sec:discusion_blancos}
+
+Una hipótesis alternativa al escenario de defección activa sostiene que los votantes de CA, insatisfechos con ambas opciones del balotaje, podrían haber optado por el voto en blanco como forma de protesta pasiva. El análisis de votos en blanco presentado en la Sección~\ref{sec:blank_votes} permite evaluar directamente esta hipótesis.
+
+La correlación entre la proporción de votos en blanco y la proporción de apoyo a CA en primera vuelta resulta prácticamente nula ($r = -0.011$, $n = 7{,}271$ circuitos). Esto descarta la hipótesis de protesta pasiva: los circuitos con mayor presencia de CA no registraron más votos en blanco en el balotaje. Si los votantes de CA hubieran canalizado su insatisfacción hacia el voto en blanco, se esperaría una correlación positiva significativa. Su ausencia refuerza la interpretación de que las transferencias CA$\to$FA representan decisiones activas de los votantes, no mera abstención parcial.
+
+Adicionalmente, los votos en blanco muestran correlaciones negativas con el apoyo al PC ($r = -0.108$) y al PN ($r = -0.196$), y positiva con el FA ($r = 0.167$). Estos patrones sugieren que el voto en blanco se concentra en circuitos con mayor presencia del FA---posiblemente reflejando dinámicas de participación en bastiones del Frente Amplio donde el resultado del balotaje era localmente predecible, reduciendo la motivación individual de votantes marginales. La asociación negativa con los partidos de la coalición indica que el voto en blanco no fue un mecanismo relevante de protesta coalicional.
+
+El hallazgo tiene implicaciones interpretativas relevantes: la defección de CA hacia el FA fue un fenómeno de elección activa, no de apatía o confusión. Los votantes de CA que transfirieron su apoyo al FA lo hicieron como decisión deliberada, descartando explicaciones basadas en la desmotivación o el desconocimiento de la oferta electoral.
+
+% ========================================
+\subsection{Direcciones de Investigación Futura}
+\label{sec:discusion_futuro}
+
+Los hallazgos abren múltiples vías para investigación futura que pueden profundizar la comprensión del comportamiento electoral en Uruguay y refinar los métodos de inferencia ecológica para la estimación de transferencias de votos.
+
+\subsubsection{Modelos Jerárquicos con Covariables}
+
+La extensión más inmediata implica estimar modelos jerárquicos de inferencia ecológica que incorporen covariables a nivel circuital. El conjunto de datos preparado incluye variables del censo 2023 (niveles de educación, distribución etaria, estructura de hogares) y características electorales (tamaño del circuito, urbanización, resultados de elecciones previas) que podrían predecir tasas de defección. Los resultados preliminares del Apéndice~\ref{sec:census} sugieren que la educación terciaria puede ser un predictor relevante ($r = 0.38$ con defección CA$\to$FA), aunque se requiere validación con microdatos censales oficiales. Los modelos jerárquicos permitirían:
+
+\begin{itemize}
+    \item Identificar predictores socioeconómicos y demográficos de la defección de la coalición
+    \item Estimar cómo la educación, edad y estatus económico moderan los efectos urbano-rural y metropolitano-interior
+    \item Probar hipótesis específicas sobre polarización educativa o distrés económico
+    \item Mejorar la precisión mediante pooling parcial de información entre circuitos similares
+    \item Habilitar la predicción de tasas de defección en circuitos con datos faltantes
+\end{itemize}
+
+Asimismo, los modelos jerárquicos con efectos aleatorios a nivel circuital podrían abordar la subdispersión identificada en los PPC (Apéndice~\ref{sec:ppc}), permitiendo que las probabilidades de transición varíen entre circuitos y capturando la heterogeneidad que el modelo actual no puede representar.
+
+La implementación extendería el marco de inferencia ecológica de King con estructuras de regresión que vinculen las probabilidades de transición con covariables, estimadas mediante modelos jerárquicos bayesianos en PyMC \citep{abril2023pymc}. Este enfoque movería el análisis desde patrones descriptivos hacia modelado explicativo.
+
+\subsubsection{Validación con Encuestas y Encuestas de Boca de Urna}
+
+La inferencia ecológica proporciona estimaciones estadísticas de transferencias de votos pero carece de validación con datos de verdad fundamental. La investigación mediante encuestas puede proporcionar evidencia complementaria:
+
+\textbf{Comparación con encuestas de boca de urna}: Si las encuestas de boca de urna o encuestas poselectorales preguntaron a los encuestados sobre sus elecciones de voto en primera vuelta y balotaje, permitiría validar las probabilidades de transición basadas en encuestas contra las estimaciones de inferencia ecológica. La concordancia validaría el enfoque; la discordancia identificaría problemas de especificación o sesgos de encuesta.
+
+\textbf{Entrevistas cualitativas}: Entrevistas en profundidad con votantes en departamentos de alta defección (Río Negro, Treinta y Tres, Maldonado) y departamentos de baja defección (Tacuarembó, Cerro Largo) podrían iluminar las motivaciones detrás de las decisiones de defección. La evidencia cualitativa probaría los mecanismos hipotéticos propuestos sobre distrés económico, insatisfacción política y efectividad de campaña.
+
+\textbf{Datos de gastos de campaña}: Vincular datos de gastos de campaña por departamento con tasas de defección probaría si los patrones geográficos reflejan estrategia de campaña. Altas defecciones en departamentos con campaña intensiva del FA apoyarían explicaciones de movilización; altas defecciones en departamentos con baja campaña apoyarían explicaciones basadas en agravios.
+
+\subsubsection{Tendencias Históricas y Análisis Longitudinal}
+
+El análisis se enfoca en la elección 2024 con comparación temporal a 2019. Varias extensiones proporcionarían perspectiva temporal adicional:
+
+\textbf{Análisis más profundo de 2019}: Aunque se han aplicado métodos idénticos al balotaje uruguayo de 2019, análisis adicionales podrían explorar dinámicas de primera vuelta 2019 comparada con primera vuelta 2024, capturando flujos pre-electorales que la inferencia ecológica intra-elección no detecta. Analizar flujos entre primera vuelta de elecciones sucesivas (2019$\to$2024) revelaría el destino de los 209 mil votantes perdidos de CA.
+
+\textbf{Análisis de panel entre elecciones}: Construir un conjunto de datos de panel con resultados a nivel circuital de múltiples elecciones (2009, 2014, 2019, 2024) habilitaría modelos de efectos fijos controlando por características circuitales invariantes en el tiempo. Esto aislaría la variación temporal en tasas de defección de diferencias geográficas estables.
+
+\textbf{Análisis de series temporales de trayectorias departamentales}: Rastrear cómo los patrones de votación de departamentos individuales evolucionaron a través de múltiples elecciones identificaría si los departamentos de alta defección tienen historias de volatilidad o si 2024 representa una ruptura de patrones estables.
+
+\subsubsection{Análisis Comparativo}
+
+La elección uruguaya de 2024 invita a la comparación con otros contextos latinoamericanos e internacionales:
+
+\textbf{Comparaciones latinoamericanas}: Aplicar inferencia ecológica a elecciones de balotaje en otros países latinoamericanos con sistemas electorales similares (Brasil, Argentina, Perú) probaría si la rebelión rural y el colapso interior representan fenómenos específicos de Uruguay o patrones regionales más amplios.
+
+\textbf{Literatura sobre polarización rural-urbana}: Los hallazgos contribuyen a debates sobre polarización política rural-urbana. Mientras que mucha investigación documenta áreas rurales apoyando partidos populistas de derecha \citep{rodden2019s}, Uruguay muestra áreas rurales desplazándose hacia la izquierda. El análisis comparativo podría identificar condiciones bajo las cuales los votantes rurales apoyan alternativas de izquierda versus derecha.
+
+\textbf{Comparaciones metodológicas}: Comparar las estimaciones de inferencia ecológica de King con métodos alternativos de inferencia ecológica (ajuste proporcional iterativo, modelos jerárquicos bayesianos, enfoques de aprendizaje automático) evaluaría la robustez de los resultados a elecciones metodológicas.
+
+\subsubsection{Extensiones Sustantivas}
+
+Varias preguntas sustantivas permanecen sin abordar:
+
+\textbf{Dinámicas de género y edad}: Los datos electorales de Uruguay no desagregan por género o edad, pero los datos del censo proporcionan composición demográfica a nivel circuital. Vincular la composición demográfica con tasas de defección podría probar si los votantes más jóvenes o las votantes mujeres impulsaron las pérdidas de la coalición.
+
+\textbf{Prioridades políticas}: Investigación mediante encuestas preguntando a los votantes sobre prioridades políticas (economía, seguridad, salud, educación) podría probar si los votantes rurales priorizaron política agrícola, los votantes del interior priorizaron desarrollo regional, o si otras dimensiones temáticas estructuraron la defección.
+
+\textbf{Consumo de medios}: Analizar mercados de medios y patrones de consumo por departamento probaría si los patrones geográficos de defección se correlacionan con exposición mediática, revelando potencialmente influencia de medios en la elección de voto.
+
+% ========================================
+\subsection{Comentarios Finales}
+\label{sec:discusion_conclusion}
+
+El balotaje presidencial uruguayo de 2024 desafió las expectativas convencionales sobre geografía electoral, con votantes rurales y del interior impulsando la derrota de la coalición mediante tasas elevadas de defección hacia el Frente Amplio. El análisis de inferencia ecológica, aprovechando datos a nivel circuital y métodos estadísticos bayesianos, revela que el resultado electoral se debió a comportamiento votante geográficamente heterogéneo en lugar de oscilaciones nacionales uniformes. Los departamentos del interior perdieron 27 veces más votos netos de la coalición que las áreas metropolitanas, los circuitos rurales defeccionaron a 1.6 veces la tasa urbana (60.8\% vs 39.0\%), y la variación a nivel departamental abarcó casi 90 puntos porcentuales.
+
+Los análisis de robustez refuerzan la confianza en estos hallazgos. Las estimaciones centrales se mantienen estables ante variaciones en distribuciones a priori, eliminación de atípicos y remuestreo bootstrap (variación máxima de 1.3 pp). La ausencia de correlación entre votos en blanco y apoyo a CA ($r = -0.011$) descarta la hipótesis de protesta pasiva, confirmando que las transferencias CA$\to$FA fueron elecciones activas. Las verificaciones predictivas posteriores validan la calibración del modelo en medias pero identifican subdispersión como limitación---el modelo asume mayor homogeneidad circuital de la existente---señalando la dirección hacia modelos jerárquicos con efectos aleatorios.
+
+Estos hallazgos conllevan implicaciones significativas para comprender la política uruguaya. El colapso electoral de la coalición reflejó fracasos específicos en la gobernanza rural e interior---fracasos que generaron profunda insatisfacción entre votantes que históricamente apoyaron partidos de centro-derecha. La victoria del Frente Amplio resultó de movilización rural e interior efectiva, capturando votantes desafectos de la coalición mediante mensajes dirigidos y organización de base. Si estas defecciones representan realineamiento duradero o protesta temporal moldeará la trayectoria política de Uruguay en elecciones venideras.
+
+Metodológicamente, este estudio demuestra el valor de la inferencia ecológica a nivel circuital para comprender transferencias de votos. El análisis desagregado revela heterogeneidad geográfica que los estudios agregados omiten, mientras que la inferencia bayesiana proporciona cuantificación de incertidumbre con principios sólidos. Investigación futura que incorpore covariables socioeconómicas---particularmente las sugeridas por las correlaciones exploratorias con educación terciaria---validación mediante encuestas y comparaciones históricas refinará aún más la comprensión de dinámicas electorales en Uruguay y más allá.
+
+La rebelión rural y el colapso interior desafían narrativas simplistas sobre comportamiento electoral. El contexto geográfico importa profundamente---no como ruido de fondo sino como determinante fundamental de cómo los votantes responden a alternativas políticas. Comprender elecciones requiere comprender lugares, y comprender lugares requiere datos granulares, métodos sofisticados e interpretación cuidadosa. Este estudio proporciona una fundación para tal comprensión del balotaje uruguayo de 2024 y ofrece una plantilla para investigación de inferencia ecológica en otros contextos electorales.
+
+% ========================================
+% END OF DISCUSSION SECTION
+% ========================================

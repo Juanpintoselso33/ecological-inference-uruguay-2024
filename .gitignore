@@ -1,0 +1,161 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+
+# Claude Code
+.claude/
+
+# Data files (large, downloadable from Corte Electoral)
+data/raw/**/*.xlsx
+data/raw/**/*.csv
+data/external/**/*.xlsx
+data/external/**/*.rar
+data/external/**/*.pdf
+data/external/shapefiles/
+data/external/censo_2023/
+
+# Processed data (regenerable via scripts)
+data/processed/*.parquet
+data/processed/*.csv
+
+# Output figures (regenerable via scripts)
+outputs/figures/*.png
+outputs/figures/*.pdf
+
+# Output CSV tables (regenerable via scripts)
+outputs/tables/*.csv
+
+# Output reports
+outputs/reports/
+
+# Model artifacts (MCMC traces, large binaries)
+*.pkl
+*.pickle
+*.joblib
+outputs/results/
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+*.toc
+*.nav
+*.snm
+*.vrb
+
+# Test/scratch files
+outputs/tables/latex/test_*.tex
+
+# Work logs, summaries, and scratch files
+*.log
+goodman_output.txt
+nul
+ARCHIVOS_ENTREGADOS.txt
+ARCHIVOS_IMPORTANTES.md
+DAY1_COMPLETION_REPORT.md
+FINAL_DAY1_SUMMARY.md
+IMPLEMENTATION_COMPLETE.md
+INCONSISTENCY_REPORT.md
+LAUNCH_OVERNIGHT.bat
+LAUNCH_OVERNIGHT.sh
+LINGUISTIC_CORRECTIONS_IMPERSONAL_VOICE.txt
+MANUAL_LAUNCH_INSTRUCTIONS.txt
+RESUMEN_EJECUTIVO_CORRECCIONES.txt
+RESUMEN_FINAL_*.md
+STATUS_PARALLEL_IMPLEMENTATION.md
+URBAN_RURAL_CLASSIFICATION_SUMMARY.txt
+
+# Output work logs
+outputs/*.txt
+outputs/*.json
+outputs/figures/*.txt
+outputs/tables/*.txt
+outputs/tables/latex/*.txt
+outputs/tables/latex/*.md
+outputs/tables/latex/ALL_TABLES_PREVIEW.tex
+outputs/tables/latex/INSTRUCCIONES_USO.tex
+outputs/tables/latex/INTEGRATION_GUIDE.tex
+outputs/tables/generate_latex_tables.py
+
+# Data work logs
+data/processed/*.txt
+data/processed/*.md
+
+# Reports work logs
+reports/*.txt
+reports/latex/*.txt
+reports/latex/*.md
+reports/latex/compile.bat
+
+# Shell/batch scripts (development helpers)
+scripts/*.bat
+scripts/*.sh
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Theano/PyMC cache
+.theano/
+__theano_cache__/
+
+# Temp files
+*.tmp
+*.bak
+*~
+
+# Conda environment files (historical)
+environment_pyei.yml
+
+# Compiled PDFs (keep only final report)
+reports/latex/main.pdf
+reports/Informe_Electoral_Uruguay_2019_2024_COMPLETE.pdf
+outputs/tables/latex/test_*.pdf
+outputs/tables/latex/example_compilation.tex
+
+# Stray files
+outputs/tables/urban_rural_latex_table.tex
+translate_71_140.py
+reports/latex/sections/results_backup.tex
+
+# One-time utility scripts (not part of analysis pipeline)
+scripts/restructure_skills.py
+scripts/fix_skill_scripts_paths.py
+scripts/apply_all_corrections.py
+scripts/apply_corrections_interactive.py
+scripts/translate_latex_to_spanish.py
+scripts/check_before_corrections.py

@@ -1,0 +1,118 @@
+\section{Covariables Demográficas del Censo 2023 (Análisis Exploratorio con Datos Sintéticos)}
+\label{sec:census}
+
+\textbf{Advertencia fundamental}: Las covariables demográficas utilizadas en esta sección son \textbf{datos sintéticos generados para fines demostrativos}, no datos oficiales del Censo 2023. Al momento de realizar este estudio, los microdatos censales oficiales no se encontraban disponibles. Por tanto, \textbf{todas las correlaciones y patrones reportados en esta sección carecen de valor empírico} y no deben interpretarse como evidencia de relaciones reales entre variables demográficas y comportamiento electoral. El propósito de esta sección es exclusivamente metodológico: ilustrar cómo se integrarían covariables censales en el análisis de inferencia ecológica una vez que se disponga de datos oficiales.
+
+El comportamiento electoral no ocurre en el vacío, sino que se enmarca en contextos demográficos, socioeconómicos y culturales específicos. En la literatura se ha documentado que factores como el nivel educativo y la composición etaria pueden estar asociados con patrones de transferencia de votos \citep{Dalton2002, Franklin2004}. Para ilustrar cómo se complementaría el análisis de inferencia ecológica con covariables demográficas, se presenta este ejercicio exploratorio a nivel departamental.
+
+\subsection{Datos Censales}
+\label{subsec:census_data}
+
+Se reitera que las cifras presentadas son datos sintéticos que reflejan patrones realistas basados en tendencias históricas y estimaciones publicadas por el Instituto Nacional de Estadística (INE), pero \textbf{no representan valores oficiales del Censo 2023}.
+
+Las variables demográficas consideradas son:
+
+\begin{itemize}
+    \item \textbf{Educación terciaria (\%)}: Porcentaje de población mayor de 25 años con educación terciaria completa (universitaria o terciaria no universitaria).
+    \item \textbf{Edad mediana (años)}: Edad mediana de la población departamental, indicador de la estructura etaria.
+\end{itemize}
+
+El Cuadro~\ref{tab:census_data} presenta los valores sintéticos para los 19 departamentos del país.
+
+\begin{table}[H]
+\centering
+\caption{Covariables demográficas por departamento (datos sintéticos --- no oficiales)}
+\label{tab:census_data}
+\begin{tabular}{lrr}
+\toprule
+\textbf{Departamento} & \textbf{Educación terciaria (\%)} & \textbf{Edad mediana (años)} \\
+\midrule
+Montevideo           & 35.2 & 36.8 \\
+Canelones            & 21.4 & 34.5 \\
+Maldonado            & 23.8 & 37.2 \\
+Colonia              & 19.6 & 38.5 \\
+Salto                & 17.8 & 35.9 \\
+Paysandú             & 18.9 & 37.1 \\
+Artigas              & 16.4 & 35.2 \\
+Rivera               & 17.2 & 36.3 \\
+Tacuarembó           & 16.8 & 36.7 \\
+Soriano              & 18.3 & 38.9 \\
+San José             & 20.1 & 35.6 \\
+Rocha                & 17.5 & 37.8 \\
+Río Negro            & 17.9 & 38.2 \\
+Flores               & 16.7 & 39.8 \\
+Florida              & 18.7 & 37.4 \\
+Lavalleja            & 17.1 & 38.1 \\
+Cerro Largo          & 15.3 & 36.9 \\
+Treinta y Tres       & 16.1 & 37.5 \\
+Durazno              & 15.7 & 38.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Los valores sintéticos reproducen la estructura centro-periferia del Uruguay: mayor concentración de población con educación terciaria en la zona metropolitana (Montevideo, Canelones) y la costa (Maldonado), frente a valores menores en departamentos del interior rural.
+
+\subsection{Correlaciones con Comportamiento Electoral}
+\label{subsec:census_correlations}
+
+Se calcularon coeficientes de correlación de Pearson entre las variables censales sintéticas y las estimaciones puntuales de las tasas de transferencia de votos obtenidas mediante inferencia ecológica. El Cuadro~\ref{tab:census_correlations} presenta la matriz de correlaciones. Se enfatiza que estas correlaciones se basan en datos sintéticos y, por tanto, \textbf{no constituyen hallazgos empíricos}.
+
+\input{../../outputs/tables/latex/census_correlation_matrix.tex}
+
+A continuación se describen los patrones observados, con la salvedad de que su interpretación es puramente ilustrativa:
+
+\paragraph{Nivel educativo y defección de Cabildo Abierto}
+Se observa una correlación positiva moderada entre el porcentaje de educación terciaria (sintético) y la tasa de defección de CA hacia FA ($r = +0.380$, $p = 0.109$). La Figura~\ref{fig:census_edu} ilustra esta relación. Este patrón, de confirmarse con datos reales, sería consistente con la hipótesis de que departamentos con mayor nivel educativo presentan mayor volatilidad electoral. Sin embargo, dado el carácter sintético de los datos, esta correlación no puede considerarse evidencia de dicha relación.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{../../outputs/figures/scatter_ca_defection_vs_education.pdf}
+\caption{Defección CA vs nivel educativo (sintético) por departamento. Correlación basada en datos sintéticos ($r = 0.380$); no constituye evidencia empírica. Los puntos representan los 19 departamentos, con tamaño proporcional al electorado de CA en primera vuelta.}
+\label{fig:census_edu}
+\end{figure}
+
+\paragraph{Nivel educativo y retención de CA por PN}
+La correlación entre educación terciaria y retención de CA por el Partido Nacional es negativa ($r = -0.419$, $p = 0.074$). Este valor complementa la correlación anterior, pero su interpretación sustantiva queda condicionada a la disponibilidad de datos censales reales.
+
+\paragraph{Edad mediana}
+Las correlaciones con la edad mediana son débiles y no significativas ($r = -0.162$, $p = 0.509$ para defección de CA; $r = +0.193$, $p = 0.429$ para retención por PN).
+
+\paragraph{Otras transferencias}
+Las transferencias de PC a PN y la retención del PN no muestran correlaciones sustanciales con las variables demográficas sintéticas ($r = +0.043$ y $r = -0.098$ con educación, respectivamente).
+
+La Figura~\ref{fig:census_heatmap} presenta visualmente la matriz de correlaciones mediante un mapa de calor.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../../outputs/figures/heatmap_census_correlations.pdf}
+\caption{Matriz de correlaciones: variables demográficas (sintéticas) y electorales. Los tonos rojos indican correlaciones positivas, azules negativas. Se recuerda que estas correlaciones se basan en datos no oficiales.}
+\label{fig:census_heatmap}
+\end{figure}
+
+\subsection{Limitaciones y Trabajo Futuro}
+\label{subsec:census_interpretation}
+
+Las limitaciones de este ejercicio exploratorio son sustanciales y deben considerarse antes de cualquier interpretación:
+
+\paragraph{Datos sintéticos (limitación crítica)}
+La limitación más importante es que todas las covariables demográficas son datos sintéticos. Las correlaciones reportadas en esta sección \textbf{no tienen valor empírico alguno}. Cualquier patrón observado podría ser un artefacto de la generación sintética de datos y no reflejar relaciones reales entre demografía y comportamiento electoral.
+
+\paragraph{Tamaño muestral}
+Con solo $N = 19$ observaciones (departamentos), el poder estadístico es limitado. Un análisis a nivel de municipios ($N \approx 125$) o circuitos ($N > 7000$) con covariables correspondientes proporcionaría mayor poder estadístico.
+
+\paragraph{Falacia ecológica}
+Aun con datos oficiales, las correlaciones a nivel agregado (departamental) no implican necesariamente relaciones a nivel individual. Esto es una manifestación de la falacia ecológica, el mismo problema que la inferencia ecológica busca mitigar. Para establecer relaciones individuales se requerirían encuestas post-electorales con datos de votación autorreportada.
+
+\paragraph{Causalidad}
+Las correlaciones no implican causalidad. Múltiples factores no observados (contexto político local, campañas departamentales, liderazgos locales) pueden confundir las relaciones entre variables demográficas y comportamiento electoral.
+
+\paragraph{Trabajo futuro}
+Una vez que el Instituto Nacional de Estadística (INE) publique los microdatos del Censo 2023, se recomienda replicar este análisis con las siguientes mejoras:
+
+\begin{itemize}
+    \item Variables adicionales: porcentaje de población urbana, tasa de desempleo, nivel socioeconómico (NSE), acceso a servicios.
+    \item Análisis multinivel: modelar la variación electoral a nivel de circuito o sección con covariables censales correspondientes.
+    \item Modelos jerárquicos: incorporar covariables en el modelo de inferencia ecológica como predictores de las tasas de transferencia (modelo de King con regresión sobre $\beta_{ij}$).
+\end{itemize}
+
+En resumen, esta sección ilustra la metodología para integrar covariables demográficas en el análisis de inferencia ecológica. Los resultados aquí presentados son exclusivamente demostrativos y deberán ser reemplazados por análisis con datos oficiales cuando estos se encuentren disponibles.

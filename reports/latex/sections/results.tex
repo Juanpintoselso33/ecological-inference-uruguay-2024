@@ -1,0 +1,232 @@
+﻿% ========================================
+% RESULTS SECTION
+% Ecological Inference Analysis of Uruguay 2024 Elections
+% ========================================
+
+\section{Resultados}
+\label{sec:resultados}
+
+Esta sección presenta los hallazgos del análisis de inferencia ecológica sobre las transferencias de votos entre la primera vuelta de octubre de 2024 y el balotaje de noviembre de 2024 en Uruguay. Se estimaron las probabilidades de transición desde los partidos de la Coalición Republicana---Cabildo Abierto (CA), Partido Colorado (PC), Partido Independiente (PI) y Partido Nacional (PN)---hacia el Frente Amplio (FA) en la elección de segunda vuelta. Los análisis revelan una marcada heterogeneidad geográfica en los patrones de defección, con regiones rurales e interiores exhibiendo tasas de defección sustancialmente más altas que las áreas urbanas y metropolitanas---un patrón que contradice los supuestos convencionales sobre el conservadurismo político rural en Uruguay.
+
+Se organizan los resultados en cinco subsecciones: (1) estimaciones a nivel nacional, (2) diferencias urbano-rurales, (3) contrastes metropolitano-interior, (4) variación a nivel departamental, y (5) validación estadística de la convergencia del modelo. A lo largo de la presentación, se reportan medias posteriores como estimaciones puntuales con intervalos de credibilidad (IC) del 95\% para cuantificar la incertidumbre.
+
+% ========================================
+\subsection{Patrones a Nivel Nacional}
+\label{sec:resultados_nacional}
+
+El modelo de inferencia ecológica a nivel nacional, estimado utilizando los 7,271 circuitos electorales de Uruguay, proporciona estimaciones de referencia de los patrones de transferencia de votos entre la primera vuelta de octubre y el balotaje de noviembre. La Tabla~\ref{tab:national_matrix_pi} presenta la matriz de transición completa con intervalos de credibilidad del 95\%. El modelo convergió exitosamente ($\hat{R}$ máximo = 1.001) con tamaños efectivos de muestra superiores a 6,000 para todos los parámetros, indicando estimaciones posteriores confiables, asegurando la validez de las estimaciones posteriores bayesianas.
+
+% Matriz de transición nacional 2024
+\input{../../outputs/tables/latex/national_transition_matrix_pi}
+
+\textbf{Defecciones de Cabildo Abierto.} La defección más dramática de la coalición provino de los votantes de Cabildo Abierto (CA), quienes se dividieron casi equitativamente entre las dos opciones de segunda vuelta. Se estima que el 46.5\% de los votantes de CA (IC 95\%: [43.0\%, 49.9\%]) transfirieron su apoyo al Frente Amplio, mientras que el 49.1\% (IC 95\%: [45.6\%, 52.7\%]) permaneció leal al Partido Nacional. El 4.4\% restante (IC 95\%: [3.4\%, 5.5\%]) emitió votos en blanco o nulos. Esta división prácticamente igualitaria representa un colapso significativo de la capacidad de la coalición para retener a los 59,412 votantes de CA de primera vuelta, resultando en un estimado de 27,627 votos que fluyeron hacia el FA---una transferencia que resultó decisiva para determinar el resultado electoral. Cabe señalar que estas estimaciones provienen del modelo que incluye al Partido Independiente (PI) como categoría separada.
+
+\textbf{Patrones de Colorado, Independiente y Nacional.} Los votantes del Partido Colorado (PC) demostraron mayor lealtad a la coalición, con un 87.9\% (IC 95\%: [86.9\%, 88.8\%]) apoyando al PN en el balotaje. Sin embargo, un no trivial 10.0\% (IC 95\%: [9.1\%, 11.0\%]) defeccionó al FA. Dado el sustancial total de votos del PC en primera vuelta de 387,125, esta tasa de defección del 10.0\% se tradujo en aproximadamente 38,712 votos para el FA---la mayor contribución absoluta a la victoria del FA desde los partidos de la coalición.
+
+El Partido Independiente (PI) exhibió la lealtad coalicional más alta de todos los partidos. Se estima que el 99.9\% de los votantes de PI (IC 95\%: [99.7\%, 100.0\%]) apoyaron al PN en el balotaje, con una defección virtualmente nula hacia el FA (0.0\%, IC 95\%: [0.0\%, 0.2\%]). Esta lealtad casi perfecta contrasta marcadamente con el comportamiento del PI en 2019, cuando el 94.8\% defeccionó al FA. La transformación del PI de partido con mayor defección a partido con mayor lealtad representa el cambio más dramático en comportamiento electoral entre las dos elecciones.
+
+Los votantes del Partido Nacional exhibieron también alta lealtad, con un 91.8\% (IC 95\%: [91.2\%, 92.3\%]) apoyando a su partido en la segunda vuelta. Sin embargo, el 6.3\% (IC 95\%: [5.8\%, 6.8\%]) defeccionó al FA, representando aproximadamente 40,680 votantes de la base de primera vuelta del PN de 645,714.
+
+\textbf{Impacto Agregado.} Sumando a través de todos los partidos de la coalición, la transferencia total estimada desde la Coalición Republicana hacia el Frente Amplio asciende a aproximadamente 107,019 votos (CA: 27,627; PC: 38,712; PN: 40,680; PI: virtualmente cero). Para contextualizar esta cifra, el FA derrotó al PN en el balotaje por un margen de 92,437 votos (1,197,638 para FA versus 1,105,201 para PN). Las defecciones de la coalición excedieron así el margen de victoria en un 16\%, indicando que las fracturas internas dentro de la coalición de centro-derecha fueron la causa próxima del retorno del FA al poder. Si la coalición hubiera logrado retener una proporción significativamente mayor de sus votantes---particularmente los de CA y PC---el resultado del balotaje podría haberse revertido.
+
+\textbf{Lealtad Asimétrica.} Notablemente, el FA experimentó virtualmente ninguna defección recíproca. Se estima que el 98.9\% (IC 95\%: [98.6\%, 99.2\%]) de los votantes del FA en primera vuelta permaneció leal en el balotaje, con solo un 0.5\% defeccionando al PN. Esta asimetría---votantes de la coalición defeccionando a tasas del 6--47\% mientras que los votantes del FA permanecieron casi perfectamente leales---subraya las dinámicas centrífugas que socavaron la coalición de derecha. Los análisis geográficos en las subsecciones subsiguientes revelan que este patrón nacional enmascara una heterogeneidad sustancial a través de dimensiones urbano-rurales y regionales.
+
+% ========================================
+\subsection{Heterogeneidad Geográfica: Circuitos Urbanos versus Rurales}
+\label{sec:resultados_urbano_rural}
+
+Los circuitos electorales clasificados como rurales demostraron tasas marcadamente más altas de defección de la coalición hacia el Frente Amplio en comparación con los circuitos urbanos. La Tabla~\ref{tab:urban_rural_pi} presenta las probabilidades de transición estimadas estratificadas por nivel de urbanización para los cuatro partidos principales de la coalición (CA, PC, PI, PN).
+
+% Comparación urbano-rural
+\input{../../outputs/tables/latex/urban_rural_comparison_table_pi}
+
+\textbf{Cabildo Abierto.} Los circuitos rurales exhibieron una probabilidad de transición CA$\to$FA del 60.8\% (IC 95\%: [51.7\%, 69.8\%]), mientras que los circuitos urbanos mostraron un 39.0\% (IC 95\%: [35.1\%, 42.8\%]). La diferencia de 21.8 puntos porcentuales es sustancial y estadísticamente significativa, como lo indican los intervalos de credibilidad del 95\% no superpuestos. Este patrón contradice la sabiduría convencional sobre el comportamiento político rural en Uruguay. Los relatos tradicionales de la geografía electoral uruguaya enfatizan el conservadurismo rural y un apego más fuerte al Partido Nacional, particularmente en el interior agrícola \citep{gonzalez1991electoral}. Los hallazgos sugieren que los votantes rurales de CA tenían \textit{más}, no menos, probabilidades de defectar al Frente Amplio.
+
+\textbf{Partido Colorado.} La brecha rural-urbana fue aún más pronunciada para los votantes del PC. Los circuitos rurales mostraron un 18.2\% de defección PC$\to$FA (IC 95\%: [16.2\%, 20.1\%]) comparado con solo un 5.2\% en áreas urbanas (IC 95\%: [4.1\%, 6.3\%])---un multiplicador de 3.5 veces. Esta dramática tasa de defección rural del PC, combinada con la sustancial base de primera vuelta del partido (387,125 votos), convirtió a los votantes del Colorado en áreas rurales en una fuente crítica de ganancias para el FA. Dada la fortaleza histórica del PC en centros urbanos y su posicionamiento ideológico moderado, el éxodo rural sugiere una profunda insatisfacción con las políticas agrícolas y de desarrollo rural de la coalición.
+
+\textbf{Partido Nacional.} En contraste con los patrones de CA y PC, los votantes del PN mostraron tasas de defección prácticamente idénticas a través de los estratos de urbanización. Los circuitos urbanos exhibieron un 6.9\% de defección PN$\to$FA (IC 95\%: [6.3\%, 7.5\%]) versus un 7.0\% en circuitos rurales (IC 95\%: [5.8\%, 8.2\%]). Esta consistencia sugiere que los votantes del Nacional mantuvieron una lealtad relativamente uniforme independientemente del contexto geográfico, aunque ambas tasas indican defecciones significativas desde el PN hacia el ideológicamente distante FA. La consistencia rural-urbana del PN contrasta marcadamente con los patrones de CA y PC, posiblemente reflejando las raíces organizacionales más profundas del partido Nacional tanto en áreas urbanas como rurales.
+
+La Figura~\ref{fig:urban_rural_forest} visualiza estos resultados a través de un gráfico de bosque que compara las probabilidades de transición a través de los orígenes partidarios. La rebelión rural contra la coalición no fue uniforme---se concentró más fuertemente en los votantes de CA y PC, con votantes rurales del PC defectando a 3.5 veces la tasa urbana. Esta insatisfacción geográficamente concentrada con las políticas de centro-derecha en el campo probablemente refleja fracasos en políticas agrícolas, subinversión en infraestructura rural, o un sesgo urbano percibido en la gobernanza de la coalición.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{urban_rural_ca_defection_forest.png}
+\caption{Gráfico de bosque comparando tasas de defección de la coalición urbanas y rurales. Los puntos representan medias posteriores con intervalos de credibilidad del 95\%. Los circuitos rurales (rojo) muestran consistentemente tasas de defección más altas que los circuitos urbanos (azul) en todos los partidos de la coalición, con la mayor diferencia observada para los votantes de Cabildo Abierto (60.8\% rural vs.\ 39.0\% urbano, diferencia de 21.8 pp).}
+\label{fig:urban_rural_forest}
+\end{figure}
+
+A pesar de representar solo el 13.2\% de los circuitos electorales (960 de 7,271), las áreas rurales contribuyeron desproporcionadamente a las defecciones totales de la coalición. Utilizando distribuciones de votos estimadas basadas en patrones a nivel de circuito, los circuitos rurales representan aproximadamente el 16.1\% de las transferencias totales de votos CA$\to$FA---una sobrerrepresentación del 22\% relativa a su proporción de circuitos. En términos absolutos, esto se traduce en un estimado de 4,691 defectores rurales de CA en comparación con 24,480 defectores urbanos. La sobrerrepresentación rural se vuelve aún más pronunciada cuando se considera que los circuitos rurales tienden a tener menor participación electoral y poblaciones más pequeñas, haciendo particularmente notable su contribución del 16\% a las defecciones.
+
+La Figura~\ref{fig:all_parties_comparison} proporciona una visualización exhaustiva de todos los partidos de la coalición a través de las estratificaciones urbano-rurales y metropolitano-interior, revelando patrones consistentes de concentración geográfica en las defecciones de la coalición.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{all_coalition_parties_comparison.png}
+\caption{Comparación exhaustiva de tasas de defección de la coalición según estratificaciones de urbanización y regionales. El panel izquierdo muestra patrones urbanos versus rurales; el panel derecho muestra patrones metropolitanos versus interior. Los partidos de la coalición exhiben tasas de defección más altas en contextos rurales e interiores, con PC mostrando el multiplicador rural más dramático (3.5$\times$) y PN mostrando la mayor brecha metropolitana-interior (23$\times$).}
+\label{fig:all_parties_comparison}
+\end{figure}
+
+% ========================================
+\subsection{Heterogeneidad Geográfica: Regiones Metropolitanas versus Interior}
+\label{sec:resultados_region}
+
+El contraste metropolitano-interior proporciona una perspectiva complementaria sobre la heterogeneidad geográfica, capturando la división capital-provincia que estructura la política uruguaya. Se define el Área Metropolitana como los departamentos de Montevideo y Canelones, que juntos constituyen el núcleo demográfico y económico de la nación. El Interior comprende los 17 departamentos restantes, abarcando zonas agrícolas rurales, ciudades medianas y regiones fronterizas.
+
+La Tabla~\ref{tab:region_pi} presenta las probabilidades de transición estratificadas por región para los cuatro partidos principales de la coalición (CA, PC, PI, PN), revelando patrones consistentes de mayor defección interior a través de todos los partidos pero con magnitudes variadas.
+
+% Comparación metropolitano-interior
+\input{../../outputs/tables/latex/region_comparison_table_pi}
+
+\textbf{Cabildo Abierto.} Los circuitos del interior exhibieron un 54.7\% de defección CA$\to$FA (IC 95\%: [50.3\%, 59.1\%]) comparado con un 23.2\% en el Área Metropolitana (IC 95\%: [17.4\%, 28.8\%]). Esta diferencia de 31.5 puntos porcentuales representa un cambio sustancial en el comportamiento político, sugiriendo que el atractivo de CA fue marcadamente más débil fuera de la región capital. La mayor tasa de defección del interior se alinea con reportes del período de campaña sobre insatisfacción de votantes del interior con la gobernanza de la coalición, particularmente respecto a precios agrícolas, infraestructura rural y desarrollo económico regional \citep{uruguay2024campaign}.
+
+\textbf{Partido Colorado.} El PC exhibió una brecha metropolitano-interior sustancial. Los circuitos del interior mostraron un 10.3\% de defección PC$\to$FA (IC 95\%: [9.2\%, 11.3\%]) versus un 3.8\% en el área metropolitana (IC 95\%: [2.1\%, 5.2\%]). Esta diferencia de 6.5 puntos porcentuales, aunque menor que la brecha de CA, es significativa dado la gran base electoral del PC. La tasa de defección del PC en el interior, casi tres veces superior a la metropolitana, sugiere que los votantes del Colorado en áreas provinciales se sintieron menos vinculados a la coalición que sus homólogos metropolitanos. Dada la fortaleza tradicional del PC en Montevideo y su posición ideológica moderada, este éxodo interior indica insatisfacción que trascendió la lealtad partidaria en contextos provinciales.
+
+\textbf{Partido Nacional.} El análisis regional revela el patrón más dramático en las defecciones del PN. Las transiciones PN$\to$FA en el interior alcanzaron un 6.9\% (IC 95\%: [6.3\%, 7.5\%]), comparado con un negligible 0.3\% (IC 95\%: [0.0\%, 1.1\%]) en el Área Metropolitana. Esto representa una diferencia de 23 veces---los votantes del PN del interior defeccionaron al Frente Amplio a una tasa 23 veces mayor que los votantes del PN metropolitanos. Dado la identidad histórica del Partido Nacional como el partido del interior y del Uruguay rural \citep{gonzalez1993structuring}, este patrón de deserción constituye una reversión dramática. Sugiere que incluso los votantes tradicionales del Nacional---el núcleo ideológico del partido---abandonaron la coalición en las provincias, probablemente reflejando una profunda insatisfacción con el desempeño de la coalición en temas centrales para los medios de vida del interior.
+
+La Figura~\ref{fig:region_comparison} muestra visualmente estos contrastes regionales, destacando el rol del interior como epicentro del declive de la coalición en todos los partidos. El área metropolitana, beneficiándose de mayor dinamismo económico y empleo más diversificado, puede haber aislado a los votantes de la coalición de la insatisfacción que impulsó las defecciones del interior.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{region_coalition_defections.png}
+\caption{Comparación regional de tasas de defección de la coalición por partido de origen. Las regiones del interior (barras naranjas) exhiben tasas de defección sustancialmente más altas hacia el Frente Amplio comparadas con el Área Metropolitana (barras azules) en todos los partidos de la coalición. Las barras de error representan intervalos de credibilidad del 95\%. El PN muestra el contraste metropolitano-interior más dramático (diferencia de 23$\times$).}
+\label{fig:region_comparison}
+\end{figure}
+
+El impacto en votos de las diferencias regionales se hace evidente al calcular las transferencias estimadas ponderadas por los totales de votos reales. El Área Metropolitana, con 28,774 votos de CA en la primera vuelta, contribuyó aproximadamente 6,676 votos al Frente Amplio (tasa de defección del 23.2\%). El interior, con 30,638 votos de CA, transfirió un estimado de 16,759 votos al FA (tasa de defección del 54.7\%). En términos absolutos, el interior produjo 10,083 defectores de CA más a pesar de tener solo 1,864 votantes de CA más---demostrando el impacto desproporcionado de las tasas de defección interior más altas.
+
+Al contabilizar las pérdidas netas de la coalición---combinando defecciones CA$\to$FA, defecciones PN$\to$FA, y transferencias internas CA$\to$PN---la disparidad geográfica se vuelve aún más dramática. El Área Metropolitana sufrió una pérdida neta de aproximadamente 1,282 votos de la coalición, mientras que el interior perdió un estimado de 34,628 votos. Esta diferencia de 27 veces en el impacto neto revela que el colapso electoral de la coalición fue fundamentalmente un fenómeno del interior. El área metropolitana vio flujos aproximadamente equilibrados, con votantes de CA moviéndose tanto a FA como a PN, y defección mínima de PN hacia FA. El interior, por contraste, perdió votos en todas direcciones: los votantes de CA defeccionaron masivamente hacia FA, e incluso los votantes del PN abandonaron la coalición a tasas sin precedentes.
+
+% ========================================
+\subsection{Variación a Nivel Departamental}
+\label{sec:resultados_departamento}
+
+La desagregación al nivel departamental revela una heterogeneidad extraordinaria en los patrones de defección de la coalición a través de los 19 departamentos de Uruguay. Se analiza cada partido de la coalición por separado para comprender cómo el contexto geográfico moduló el comportamiento de defección.
+
+\subsubsection{Patrones Departamentales de Cabildo Abierto}
+
+La Tabla~\ref{tab:dept_top10} presenta los diez departamentos con las mayores probabilidades de transición CA$\to$FA estimadas. El rango de tasas de defección abarca desde 5.3\% en Tacuarembó hasta 95.7\% en Río Negro---una diferencia de 90.4 puntos porcentuales que excede dramáticamente las brechas urbano-rurales y metropolitano-interior documentadas anteriormente.
+
+% Top 10 departamentos por defección de CA
+\input{../../outputs/tables/latex/department_top10_table}
+
+Río Negro se destaca como un caso extremo atípico, con un estimado de 95.7\% de votantes de CA defeccionando al Frente Amplio (IC 95\%: [87.8\%, 99.5\%]). Este abandono casi completo de la coalición sugiere factores específicos del departamento impulsando el comportamiento del votante, potencialmente relacionados con condiciones económicas locales, calidad de candidatos, o historia política departamental. El intervalo de credibilidad relativamente amplio refleja el modesto tamaño de muestra de 121 circuitos electorales, pero incluso el límite inferior de 87.8\% indica defección abrumadora. El resultado de Río Negro invita a una investigación de estudio de caso para comprender qué condiciones locales produjeron un sentimiento anti-coalición tan extremo.
+
+En el extremo opuesto, Tacuarembó registró solo un 5.3\% de defección CA$\to$FA (IC 95\%: [0.2\%, 16.4\%]), con un intervalo de credibilidad excepcionalmente amplio que indica incertidumbre sustancial. Esta tasa baja, combinada con una alta transferencia CA$\to$PN (83.8\%), sugiere que los votantes de la coalición de Tacuarembó permanecieron leales a la coalición de centro-derecha, principalmente desplazando su apoyo al Partido Nacional en lugar de defeccionar al ideológicamente distante Frente Amplio. La divergencia de Tacuarembó del patrón nacional puede reflejar una fuerte organización local del PN, efectos de candidatos, o condiciones económicas distintivas que mantuvieron el apoyo a la coalición.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{department_ca_defection_map.png}
+\caption{Mapa de coropletas de tasas de defección de Cabildo Abierto a nivel departamental hacia el Frente Amplio. Los tonos más oscuros indican tasas de defección más altas. El mapa revela heterogeneidad geográfica sustancial, con Río Negro (95.7\%) y departamentos costeros mostrando la mayor defección, mientras que departamentos fronterizos del norte exhiben tasas más bajas.}
+\label{fig:mapa_dept}
+\end{figure}
+
+La Figura~\ref{fig:mapa_dept} muestra las tasas de defección CA$\to$FA a nivel departamental en un mapa de coropletas de Uruguay, revelando patrones espaciales en la lealtad a la coalición. Emergen varios conglomerados geográficos:
+
+\begin{itemize}
+    \item \textbf{Departamentos costeros}: Maldonado (47.9\%) y Rocha (40.0\%) muestran defección elevada, aunque el patrón no es uniforme. La alta tasa de Maldonado puede reflejar preocupaciones económicas en la economía costera dependiente del turismo.
+
+    \item \textbf{Departamentos fronterizos del norte}: Artigas (34.4\%), Rivera (24.4\%) y Cerro Largo (14.8\%) exhiben patrones mixtos con defección generalmente inferior al promedio. La proximidad de estos departamentos a Brasil y sus economías fronterizas distintivas pueden sostener dinámicas políticas diferentes al interior agrícola.
+
+    \item \textbf{Interior agrícola}: Departamentos como Durazno (40.9\%), Florida (38.7\%) y Flores (23.2\%) muestran tasas de defección moderadas. La variación dentro de este grupo sugiere que una narrativa simple de "insatisfacción agrícola" es insuficiente; factores específicos departamentales modulan el efecto de rebelión rural.
+
+    \item \textbf{Departamentos del suroeste}: Colonia (52.6\%) y Soriano (24.6\%) exhiben patrones divergentes a pesar de tener economías agrícolas similares, indicando que factores políticos locales prevalecen sobre el determinismo económico simple.
+\end{itemize}
+
+Montevideo, como capital y ciudad más grande de Uruguay, merece atención especial debido a su tasa de defección relativamente baja de 26.4\% (IC 95\%: [20.3\%, 32.6\%]). Esta tasa coloca a Montevideo en el tercio inferior de los departamentos, indicando que los votantes de CA en la capital fueron considerablemente más leales a la coalición que el promedio nacional. Sin embargo, su peso electoral masivo domina el resultado nacional. Con 21,066 votos de CA en la primera vuelta---35\% del total nacional de CA---Montevideo contribuyó un estimado de 5,561 votos al Frente Amplio mediante defecciones de CA, mientras que aproximadamente 13,503 votantes de CA permanecieron leales al PN. A pesar de la tasa de defección baja de Montevideo, su dominancia demográfica lo convirtió en un componente importante del resultado del balotaje.
+
+La variación departamental extrema---con un rango de más de 90 puntos porcentuales---sugiere que los análisis a nivel nacional y regional, aunque informativos, oscurecen heterogeneidad subnacional crítica para CA. Los departamentos exhiben dinámicas políticas distintivas moldeadas por condiciones económicas locales, calidad de candidatos, organización partidaria y patrones históricos de votación.
+
+\subsubsection{Patrones Departamentales del Partido Colorado}
+
+La Tabla~\ref{tab:dept_pc_top10} presenta los diez departamentos con las mayores probabilidades de transición PC$\to$FA. A diferencia de la variación extrema de CA (5.3\% a 95.7\%), las tasas de defección de PC exhiben un rango más comprimido desde 0.4\% (Montevideo) hasta 50.3\% (Río Negro)---una dispersión de aproximadamente 50 puntos porcentuales. Este rango menor sugiere que los votantes del PC mostraron comportamiento más consistente entre departamentos comparado con los patrones altamente volátiles de CA.
+
+% Top 10 departamentos por defección de PC
+\input{../../outputs/tables/latex/department_pc_top10_table}
+
+Río Negro emerge nuevamente como un caso atípico, con 50.3\% de los votantes del PC defeccionando al FA---el único departamento donde la mayoría de los votantes del Colorado abandonó la coalición. Salto (20.4\%), Rivera (19.3\%), y Flores (19.3\%) también exhibieron defección elevada de PC, sugiriendo un conglomerado de departamentos del norte y centro donde los votantes del Colorado se sintieron particularmente desconectados de la coalición. En contraste, Artigas (1.5\%), Canelones (9.8\%), y Colonia (2.5\%) mantuvieron mayor lealtad al PC, posiblemente reflejando fortaleza de organización partidaria local o efectos de candidatos.
+
+Dada la sustancial base de votos nacional del PC (387,125 votos), incluso tasas de defección moderadas se traducen en impactos absolutos significativos. Montevideo, con 117,674 votos del PC y una modesta tasa de defección del 0.4\%, contribuyó solo 471 defectores---muy por debajo de su peso demográfico. Rivera, con 27,280 votos del PC y 19.3\% de defección, transfirió un estimado de 5,265 votos al FA. Este patrón revela que las defecciones del PC se concentraron en departamentos de tamaño medio más que en la capital, a diferencia de los patrones de CA donde Montevideo dominó los impactos absolutos.
+
+\subsubsection{Patrones Departamentales del Partido Nacional}
+
+La Tabla~\ref{tab:dept_pn_top10} presenta los diez departamentos con las mayores probabilidades de transición PN$\to$FA. El rango abarca desde 0.1\% (Montevideo) hasta 14.9\% (Artigas)---una diferencia de 14.8 puntos porcentuales. Este rango relativamente estrecho, combinado con tasas de defección universalmente bajas (todas por debajo del 15\%), indica que los votantes del PN mantuvieron la lealtad a la coalición más fuerte a través de contextos geográficos.
+
+% Top 10 departamentos por defección de PN
+\input{../../outputs/tables/latex/department_pn_top10_table}
+
+Artigas (14.9\%), Cerro Largo (14.7\%), y Paysandú (13.7\%) exhibieron la mayor defección del PN, sugiriendo un conglomerado fronterizo del norte donde incluso los votantes tradicionales del Nacional abandonaron la coalición. Estos departamentos del norte, históricamente bastiones del PN, experimentaron defección sin precedentes que señala profunda insatisfacción con la gobernanza de la coalición en regiones fronterizas. Durazno (1.8\%), Florida (3.1\%), y Río Negro (0.5\%) mantuvieron fuerte lealtad al PN, creando un mosaico de variación departamental.
+
+Montevideo se destaca como un caso dramáticamente atípico con solo 0.1\% de defección PN$\to$FA---lealtad virtualmente perfecta entre los votantes del PN metropolitanos. Esta defección metropolitana casi nula, combinada con 6.9\% de defección interior (Tabla~\ref{tab:region_pi}), produce la diferencia de 23 veces metropolitano-interior documentada anteriormente. Los votantes del PN de la capital permanecieron casi universalmente leales, mientras que los votantes del PN del interior---particularmente en departamentos fronterizos del norte---defeccionaron a tasas significativas. Esta división geográfica dentro del electorado del PN representa una fractura histórica en el partido tradicional del interior de Uruguay.
+
+Los resultados a nivel departamental en los tres partidos destacan la importancia de distinguir \textit{tasa} de \textit{impacto}. Mientras que Río Negro exhibió las tasas de defección más altas tanto para CA (95.7\%) como para PC (50.3\%), sus pequeñas bases de votos se tradujeron en impacto nacional limitado. Por el contrario, la tasa de defección de CA de Montevideo (26.4\%) combinada con su masiva base de votos (21,066 votos de CA) lo convirtió en un departamento clave para comprender el resultado global del balotaje. Esta distinción tasa-impacto subraya que los resultados electorales dependen tanto de patrones de comportamiento como de peso demográfico.
+
+% ========================================
+\subsection{Patrones Geográficos Entre Partidos}
+\label{sec:resultados_entre_partidos}
+
+Las subsecciones precedentes analizaron cada partido de la coalición por separado. Examinar los patrones en todos los partidos simultáneamente revela efectos geográficos sistemáticos que trascendieron las identidades partidarias individuales. La Figura~\ref{fig:mapa_calor_coalicion} presenta una matriz de mapa de calor que muestra las tasas de defección para los partidos de la coalición a través de las cuatro estratificaciones geográficas: urbano, rural, metropolitano e interior.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{coalition_defection_heatmap.png}
+\caption{Matriz de mapa de calor de las tasas de defección de la coalición hacia el FA según partido de origen y estratificación geográfica. Los colores más oscuros indican tasas de defección más altas. La matriz revela patrones consistentes: los contextos rurales e interiores produjeron mayor defección en todos los partidos, con CA mostrando la variación más dramática (39.0\% urbano a 60.8\% rural, diferencia de 21.8 pp) y PN mostrando la mayor brecha metropolitano-interior (0.3\% metro a 6.9\% interior).}
+\label{fig:mapa_calor_coalicion}
+\end{figure}
+
+El mapa de calor revela tres patrones clave. Primero, \textit{la rebelión rural fue universal}: los partidos de la coalición exhibieron mayor defección en circuitos rurales en comparación con circuitos urbanos. Segundo, \textit{el éxodo interior varió según partido}: CA y PC mostraron diferencias metropolitano-interior sustanciales (31.5 y 6.5 puntos porcentuales), mientras que PN exhibió una brecha dramática de 23 veces. Tercero, \textit{la volatilidad de CA excedió a la de otros partidos}: las tasas de defección de CA variaron de 39.0\% a 60.8\% entre estratificaciones urbano-rurales (diferencia de 21.8 pp), mientras que PN varió solo entre 6.9\% y 7.0\% en la dimensión urbano-rural, aunque mostró una polarización extrema en la dimensión metropolitano-interior (0.3\% a 6.9\%). Esta comparación entre partidos sugiere que el contexto geográfico activó diferentes mecanismos de defección para diferentes tipos de votantes: los votantes de CA fueron universalmente volátiles, los votantes de PN estuvieron geográficamente polarizados en la dimensión metropolitano-interior, y los votantes de PC se ubicaron entre estos extremos.
+
+La Figura~\ref{fig:impacto_votos} traduce estas tasas de defección en transferencias absolutas de votos estimadas, revelando qué partidos contribuyeron más a la victoria del FA. A pesar de las tasas de defección más altas de CA, los votantes del PN contribuyeron la mayor cantidad de votos al FA (40,680 votos) debido a su base más grande en la primera vuelta, seguido por PC (38,712 votos) y CA (27,627 votos). La transferencia total de la coalición de 107,019 votos excedió el margen de victoria del FA (92,437 votos) en un 16\%, confirmando que las fracturas internas de la coalición fueron la causa próxima de la victoria del FA.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{coalition_vote_impact.png}
+\caption{Impacto absoluto de votos de las defecciones de la coalición por partido. Las barras muestran el número estimado de votos transferidos desde cada partido de la coalición hacia el Frente Amplio. A pesar de la tasa de defección más alta de CA (46.5\%), PN contribuyó la mayor cantidad de votos (40,680) debido a su base electoral más grande, seguido por PC (38,712) y CA (27,627). La transferencia total de la coalición (107,019 votos) excedió el margen de victoria del FA (92,437) en un 16\%.}
+\label{fig:impacto_votos}
+\end{figure}
+
+El análisis del impacto de votos subraya una distinción crítica entre \textit{tasas} de defección e \textit{impacto} electoral. La tasa de defección del 46.5\% de CA acaparó titulares y dominó el discurso político, pero la defección más modesta del 10.0\% de PC---aplicada a una base más de seis veces mayor---contribuyó un 40\% más de votos al FA. Esta desconexión entre tasa e impacto resalta la importancia de considerar tanto el comportamiento de los votantes como el peso demográfico al evaluar resultados electorales. La derrota de la coalición no resultó del colapso de un solo partido sino de defecciones simultáneas de moderadas a altas en los tres partidos, cada uno contribuyendo votos absolutos sustanciales a pesar de tasas variables.
+
+% ========================================
+\subsection{Convergencia del Modelo y Validación Estadística}
+\label{sec:resultados_diagnosticos}
+
+Todos los análisis de inferencia ecológica reportados satisfacen criterios de convergencia estrictos, asegurando la validez de las estimaciones posteriores bayesianas. La Tabla~\ref{tab:diagnostics} resume los diagnósticos de convergencia para los tres análisis estratificados: urbano-rural, metropolitano-interior y a nivel departamental.
+
+% Diagnósticos de convergencia MCMC
+\input{../../outputs/tables/latex/mcmc_diagnostics_table}
+
+El estadístico de Gelman-Rubin ($\hat{R}$) evalúa la convergencia comparando la varianza dentro de las cadenas y entre cadenas en las muestras MCMC. Valores cercanos a 1.0 indican que múltiples cadenas, iniciadas desde valores iniciales dispersos, han convergido a la misma distribución posterior. Todos los análisis alcanzaron valores máximos de $\hat{R}$ por debajo de 1.015, muy por debajo del umbral convencional de 1.01 \citep{gelman2013bayesian}. El análisis urbano-rural exhibió convergencia particularmente fuerte ($\hat{R} = 1.003$), mientras que el análisis a nivel departamental, a pesar de estimar parámetros para 19 departamentos separados, mantuvo excelente convergencia ($\hat{R} = 1.013$).
+
+El Tamaño Efectivo de Muestra (ESS) cuantifica el número de extracciones efectivamente independientes de la distribución posterior, considerando la autocorrelación en las muestras MCMC. Valores más altos de ESS indican muestreo más eficiente y estimaciones posteriores más precisas. Todos los análisis alcanzaron valores mínimos de ESS superiores a 2,900, muy por encima del umbral recomendado de 1,000 \citep{gelman2013bayesian}. El análisis metropolitano-interior exhibió la mayor eficiencia (ESS = 3,333), mientras que el análisis urbano-rural alcanzó ESS = 2,914. Estos valores altos de ESS aseguran que las medias posteriores e intervalos creíbles descansan sobre información independiente suficiente, proporcionando cuantificación confiable de la incertidumbre.
+
+Los intervalos creíbles reportados a lo largo de esta sección de Resultados reflejan incertidumbre genuina sobre las probabilidades de transición dadas los datos electorales observados. Donde se afirma significancia estadística---como en la comparación urbano-rural que muestra intervalos de credibilidad del 95\% no superpuestos---la afirmación descansa en estas distribuciones posteriores bien convergidas y de alto ESS. El marco bayesiano de cuantificación de incertidumbre basado en principios permite distinguir casos donde las diferencias están bien establecidas (defección de CA urbano-rural) de casos donde permanece incertidumbre sustancial (estimaciones a nivel departamental para departamentos pequeños como Flores y Durazno).
+
+% ========================================
+\subsection{Resumen de Hallazgos Principales}
+\label{sec:resultados_resumen}
+
+Seis hallazgos principales emergen de los análisis de inferencia ecológica multipartidarios:
+
+\textbf{Primero}, las defecciones de la coalición variaron dramáticamente según la identidad partidaria. Los votantes de CA se dividieron de manera prácticamente igualitaria (46.5\% hacia FA, 49.1\% hacia PN), exhibiendo la mayor volatilidad. Los votantes de PC mostraron defección moderada (10.0\% hacia FA) pero fuerte lealtad a la coalición en general (87.9\% hacia PN). Los votantes de PN demostraron la lealtad más fuerte (91.8\% retenido, solo 6.3\% hacia FA), aunque con variación geográfica dramática. Los votantes del PI exhibieron lealtad casi perfecta (99.9\% hacia PN). Estos patrones específicos por partido revelan que el colapso electoral de la coalición resultó de mecanismos de defección diferenciales entre sus partidos constituyentes.
+
+\textbf{Segundo}, la variación geográfica en la defección de la coalición excede ampliamente la heterogeneidad típicamente atribuida a las divisiones urbano-rurales o capital-provincia. La defección de CA a nivel departamental varió 90.4 puntos porcentuales (5.3\% Tacuarembó a 95.7\% Río Negro), la defección de PC varió aproximadamente 50 puntos (0.4\% Montevideo a 50.3\% Río Negro), y la defección de PN varió 14.8 puntos (0.1\% Montevideo a 14.9\% Artigas). Esta extraordinaria heterogeneidad subnacional indica que el contexto departamental moldea profundamente el comportamiento de los votantes.
+
+\textbf{Tercero}, los circuitos rurales exhibieron defección de la coalición universalmente mayor que los circuitos urbanos en los tres partidos. La defección de CA fue 21.8 puntos más alta en áreas rurales (60.8\% vs.\ 39.0\%), la defección de PC mostró un multiplicador rural de 3.5$\times$ (18.2\% vs.\ 5.2\%), y la defección de PN fue similar (7.0\% vs.\ 6.9\%). Esta rebelión rural consistente contradice las expectativas convencionales sobre el conservadurismo rural en Uruguay y sugiere insatisfacción sistemática con las políticas agrícolas y de desarrollo rural de la coalición.
+
+\textbf{Cuarto}, los departamentos del interior exhibieron mayor defección de la coalición en comparación con el Área Metropolitana, siendo el patrón más dramático para PN (diferencia de 23$\times$: 6.9\% interior vs.\ 0.3\% metro). La base tradicional del Partido Nacional en el interior abandonó la coalición a tasas sin precedentes, representando una ruptura histórica en los patrones de votación de Nacional. CA y PC también mostraron defección interior elevada (31.5 y 6.5 puntos porcentuales respectivamente), indicando que las pérdidas electorales de la coalición se concentraron geográficamente en áreas provinciales.
+
+\textbf{Quinto}, el impacto absoluto de votos divergió dramáticamente de las tasas de defección. A pesar de la tasa de defección más alta de CA (46.5\%), PN contribuyó la mayor cantidad de votos al FA (40,680) debido a su base electoral más grande, seguido por PC (38,712) y CA (27,627). La transferencia total de la coalición (107,019 votos) excedió el margen de victoria del FA (92,437) en un 16\%, confirmando que las fracturas de la coalición---distribuidas entre los tres partidos---fueron la causa próxima de la victoria del FA. Esta distinción entre tasa e impacto subraya que los resultados electorales dependen tanto de los patrones de comportamiento como del peso demográfico.
+
+\textbf{Sexto}, la dominancia demográfica de Montevideo lo convirtió en un factor importante a pesar de su tasa de defección de CA relativamente baja (26.4\%). La capital mostró mayor lealtad de CA a la coalición que el promedio nacional, defecciones mínimas de PC (0.4\%), y virtualmente cero defección de PN (0.1\%). Esta división entre lealtad metropolitana y defección interior revela que la coalición mantuvo su base tradicional en la capital mientras perdía apoyo masivamente en áreas provinciales---una polarización geográfica con profundas implicaciones para la futura construcción de coaliciones de centro-derecha.
+
+Estos hallazgos desafían colectivamente narrativas simplistas sobre el balotaje de Uruguay 2024. La victoria del Frente Amplio no resultó de oscilaciones nacionales uniformes o del colapso de un solo partido, sino de patrones de defección geográficamente heterogéneos y específicos por partido que se concentraron más intensamente en contextos rurales e interiores. Comprender estas dinámicas requiere atención a las condiciones económicas locales, la organización partidaria, la calidad de los candidatos, y las culturas políticas distintivas de los diversos departamentos y partidos de la coalición de Uruguay.
+
+% ========================================
+% TEMPORAL ANALYSIS SECTION
+% ========================================
+
+\input{sections/results_temporal}
+
+% ========================================
+% END OF RESULTS SECTION
+% ========================================

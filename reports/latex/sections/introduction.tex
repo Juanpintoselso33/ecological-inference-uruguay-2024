@@ -1,0 +1,53 @@
+% ========================================
+% INTRODUCTION SECTION
+% Ecological Inference Analysis of Uruguay 2024 Elections
+% ========================================
+
+\section{Introducción}
+\label{sec:introduccion}
+
+\subsection{Contexto político}
+
+El 27 de octubre de 2024, Uruguay celebró la primera vuelta de sus elecciones presidenciales en un escenario político marcado por la experiencia de gobierno de la Coalición Republicana. Desde 2020, esta alianza---integrada por el Partido Nacional (PN), el Partido Colorado (PC), Cabildo Abierto (CA) y el Partido Independiente (PI)---había gobernado el país bajo la presidencia de Luis Lacalle Pou, poniendo fin a quince años de administraciones del Frente Amplio (FA). La primera vuelta de 2024 reveló una coalición fragmentada: mientras el PN obtuvo el 26.8\% de los votos, el PC alcanzó el 16.1\%, CA apenas superó el 2.7\% y el PI registró un 1.8\%. El FA, por su parte, se posicionó como primera fuerza con el 44.1\% de los sufragios, insuficientes para alcanzar la mayoría absoluta requerida para evitar un balotaje.
+
+El 24 de noviembre de 2024, en la segunda vuelta, el candidato del FA, Yamandú Orsi, derrotó al candidato del PN, Álvaro Delgado, por un margen de aproximadamente 95.000 votos. Este resultado planteó una pregunta central para la ciencia política uruguaya: ¿hacia dónde se dirigieron los votos de los partidos de la coalición que no llegaron al balotaje? Más específicamente, ¿en qué medida los votantes de CA, PC, PI y los partidos menores transfirieron su apoyo al candidato de la coalición, y cuántos optaron por respaldar al FA o emitir voto en blanco?
+
+\subsection{El problema de la inferencia ecológica}
+
+Las transferencias de votos entre rondas electorales constituyen un fenómeno de interés fundamental que, sin embargo, no puede observarse directamente. El secreto del voto impide conocer las decisiones individuales de cada elector: solo se dispone de resultados agregados a nivel de circuito electoral. Se sabe cuántos votos obtuvo cada partido en cada circuito en primera vuelta y cuántos sufragios recibió cada candidato en el balotaje, pero la matriz de transición subyacente---es decir, la proporción de votantes de cada partido de origen que se dirigió a cada opción de destino---permanece latente.
+
+Este desafío inferencial se conoce en la literatura estadística como el \textit{problema de la inferencia ecológica} \citep{king1997}. La \textit{falacia ecológica} surge cuando se infiere comportamiento individual directamente a partir de correlaciones observadas a nivel agregado, sin considerar que la heterogeneidad dentro de las unidades puede generar patrones agregados engañosos. \citet{king1997} propuso una solución bayesiana al problema, desarrollando un modelo que estima probabilidades de transición individuales a partir de datos agregados respetando las restricciones naturales del problema (probabilidades acotadas entre 0 y 1 que suman 1 para cada partido de origen). La extensión al caso multidimensional $R \times C$ fue desarrollada por \citet{rosen2001bayesian}, permitiendo estimar matrices de transición completas en sistemas multipartidistas como el uruguayo.
+
+\subsection{Relevancia del estudio}
+
+El análisis de las transferencias de votos en el balotaje uruguayo de 2024 reviste particular relevancia por múltiples razones. En primer lugar, la elección se decidió por un margen relativamente estrecho en el contexto de una segunda vuelta, lo que hace que cada flujo de transferencia resulte potencialmente decisivo para explicar el resultado. En segundo lugar, el estudio permite evaluar la cohesión electoral de la Coalición Republicana, una alianza heterogénea que agrupa partidos con tradiciones ideológicas diversas, desde el centro-derecha liberal del PC hasta el populismo de derecha de CA. La capacidad de esta coalición para retener sus votos en segunda vuelta constituye una prueba empírica de su viabilidad como proyecto político.
+
+En tercer lugar, el caso de Cabildo Abierto merece atención especial. Fundado en 2019 por el general retirado Guido Manini Ríos, CA irrumpió en el sistema de partidos uruguayo obteniendo el 11\% de los votos en su primera elección, para luego colapsar al 2.7\% en 2024---una caída del 78\% en su caudal electoral. Comprender hacia dónde se dirigieron los votantes que abandonaron CA entre 2019 y 2024, y cómo se comportaron los votantes remanentes de CA en el balotaje, resulta esencial para evaluar la estabilidad del sistema de partidos uruguayo, uno de los más institucionalizados de América Latina \citep{mainwaring1995party}.
+
+Finalmente, el análisis permite testear hipótesis sobre la geografía del comportamiento electoral. La literatura sobre divisiones urbano-rurales en democracias contemporáneas \citep{rodden2019s} sugiere que los votantes rurales tienden a ser más conservadores y leales a partidos de derecha. El caso uruguayo ofrece una oportunidad para evaluar si este patrón se reproduce en el contexto de transferencias entre rondas, o si, por el contrario, la dinámica de segunda vuelta genera patrones diferentes a los esperados.
+
+\subsection{Antecedentes en la literatura}
+
+El estudio del comportamiento electoral uruguayo cuenta con una sólida tradición académica. \citet{gonzalez1991electoral} y \citet{gonzalez1993structuring} establecieron el marco analítico fundamental para comprender las estructuras políticas y la transformación democrática en Uruguay, documentando la estabilidad del sistema bipartidista tradicional y su posterior evolución hacia un sistema tripartidista con la consolidación del FA. \citet{mainwaring1995party} ubicó a Uruguay como uno de los sistemas de partidos más institucionalizados de América Latina, con altos niveles de estabilidad electoral, legitimidad de los procesos electorales y arraigo organizacional de los partidos. Más recientemente, \citet{bottinelli2021elecciones} analizó las elecciones de 2019, documentando las continuidades y cambios en el sistema de partidos tras la irrupción de CA y la formación de la Coalición Republicana.
+
+En el plano metodológico, la inferencia ecológica ha sido aplicada extensamente al análisis de transferencias de votos en sistemas multipartidistas. El trabajo fundacional de \citet{king1997} propuso el modelo jerárquico binomial-beta para el caso $2 \times 2$, mientras que \citet{rosen2001bayesian} extendieron el enfoque al caso general $R \times C$ mediante modelos bayesianos con distribuciones Dirichlet, precisamente la formulación requerida para el sistema multipartidista uruguayo. Las aplicaciones de inferencia ecológica en contextos electorales latinoamericanos han sido menos frecuentes que en la tradición anglosajona, lo que confiere al presente estudio un carácter exploratorio relevante para la disciplina en la región.
+
+\subsection{Contribuciones}
+
+El presente estudio realiza las siguientes contribuciones:
+
+\begin{enumerate}
+    \item \textbf{Primera aplicación sistemática de inferencia ecológica bayesiana a balotajes uruguayos a nivel circuital.} Se analizan 7.271 circuitos electorales en 2024 y 7.118 en 2019, alcanzando la máxima resolución geográfica disponible en datos oficiales. Esta granularidad permite capturar heterogeneidad local que queda enmascarada en análisis departamentales o nacionales.
+
+    \item \textbf{Comparación temporal 2019--2024 que revela cambios estructurales en la dinámica de coaliciones.} El análisis de dos elecciones consecutivas permite evaluar la estabilidad de los patrones de transferencia y distinguir entre comportamientos electorales coyunturales y tendencias estructurales del sistema de partidos.
+
+    \item \textbf{Estratificación geográfica que identifica un patrón de ``rebelión rural''.} La desagregación urbano/rural y metropolitano/interior revela que los circuitos rurales exhibieron tasas de defección de la coalición sustancialmente superiores a las de los circuitos urbanos, contradiciendo supuestos convencionales sobre el conservadurismo político rural.
+
+    \item \textbf{Análisis de sensibilidad y robustez que valida la metodología.} Se evalúa la estabilidad de las estimaciones frente a variaciones en distribuciones previas, tratamiento de valores atípicos y remuestreo bootstrap, proporcionando evidencia de la confiabilidad de los resultados.
+
+    \item \textbf{Análisis de los patrones de voto en blanco como hipótesis alternativa.} Se examina si el voto en blanco actuó como refugio para electores descontentos de la coalición, o si constituye un fenómeno independiente de las transferencias partidarias.
+\end{enumerate}
+
+\subsection{Estructura del artículo}
+
+El resto de este artículo se organiza como sigue. La Sección~\ref{sec:metodologia} describe la metodología empleada: el modelo de inferencia ecológica de King, la implementación bayesiana con PyMC, los datos electorales utilizados y la estrategia analítica. La Sección~\ref{sec:resultados} presenta los resultados del análisis de 2024, incluyendo estimaciones nacionales, estratificaciones urbano/rural y metropolitano/interior, y variación departamental. La Sección~\ref{sec:resultados_temporal} examina la evolución temporal comparando los patrones de transferencia de 2019 y 2024. La Sección~\ref{sec:sensibilidad} evalúa la sensibilidad de las estimaciones a variaciones metodológicas. La Sección~\ref{sec:blank_votes} analiza los patrones de voto en blanco. Finalmente, la Sección~\ref{sec:discusion} discute las implicaciones de los hallazgos para la comprensión del sistema de partidos uruguayo y presenta las conclusiones del estudio.

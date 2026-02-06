@@ -1,0 +1,255 @@
+\section{Posterior Predictive Checks}
+\label{sec:ppc}
+
+Los \textit{posterior predictive checks} (PPC) constituyen una herramienta fundamental para evaluar la adecuaci\'on del modelo bayesiano implementado. Esta t\'ecnica permite determinar si el modelo propuesto es capaz de generar datos sint\'eticos coherentes con las observaciones reales, proporcionando as\'i una medida de la calidad del ajuste y de la capacidad predictiva del modelo.
+
+En el contexto de la inferencia ecol\'ogica, donde se busca estimar par\'ametros no observables a partir de datos agregados, los PPC permiten verificar que las estimaciones obtenidas no solo sean internamente consistentes desde el punto de vista estad\'istico, sino que tambi\'en reproduzcan adecuadamente las caracter\'isticas distribucionales de los datos observados.
+
+\subsection{Metodolog\'ia}
+\label{subsec:ppc_metodo}
+
+La metodolog\'ia de posterior predictive checks se basa en la generaci\'on de datos sint\'eticos a partir de la distribuci\'on posterior del modelo. Para cada conjunto de par\'ametros $\theta^{(s)}$ muestreado de la distribuci\'on posterior $p(\theta | y_{\text{obs}})$, se genera un conjunto de datos replicados $y^{\text{rep}(s)}$ mediante:
+
+\begin{equation}
+y^{\text{rep}(s)} \sim p(y | \theta^{(s)})
+\end{equation}
+
+donde $y_{\text{obs}}$ representa los datos observados (proporciones de votos en el ballotage para cada lema en cada circuito) y $y^{\text{rep}}$ son las r\'eplicas generadas por el modelo.
+
+\subsubsection{Proceso de Muestreo}
+
+Para el an\'alisis nacional de 2024, se implement\'o el siguiente procedimiento:
+
+\begin{enumerate}
+    \item Se extrajeron 500 muestras aleatorias de la distribuci\'on posterior de los par\'ametros $\beta_{ij}$ (probabilidades de transferencia de votos).
+
+    \item Para cada muestra $s = 1, \ldots, 500$, se gener\'o un conjunto completo de datos replicados para los 7,271 circuitos electorales, calculando las proporciones predichas de votos en ballotage:
+    \begin{itemize}
+        \item Proporci\'on predicha para Frente Amplio: $p_{\text{FA},c}^{\text{rep}} = \sum_{j} w_{jc} \beta_{j,\text{FA}}^{(s)}$
+        \item Proporci\'on predicha para Partido Nacional: $p_{\text{PN},c}^{\text{rep}} = \sum_{j} w_{jc} \beta_{j,\text{PN}}^{(s)}$
+        \item Proporci\'on predicha para votos en blanco: $p_{\text{Blancos},c}^{\text{rep}} = 1 - p_{\text{FA},c}^{\text{rep}} - p_{\text{PN},c}^{\text{rep}}$
+    \end{itemize}
+    donde $w_{jc}$ representa la proporci\'on de votos del lema $j$ en el circuito $c$ respecto al total de primera vuelta.
+
+    \item Se calcularon estad\'isticos de prueba tanto para los datos observados como para cada r\'eplica generada.
+\end{enumerate}
+
+\subsubsection{Estad\'isticos de Prueba}
+
+Se evaluaron cuatro estad\'isticos de prueba fundamentales para cada variable de resultado (FA, PN, Blancos), operando sobre las proporciones de votos por circuito:
+
+\begin{itemize}
+    \item \textbf{Media}: Mide la tendencia central de la distribuci\'on de proporciones entre circuitos.
+    \begin{equation}
+    T_{\text{mean}}(y) = \frac{1}{n}\sum_{c=1}^{n} y_c
+    \end{equation}
+
+    \item \textbf{Desviaci\'on est\'andar}: Captura la dispersi\'on de las proporciones entre circuitos.
+    \begin{equation}
+    T_{\text{std}}(y) = \sqrt{\frac{1}{n-1}\sum_{c=1}^{n} (y_c - \bar{y})^2}
+    \end{equation}
+
+    \item \textbf{M\'inimo}: Identifica el comportamiento en circuitos con menor proporci\'on de votaci\'on.
+    \begin{equation}
+    T_{\text{min}}(y) = \min_{c} y_c
+    \end{equation}
+
+    \item \textbf{M\'aximo}: Identifica el comportamiento en circuitos con mayor proporci\'on de votaci\'on.
+    \begin{equation}
+    T_{\text{max}}(y) = \max_{c} y_c
+    \end{equation}
+\end{itemize}
+
+\subsubsection{P-valores Bayesianos}
+
+Para cada estad\'istico de prueba, se calcul\'o un p-valor bayesiano que cuantifica la proporci\'on de r\'eplicas posteriores cuyo estad\'istico iguala o supera al observado:
+
+\begin{equation}
+p_B = P(T(y^{\text{rep}}) \geq T(y_{\text{obs}}) | y_{\text{obs}}) = \frac{1}{S}\sum_{s=1}^{S} \mathbb{1}(T(y^{\text{rep}(s)}) \geq T(y_{\text{obs}}))
+\end{equation}
+
+donde $S = 500$ es el n\'umero de r\'eplicas posteriores generadas.
+
+La interpretaci\'on de los p-valores bayesianos es la siguiente:
+\begin{itemize}
+    \item $p_B \approx 0.5$: Excelente ajuste --- el valor observado se sit\'ua cerca del centro de la distribuci\'on posterior predictiva.
+    \item $0.05 < p_B < 0.95$: Ajuste aceptable --- el valor observado es compatible con las r\'eplicas generadas.
+    \item $p_B < 0.05$: El modelo genera sistem\'aticamente valores \emph{menores} que el observado (subestimaci\'on sistem\'atica del estad\'istico).
+    \item $p_B > 0.95$: El modelo genera sistem\'aticamente valores \emph{mayores} que el observado (sobreestimaci\'on sistem\'atica del estad\'istico).
+    \item $p_B = 0.000$ o $p_B = 1.000$: Discrepancia extrema --- el valor observado se encuentra fuera del rango de todas las r\'eplicas posteriores, lo que indica desajuste sistem\'atico del modelo en ese aspecto espec\'ifico.
+\end{itemize}
+
+\subsection{Resultados}
+\label{subsec:ppc_resultados}
+
+La Tabla~\ref{tab:ppc_summary} presenta un resumen detallado de los posterior predictive checks realizados para el modelo nacional de 2024. Se reportan los estad\'isticos de prueba calculados sobre las proporciones observadas y predichas, junto con sus correspondientes intervalos de credibilidad al 95\% y p-valores bayesianos.
+
+\input{../../outputs/tables/latex/ppc_summary.tex}
+
+Los resultados revelan un patr\'on diferencial de ajuste seg\'un la variable de resultado y el estad\'istico evaluado. A continuaci\'on se analiza cada componente en detalle.
+
+\subsubsection{Ajuste para Frente Amplio}
+
+\begin{itemize}
+    \item \textbf{Media} ($p = 0.000$): La proporci\'on media observada de votos a FA por circuito es 0.4880, mientras que la mediana de las r\'eplicas posteriores es 0.4866, con un intervalo de credibilidad al 95\% de $[0.4859,\; 0.4872]$. El valor observado se encuentra \emph{por encima} del l\'imite superior de este intervalo, lo que indica que el modelo subestima sistem\'aticamente la proporci\'on media de FA. El p-valor de 0.000 confirma que ninguna de las 500 r\'eplicas alcanza el valor observado. No obstante, la magnitud del sesgo es reducida (0.0014 puntos, equivalente a 0.14 puntos porcentuales), lo que se hace detectable \'unicamente por el gran n\'umero de circuitos ($n = 7{,}271$).
+
+    \item \textbf{Desviaci\'on est\'andar} ($p = 0.000$): La desviaci\'on est\'andar observada entre circuitos es 0.1348, frente a una mediana predicha de 0.1244 (IC~95\%: $[0.1241,\; 0.1247]$). El modelo subestima la variabilidad en 0.0104 puntos, lo que equivale a un 7.7\% de la dispersi\'on real. Este resultado indica que el modelo genera r\'eplicas m\'as homog\'eneas que los datos observados.
+
+    \item \textbf{M\'inimo} ($p = 0.000$): El m\'inimo observado es 0.0000 (circuitos con proporci\'on nula de FA), mientras que el modelo predice un m\'inimo mediano de 0.1033. El modelo no es capaz de reproducir circuitos con proporci\'on extremadamente baja de FA, lo cual refleja la existencia de circuitos at\'ipicos (posiblemente rurales o de muy baja habilitaci\'on) con din\'amicas locales que el modelo nacional no captura.
+
+    \item \textbf{M\'aximo} ($p = 0.000$): El m\'aximo observado es 0.8179, superior a la predicci\'on mediana de 0.7785. El modelo subestima el valor m\'aximo, lo que sugiere la presencia de circuitos con concentraciones excepcionales de voto a FA que exceden lo previsto por las probabilidades de transferencia nacionales.
+\end{itemize}
+
+\subsubsection{Ajuste para Partido Nacional}
+
+\begin{itemize}
+    \item \textbf{Media} ($p = 0.648$): La proporci\'on media observada de votos a PN es 0.4696, y la mediana predicha es 0.4698 (IC~95\%: $[0.4691,\; 0.4705]$). El valor observado se sit\'ua c\'omodamente dentro del intervalo de credibilidad, y el p-valor de 0.648 ---pr\'oximo al \'optimo de 0.5--- indica un \textbf{excelente ajuste} del modelo a la tendencia central de la proporci\'on de PN. Este es el mejor resultado de ajuste obtenido en todo el an\'alisis PPC.
+
+    \item \textbf{Desviaci\'on est\'andar} ($p = 0.000$): La desviaci\'on est\'andar observada es 0.1373, mientras que la mediana predicha es 0.1246 (IC~95\%: $[0.1245,\; 0.1248]$). Al igual que para FA, el modelo subestima la variabilidad entre circuitos en 0.0127 puntos (9.2\% de la dispersi\'on observada). Todas las r\'eplicas exhiben menor dispersi\'on que los datos reales.
+
+    \item \textbf{M\'inimo} ($p = 0.000$): El m\'inimo observado es 0.1643, frente a una predicci\'on mediana de 0.1773. El modelo no reproduce los circuitos con menor proporci\'on de PN, aunque la discrepancia (0.013) es menor que la observada para FA.
+
+    \item \textbf{M\'aximo} ($p = 0.000$): El m\'aximo observado es 1.0000 (circuitos con la totalidad de votos a PN), frente a una predicci\'on mediana de 0.8538. El modelo no puede generar proporciones cercanas a la unidad, lo que refleja la existencia de circuitos muy peque\~nos donde el 100\% de los votos se dirigen a un solo candidato.
+\end{itemize}
+
+\subsubsection{Ajuste para Votos en Blanco}
+
+Los votos en blanco presentan el patr\'on de ajuste m\'as problem\'atico:
+
+\begin{itemize}
+    \item \textbf{Media} ($p = 1.000$): La proporci\'on media observada de votos en blanco es 0.0424, mientras que la mediana predicha es 0.0437 (IC~95\%: $[0.0434,\; 0.0439]$). El modelo sobreestima sistem\'aticamente la proporci\'on de votos en blanco. El p-valor de 1.000 indica que \emph{todas} las r\'eplicas generan una proporci\'on media superior a la observada. Este resultado es consistente con la estructura del modelo: dado que los votos en blanco se calculan por diferencia ($1 - p_{\text{FA}} - p_{\text{PN}}$), la leve subestimaci\'on de las proporciones de FA y PN se acumula en una sobreestimaci\'on de los votos en blanco.
+
+    \item \textbf{Desviaci\'on est\'andar} ($p = 0.000$): La desviaci\'on est\'andar observada es 0.0145, mientras que la mediana predicha es pr\'acticamente nula: 0.0002 (IC~95\%: $[0.0000,\; 0.0005]$). Esta es la discrepancia m\'as severa de todo el an\'alisis: el modelo predice una dispersi\'on de votos en blanco casi inexistente, 72 veces menor que la observada. El modelo trata los votos en blanco como un residuo virtualmente constante, sin capturar la variabilidad real entre circuitos. Esto sugiere que la dispersi\'on de votos en blanco responde a factores locales (accesibilidad, composici\'on del electorado, particularidades de la votaci\'on) que el modelo agregado ignora por completo.
+
+    \item \textbf{M\'inimo} ($p = 0.000$): El m\'inimo observado es 0.0000 (circuitos sin ning\'un voto en blanco), frente a una predicci\'on mediana de 0.0429. El modelo predice un piso de votos en blanco pr\'acticamente igual a la media, confirmando su incapacidad para generar variabilidad en esta categor\'ia.
+
+    \item \textbf{M\'aximo} ($p = 0.000$): El m\'aximo observado es 0.1667 (16.7\% de votos en blanco en alg\'un circuito), mientras que la predicci\'on mediana es apenas 0.0443. El modelo no puede reproducir circuitos con proporciones altas de voto en blanco, resultado directo de la pr\'acticamente nula dispersi\'on predicha.
+\end{itemize}
+
+\subsubsection{Visualizaci\'on de Diagn\'osticos}
+
+La Figura~\ref{fig:ppc_diag} presenta una comparaci\'on visual entre las distribuciones observadas y las distribuciones posteriores predictivas para cada variable de resultado. Los histogramas muestran la densidad de los datos observados (en azul) superpuesta con la densidad de las r\'eplicas posteriores (en rojo transl\'ucido).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../../outputs/figures/ppc_diagnostics.pdf}
+\caption{Diagn\'osticos de posterior predictive checks: distribuciones observadas (azul) versus distribuciones posteriores predictivas (rojo transl\'ucido) para proporciones de votos en ballotage. Se visualizan 500 r\'eplicas posteriores para evaluar la capacidad del modelo de reproducir las caracter\'isticas distribucionales de los datos observados.}
+\label{fig:ppc_diag}
+\end{figure}
+
+Se observa que:
+\begin{itemize}
+    \item Para FA y PN, las distribuciones posteriores predictivas envuelven razonablemente la distribuci\'on observada en t\'erminos de localizaci\'on, pero presentan menor amplitud que los datos reales, consistente con la subdispersi\'on detectada en los estad\'isticos de desviaci\'on est\'andar.
+    \item Para votos en blanco, se aprecia una concentraci\'on extrema de las r\'eplicas posteriores en torno a un valor \'unico, en marcado contraste con la distribuci\'on observada que exhibe dispersi\'on apreciable.
+\end{itemize}
+
+La Figura~\ref{fig:ppc_qq} complementa el an\'alisis mediante Q-Q plots (quantile-quantile plots), que comparan los cuantiles de la distribuci\'on observada con los cuantiles de la distribuci\'on posterior predictiva. Una l\'inea diagonal perfecta indicar\'ia ajuste perfecto.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../../outputs/figures/ppc_qqplot.pdf}
+\caption{Q-Q plots comparando cuantiles observados versus cuantiles posteriores predictivos para cada variable de resultado. La l\'inea roja representa la identidad (ajuste perfecto). Las desviaciones de esta l\'inea indican aspectos en los que el modelo no captura completamente la distribuci\'on observada. Los intervalos de credibilidad al 95\% (banda gris) permiten evaluar la significancia de las desviaciones.}
+\label{fig:ppc_qq}
+\end{figure}
+
+Los Q-Q plots revelan:
+\begin{itemize}
+    \item \textbf{FA}: Ajuste razonable en la porci\'on central de la distribuci\'on, con desviaciones en ambas colas. La cola inferior (circuitos con baja proporci\'on de FA) muestra que el modelo sobreestima estos valores, mientras que la cola superior revela subestimaci\'on en circuitos con alta proporci\'on de FA. Este patr\'on es consistente con la subdispersi\'on general detectada.
+
+    \item \textbf{PN}: Patr\'on similar al de FA, con buen ajuste central y desviaciones en las colas. Las desviaciones son particularmente notables en la cola superior, donde el m\'aximo observado de 1.0000 no es reproducible por el modelo.
+
+    \item \textbf{Blancos}: Desviaci\'on severa en toda la distribuci\'on. Los cuantiles predichos se concentran en un rango extremadamente estrecho, mientras que los observados se distribuyen en un rango mucho m\'as amplio. Este resultado confirma visualmente la pr\'acticamente nula variabilidad que el modelo asigna a los votos en blanco.
+\end{itemize}
+
+\subsection{Interpretaci\'on}
+\label{subsec:ppc_interpretacion}
+
+El an\'alisis de posterior predictive checks permite establecer las siguientes conclusiones sobre la validez y las limitaciones del modelo de inferencia ecol\'ogica implementado.
+
+\subsubsection{Ajuste de las Medias: Diagn\'ostico Diferencial}
+
+Los resultados para las medias revelan un patr\'on heterog\'eneo que merece an\'alisis cuidadoso:
+
+\begin{itemize}
+    \item \textbf{PN --- Excelente ajuste} ($p = 0.648$): El modelo captura con alta precisi\'on la proporci\'on media de votos a PN (observado: 0.4696; predicho: 0.4698). El p-valor pr\'oximo a 0.5 indica que el valor observado se sit\'ua cerca del centro de la distribuci\'on posterior predictiva, lo cual constituye el resultado ideal.
+
+    \item \textbf{FA --- Desajuste sistem\'atico detectable} ($p = 0.000$): El modelo subestima levemente la proporci\'on media de FA (0.4866 vs.\ 0.4880). Aunque la discrepancia absoluta es peque\~na (0.14 puntos porcentuales), es estad\'isticamente significativa debido al gran n\'umero de circuitos. Esto indica que las probabilidades de transferencia estimadas dirigen, en promedio, una fracci\'on marginalmente inferior de votos hacia FA respecto a lo observado.
+
+    \item \textbf{Blancos --- Sobreestimaci\'on sistem\'atica} ($p = 1.000$): El modelo sobreestima la proporci\'on media de votos en blanco (0.0437 vs.\ 0.0424). Esta sobreestimaci\'on es una consecuencia directa del c\'alculo residual: la leve subestimaci\'on de FA se traduce mec\'anicamente en una sobreestimaci\'on de los votos en blanco.
+\end{itemize}
+
+Es importante destacar que un p-valor de 0.000 no debe interpretarse como indicador de ``buen ajuste'', sino como evidencia de que el modelo no logra reproducir el estad\'istico observado en ninguna de sus r\'eplicas. Sin embargo, la relevancia pr\'actica de esta discrepancia depende de su magnitud: en el caso de FA, la diferencia de 0.14 puntos porcentuales es lo suficientemente peque\~na como para no alterar las conclusiones sustantivas del an\'alisis.
+
+\subsubsection{Subdispersi\'on: Limitaci\'on Estructural del Modelo}
+
+El hallazgo m\'as relevante de los PPC es la \textbf{subdispersi\'on sistem\'atica}: el modelo genera r\'eplicas con menor variabilidad que los datos observados. Todos los p-valores de desviaci\'on est\'andar son 0.000, lo que confirma que \emph{ninguna} r\'eplica alcanza la dispersi\'on observada en los datos reales:
+
+\begin{itemize}
+    \item FA: dispersi\'on observada 0.1348 vs.\ predicha 0.1244 (subestimaci\'on del 7.7\%).
+    \item PN: dispersi\'on observada 0.1373 vs.\ predicha 0.1246 (subestimaci\'on del 9.2\%).
+    \item Blancos: dispersi\'on observada 0.0145 vs.\ predicha 0.0002 (subestimaci\'on del 98.6\%).
+\end{itemize}
+
+Esta subdispersi\'on es una limitaci\'on conocida de los modelos de inferencia ecol\'ogica con par\'ametros globales, y puede atribuirse a varios factores:
+
+\begin{enumerate}
+    \item \textbf{Heterogeneidad no modelada}: El modelo nacional asume probabilidades de transferencia $\beta_{ij}$ constantes en todos los circuitos. En la realidad, estas probabilidades var\'ian seg\'un caracter\'isticas geogr\'aficas, socioecon\'omicas y demogr\'aficas, como se documenta en el an\'alisis departamental (Secci\'on~\ref{sec:resultados_departamento}).
+
+    \item \textbf{Pooling completo}: Al estimar par\'ametros globales sin jerarqu\'ias subnacionales, se produce un efecto de \textit{shrinkage} hacia la media nacional que reduce artificialmente la variabilidad predicha.
+
+    \item \textbf{Factores locales}: Din\'amicas pol\'iticas espec\'ificas de ciertos circuitos (campa\~nas locales, candidatos con arraigo territorial, eventos puntuales) introducen variabilidad adicional que el modelo agregado no captura.
+\end{enumerate}
+
+El caso de los votos en blanco es particularmente ilustrativo: la proporci\'on de votos en blanco por circuito depende de factores altamente locales (facilidad de acceso, caracter\'isticas del electorado, condiciones de votaci\'on), y el modelo, al tratarla como residuo de proporciones globales, genera una predicci\'on pr\'acticamente constante que no captura esta heterogeneidad.
+
+\subsubsection{Ajuste en Extremos de la Distribuci\'on}
+
+Los p-valores de m\'inimos y m\'aximos ($p = 0.000$ en todos los casos) revelan una limitaci\'on adicional: el modelo no puede reproducir los valores extremos observados en los circuitos at\'ipicos. En particular:
+
+\begin{itemize}
+    \item Circuitos con proporci\'on nula de FA o Blancos (m\'inimo = 0.0000) y circuitos donde el 100\% de los votos se dirigen a PN (m\'aximo = 1.0000) reflejan la existencia de circuitos muy peque\~nos con comportamientos degenerados que el modelo, basado en probabilidades de transferencia suaves, no puede generar.
+
+    \item Estos circuitos extremos son escasos en n\'umero pero tienen impacto en los estad\'isticos de m\'inimo y m\'aximo. Su presencia no invalida las estimaciones de transferencia promedio, que constituyen el objetivo central del an\'alisis.
+\end{itemize}
+
+\subsubsection{Validaci\'on General del Modelo}
+
+El an\'alisis de posterior predictive checks revela tanto fortalezas como limitaciones del modelo implementado. Es necesario distinguir entre ambas con rigor:
+
+\textbf{Fortalezas:}
+\begin{enumerate}
+    \item La proporci\'on media de votos a PN se reproduce con precisi\'on pr\'acticamente perfecta ($p = 0.648$), lo que valida la consistencia interna de las estimaciones de transferencia hacia el candidato oficialista.
+
+    \item La subestimaci\'on de la media de FA, aunque estad\'isticamente significativa, es de magnitud reducida (0.14 puntos porcentuales) y no altera las conclusiones sustantivas sobre las transferencias de votos.
+
+    \item Las distribuciones centrales de FA y PN son razonablemente bien reproducidas, como evidencian los Q-Q plots y los histogramas superpuestos.
+\end{enumerate}
+
+\textbf{Limitaciones:}
+\begin{enumerate}
+    \item La subdispersi\'on sistem\'atica (p-valores de desviaci\'on est\'andar = 0.000 para las tres variables) indica que el modelo asume mayor homogeneidad entre circuitos que la existente en la realidad. Este es el desajuste m\'as importante y afecta la precisi\'on de las estimaciones a nivel de circuito individual, aunque no las estimaciones agregadas.
+
+    \item La sobreestimaci\'on de votos en blanco y la virtual ausencia de variabilidad predicha para esta categor\'ia representan una limitaci\'on inherente al c\'alculo residual empleado.
+
+    \item El modelo no reproduce los valores extremos observados en circuitos at\'ipicos, lo que sugiere que los intervalos de credibilidad a nivel de circuito pueden ser demasiado estrechos.
+\end{enumerate}
+
+Estas limitaciones son consistentes con lo reportado en la literatura sobre modelos de inferencia ecol\'ogica con par\'ametros globales \citep{king1997} y no invalidan las conclusiones centrales del estudio, que se refieren a las transferencias \emph{promedio} de votos entre la primera vuelta y el ballotage.
+
+\subsubsection{Recomendaciones para Mejoras Futuras}
+
+Los resultados de los PPC sugieren dos v\'ias principales de mejora para reducir la subdispersi\'on y mejorar el ajuste global:
+
+\begin{enumerate}
+    \item \textbf{Modelo jer\'arquico con variabilidad subnacional}: Implementar un modelo multinivel donde las probabilidades de transferencia $\beta_{ij}$ var\'ien seg\'un caracter\'isticas del circuito:
+    \begin{equation}
+    \beta_{jk,c} \sim \text{Dirichlet}(\alpha_{jk,g(c)})
+    \end{equation}
+    donde $g(c)$ indica el grupo (departamento, regi\'on, clasificaci\'on urbano/rural) al que pertenece el circuito $c$. Esto permitir\'ia capturar mayor variabilidad entre circuitos y reducir la subdispersi\'on observada.
+
+    \item \textbf{Modelado expl\'icito de votos en blanco}: En lugar de calcular los votos en blanco por diferencia, estimar directamente las tres probabilidades de transferencia ($\beta_{j,\text{FA}}$, $\beta_{j,\text{PN}}$, $\beta_{j,\text{Blancos}}$) bajo una distribuci\'on de Dirichlet con restricci\'on de suma unitaria. Esto permitir\'ia asignar variabilidad propia a los votos en blanco y evitar la acumulaci\'on de sesgos residuales.
+\end{enumerate}
+
+\subsubsection{Conclusi\'on}
+
+Los posterior predictive checks revelan que el modelo de inferencia ecol\'ogica de King implementado con PyMC~v5 presenta un ajuste adecuado para la estimaci\'on de transferencias promedio de votos, con un excelente desempe\~no en la media de PN ($p = 0.648$) y discrepancias menores pero detectables en la media de FA ($p = 0.000$, sesgo de 0.14 pp). La limitaci\'on principal es la subdispersi\'on sistem\'atica: el modelo subestima la variabilidad entre circuitos, particularmente para los votos en blanco. Esta limitaci\'on, inherente a los modelos de inferencia ecol\'ogica con par\'ametros globales, afecta la precisi\'on de las estimaciones a nivel de circuito individual pero no compromete las inferencias agregadas sobre transferencias de votos, que constituyen el objetivo central del an\'alisis. El an\'alisis departamental presentado en secciones anteriores proporciona una v\'ia complementaria para capturar la heterogeneidad geogr\'afica que el modelo nacional no incorpora.

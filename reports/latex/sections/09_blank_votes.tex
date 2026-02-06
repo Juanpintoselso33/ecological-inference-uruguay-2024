@@ -1,0 +1,104 @@
+\section{Patrones de Voto en Blanco}
+\label{sec:blank_votes}
+
+El voto en blanco en el ballotage uruguayo plantea una interrogante fundamental: ¿se trata de una expresión de protesta política deliberada o de un patrón aleatorio sin significado electoral? Esta pregunta adquiere particular relevancia en el contexto de 2024, donde se observó una transferencia inesperada de votantes de Cabildo Abierto (CA) hacia el Frente Amplio (FA). Una hipótesis alternativa sugeriría que los votantes decepcionados de CA podrían haber optado por el voto en blanco como forma de protesta, en lugar de apoyar activamente a la oposición.
+
+En esta sección se analiza el comportamiento del voto en blanco a nivel nacional y departamental, explorando sus correlaciones con el apoyo a diferentes partidos políticos en primera vuelta. El objetivo es determinar si existe evidencia de que el voto en blanco actuó como refugio para electores descontentos de algún partido en particular, o si representa un fenómeno independiente.
+
+\paragraph{Nota metodológica.} En el tratamiento que sigue, la categoría ``votos en blanco'' agrupa tanto los votos en blanco propiamente dichos como los votos anulados, dado que en el modelo de inferencia ecológica ambos constituyen sufragios que no se asignan a ninguno de los dos candidatos del ballotage. Esta agrupación es consistente con la estructura del modelo, donde el destino ``Blancos/Nulos'' absorbe toda la masa de votos no transferidos a FA ni a la coalición.
+
+\subsection{Análisis Nacional}
+\label{subsec:blank_national}
+
+En el ballotage de 2024 se registraron 103,673 votos en blanco, representando el 4.22\% del total de votos emitidos. Esta cifra, aunque no trivial, se encuentra dentro del rango histórico observado en elecciones uruguayas anteriores. Sin embargo, la distribución geográfica y las correlaciones con el apoyo a diferentes partidos revelan patrones interesantes.
+
+La Tabla~\ref{tab:blank_correlation} presenta las correlaciones entre la tasa de voto en blanco en cada circuito y el share de cada partido en primera vuelta. Estos coeficientes de correlación, calculados a nivel de circuito electoral ($n=7{,}271$), permiten identificar si el voto en blanco se asocia sistemáticamente con el apoyo previo a alguna fuerza política.
+
+\input{../../outputs/tables/latex/blank_votes_correlation.tex}
+
+El hallazgo más notable es la correlación prácticamente nula entre el voto en blanco y el apoyo a Cabildo Abierto ($r = -0.011$). Los datos no respaldan la hipótesis de que los votantes de CA decepcionados optaron por el voto en blanco como forma de protesta. Si esta hipótesis fuera correcta, se esperaría observar una correlación positiva moderada o fuerte entre ambas variables. La correlación cercana a cero indica que el voto en blanco fue igualmente probable en circuitos con alto y bajo apoyo a CA.
+
+En contraste, se observan correlaciones más pronunciadas con otros partidos:
+
+\begin{itemize}
+    \item \textbf{Partido Nacional (PN)}: Correlación negativa moderada ($r = -0.196$), sugiriendo que en circuitos con fuerte apoyo al PN, la tasa de voto en blanco tendió a ser menor.
+    \item \textbf{Frente Amplio (FA)}: Correlación positiva débil ($r = 0.167$), indicando que circuitos con mayor apoyo al FA mostraron tasas ligeramente superiores de voto en blanco.
+    \item \textbf{Partido Colorado (PC)}: Correlación negativa débil ($r = -0.108$), similar al patrón del PN pero de menor magnitud.
+    \item \textbf{Coalición (PN+PC+CA)}: Correlación negativa moderada ($r = -0.195$), prácticamente idéntica a la del PN, reflejando el peso dominante de este partido dentro de la coalición.
+\end{itemize}
+
+Estas correlaciones sugieren que el voto en blanco no es un fenómeno aleatorio distribuido uniformemente, sino que muestra patrones geográficos asociados con la composición política de cada circuito. Sin embargo, la ausencia de correlación con CA descarta definitivamente la interpretación del voto en blanco como vehículo de protesta para electores de este partido.
+
+\subsection{Correlaciones con Partidos}
+\label{subsec:blank_correlations}
+
+Para visualizar la relación entre el voto en blanco y el apoyo a Cabildo Abierto, la Figura~\ref{fig:blank_ca} presenta un diagrama de dispersión de las tasas de voto en blanco contra el share de CA en primera vuelta, para todos los circuitos electorales.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{../../outputs/figures/scatter_blank_rate_vs_ca_share.pdf}
+\caption{Relación entre tasa de voto en blanco y share de Cabildo Abierto en primera vuelta. Cada punto representa un circuito electoral ($n=7{,}271$). La línea de regresión lineal (azul) muestra una pendiente prácticamente horizontal, confirmando la ausencia de asociación sistemática entre ambas variables ($r = -0.011$, $p > 0.05$).}
+\label{fig:blank_ca}
+\end{figure}
+
+La dispersión de los puntos en la Figura~\ref{fig:blank_ca} ilustra claramente la independencia entre el voto en blanco y el apoyo a CA. La línea de regresión (en azul) es prácticamente horizontal, indicando que el conocimiento del share de CA en un circuito no proporciona información predictiva alguna sobre la tasa de voto en blanco esperada. Esta ausencia de relación se mantiene tanto en circuitos con bajo apoyo a CA (extremo izquierdo del gráfico) como en aquellos con apoyo sustancial (extremo derecho).
+
+Es importante destacar que esta falta de correlación se observa a pesar de la considerable variabilidad en ambas dimensiones: el share de CA varía desde prácticamente cero hasta más del 6\% en algunos circuitos, mientras que la tasa de voto en blanco oscila entre 2\% y 8\% aproximadamente. La dispersión vertical de los puntos a lo largo de todo el rango horizontal confirma que no existe patrón sistemático.
+
+Adicionalmente, se realizó un análisis de cuartiles, estratificando los circuitos según su nivel de apoyo a CA en primera vuelta (Figura~\ref{fig:blank_ca_quartile}). Este análisis revela que la tasa media de voto en blanco es prácticamente idéntica en los cuatro cuartiles, confirmando la robustez del hallazgo principal.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{../../outputs/figures/blank_rate_by_ca_quartile.pdf}
+\caption{Tasa de voto en blanco por cuartil de apoyo a Cabildo Abierto. Los circuitos se agrupan en cuatro cuartiles según su share de CA en primera vuelta. Las barras muestran la tasa media de voto en blanco en cada grupo, con intervalos de confianza del 95\%. La similitud entre cuartiles confirma la independencia entre ambas variables.}
+\label{fig:blank_ca_quartile}
+\end{figure}
+
+La estabilidad de la tasa de voto en blanco a través de los cuartiles de apoyo a CA (Figura~\ref{fig:blank_ca_quartile}) constituye evidencia adicional contra la hipótesis de protesta. Si los votantes de CA hubieran utilizado el voto en blanco como refugio, se esperaría observar tasas significativamente superiores en el cuartil de mayor apoyo a CA (Q4). Por el contrario, las tasas observadas en los cuatro cuartiles son estadísticamente indistinguibles, con valores cercanos al 4.2\% en todos los casos.
+
+\subsection{Análisis Departamental}
+\label{subsec:blank_departmental}
+
+Si bien el análisis nacional revela patrones generales, la desagregación departamental permite identificar heterogeneidad geográfica en el comportamiento del voto en blanco. La Tabla~\ref{tab:blank_by_dept} presenta los diez departamentos con mayores tasas de voto en blanco, junto con sus respectivos shares de CA en primera vuelta.
+
+\input{../../outputs/tables/latex/blank_votes_top10_departments.tex}
+
+El ranking departamental muestra una clara concentración de altas tasas de voto en blanco en departamentos del litoral y sureste del país. Rocha lidera con 5.25\%, seguido por Maldonado (5.16\%), Lavalleja (5.07\%) y Treinta y Tres (5.00\%). Estos cuatro departamentos superan el umbral del 5\%, situándose significativamente por encima de la media nacional de 4.22\%.
+
+Un patrón notable es que varios de estos departamentos con alto voto en blanco presentan shares de CA relativamente bajos. Por ejemplo, Florida (sexto lugar en voto en blanco con 4.36\%) tuvo apenas 1.44\% de apoyo a CA en primera vuelta, uno de los valores más bajos del país. Paysandú (octavo lugar con 4.33\%) también muestra bajo apoyo a CA (1.70\%). Esta observación refuerza la conclusión de que el voto en blanco no está vinculado al descontento de electores de CA.
+
+La Figura~\ref{fig:blank_ranking} visualiza el ranking completo de los 19 departamentos, ordenados por tasa de voto en blanco descendente.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{../../outputs/figures/blank_rate_ranking.pdf}
+\caption{Ranking departamental de tasa de voto en blanco en el ballotage 2024. Las barras horizontales representan la tasa de voto en blanco en cada departamento, ordenados de mayor a menor. La línea roja punteada indica la media nacional (4.22\%). Se observa considerable variabilidad geográfica, con tasas que oscilan entre 5.25\% (Rocha) y 3.27\% (Salto).}
+\label{fig:blank_ranking}
+\end{figure}
+
+La variabilidad departamental en la Figura~\ref{fig:blank_ranking} es sustancial: la tasa máxima (Rocha, 5.25\%) supera en más de 60\% a la mínima (Salto, 3.27\%). Esta heterogeneidad sugiere que factores locales ---posiblemente relacionados con cultura política departamental, niveles de participación histórica, o composición socioeconómica--- influyen en la propensión al voto en blanco.
+
+Es interesante notar que Montevideo, el departamento más poblado, presenta una tasa de voto en blanco ligeramente inferior a la media nacional (4.11\%), ubicándose en la posición 13 del ranking. Este resultado es relevante porque Montevideo fue el departamento con mayor impacto absoluto de la defección de CA hacia FA (12,769 votos transferidos). Si el voto en blanco hubiera sido un refugio para votantes de CA decepcionados, se esperaría observar una tasa elevada en Montevideo; sin embargo, este no es el caso.
+
+Canelones, el segundo departamento más poblado y también con impacto sustancial de defección de CA, muestra una tasa de voto en blanco de 4.44\%, ligeramente superior a la media nacional pero no excepcional. Este valor ubica a Canelones en el quinto lugar del ranking, consistente con su importancia demográfica pero sin indicios de un fenómeno de protesta vía voto en blanco.
+
+\subsection{Conclusiones}
+\label{subsec:blank_conclusions}
+
+El análisis exhaustivo del voto en blanco en el ballotage de 2024 permite establecer las siguientes conclusiones:
+
+\begin{enumerate}
+    \item \textbf{Independencia respecto a Cabildo Abierto}: La correlación prácticamente nula ($r = -0.011$) entre el voto en blanco y el apoyo a CA indica que no se encuentra evidencia a favor de la hipótesis de que el voto en blanco actuó como refugio de protesta para electores decepcionados de este partido. Esta conclusión se mantiene robusta tanto en el análisis de dispersión a nivel de circuito como en la comparación por cuartiles de apoyo a CA.
+
+    \item \textbf{Patrón geográfico independiente}: El voto en blanco muestra una distribución geográfica propia, con tasas elevadas en departamentos del litoral y sureste (Rocha, Maldonado, Lavalleja, Treinta y Tres) que no se corresponden con los patrones de apoyo a CA. Esta independencia espacial confirma que el voto en blanco obedece a dinámicas locales distintas de la defección partidaria.
+
+    \item \textbf{Asociaciones con otros partidos}: A diferencia de CA, se observan correlaciones moderadas del voto en blanco con otros partidos, particularmente negativa con PN ($r = -0.196$) y positiva con FA ($r = 0.167$). Estas asociaciones sugieren que el voto en blanco puede estar relacionado con características sociopolíticas de los circuitos donde estos partidos tienen mayor o menor fuerza, pero no con dinámicas de protesta partidaria específica.
+
+    \item \textbf{Variabilidad departamental sustancial}: La tasa de voto en blanco varía significativamente entre departamentos (rango: 3.27\% a 5.25\%), indicando la presencia de factores contextuales locales que influyen en este comportamiento. Esta variabilidad no parece explicarse por la composición partidaria en primera vuelta, sino posiblemente por cultura política local, niveles de participación histórica, o factores socioeconómicos.
+
+    \item \textbf{Magnitud moderada}: Con 103,673 votos (4.22\% del total), el voto en blanco representa una fracción significativa pero no excepcional del electorado en el ballotage. Si bien esta cifra supera con creces la transferencia estimada de CA hacia FA (aproximadamente 30{,}200 votos, el 50.8\% de los 59{,}412 votos de CA en primera vuelta), la ausencia de correlación entre ambas variables descarta que el voto en blanco haya sido un refugio masivo de electores de CA.
+
+    \item \textbf{Implicancia metodológica}: La independencia del voto en blanco respecto al origen partidario de los votantes es consistente con el enfoque adoptado en las estimaciones de transferencia de votos mediante inferencia ecológica. Si el voto en blanco hubiera estado correlacionado con CA, sería necesario incorporarlo como destino adicional en los modelos de inferencia, complicando las estimaciones. Su carácter independiente simplifica la interpretación de los resultados.
+\end{enumerate}
+
+En síntesis, el voto en blanco en el ballotage de 2024 no constituye evidencia de protesta por parte de electores decepcionados de Cabildo Abierto. En cambio, representa un patrón electoral independiente, con variabilidad geográfica propia, que no está vinculado a las dinámicas de transferencia de votos entre partidos. Este hallazgo refuerza la interpretación central del análisis: la defección de votantes de CA hacia el Frente Amplio fue un fenómeno activo y deliberado, no el resultado de abstención, protesta o voto en blanco.

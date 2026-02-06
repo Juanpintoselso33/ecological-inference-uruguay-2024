@@ -1,0 +1,19 @@
+\begin{table}[H]
+\centering
+\caption{Diagnósticos de Convergencia MCMC para Todos los Análisis Estratificados}
+\label{tab:diagnostics}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Análisis} & \textbf{N Circuitos} & \textbf{Max $\hat{R}$} & \textbf{Min ESS} & \textbf{Estado} \\
+\midrule
+Nacional & 7,271 & 1.0027 & 2913.7 & Convergido \\
+Urbano & 6,311 & 1.0027 & 3335.7 & Convergido \\
+Rural & 960 & 1.0015 & 2913.7 & Convergido \\
+Área Metropolitana & 3,671 & 1.0023 & 2979.7 & Convergido \\
+Interior & 3,600 & 1.0010 & 3332.9 & Convergido \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\footnotesize \textit{Nota:} ESS, tamaño efectivo de muestra. Todos los valores de $\hat{R} < 1.01$ indican convergencia MCMC satisfactoria. Los modelos se ejecutaron durante 4000 iteraciones (2000 calentamiento) en 4 cadenas.
+\end{flushleft}
+\end{table}

@@ -1,0 +1,215 @@
+% ========================================
+% METHODOLOGY SECTION
+% Ecological Inference Analysis of Uruguay 2024 Elections
+% ========================================
+
+\section{Metodología}
+\label{sec:metodologia}
+
+\subsection{El Problema de la Inferencia Ecológica}
+
+La \textit{ecological inference} se refiere al desafío estadístico fundamental de inferir comportamiento a nivel individual a partir de datos agregados \cite{king1997}. En estudios electorales, frecuentemente se observan totales de votos a nivel de unidades geográficas (circuitos, distritos, departamentos) pero se carece de información directa sobre las transiciones de voto individuales. La pregunta central se convierte en: ¿cómo distribuyeron sus votos en la segunda elección los votantes que apoyaron al partido $i$ en la primera elección?
+
+La \textit{ecological fallacy} surge cuando se hacen inferencias directas sobre comportamiento individual a partir de patrones agregados sin considerar la heterogeneidad dentro de las unidades \cite{king1997}. Por ejemplo, observar que un área geográfica con alto apoyo al partido $i$ en octubre también muestra alto apoyo al partido $j$ en noviembre no implica necesariamente que los votantes se trasladaron de $i$ a $j$—el patrón agregado podría resultar de dinámicas individuales completamente diferentes.
+
+En el contexto de las elecciones presidenciales de Uruguay 2024, se busca estimar las transferencias de votos entre la primera vuelta (27 de octubre de 2024) y el balotaje (24 de noviembre de 2024). Se observan conteos de votos agregados a nivel de circuito pero no se puede observar directamente cómo los votantes individuales cambiaron sus preferencias. Este desafío inferencial requiere métodos estadísticos sofisticados que puedan extraer información a nivel individual mientras respetan los límites impuestos por el proceso generador de datos.
+
+\subsection{El Método de Inferencia Ecológica de King}
+
+El método de Inferencia Ecológica de King (King's Ecological Inference, EI) \cite{king1997} proporciona una solución fundamentada a este problema inferencial. El método estima una \textit{matriz de transición} $\mathbf{T}$ de dimensión $K \times J$, donde $K$ representa el número de partidos de origen (primera vuelta) y $J$ representa el número de partidos de destino (balotaje). Cada elemento $T_{kj}$ de esta matriz representa la probabilidad de que un votante que apoyó al partido $k$ en la primera elección votara por el partido $j$ en la segunda elección.
+
+Formalmente, para cada circuito electoral $i$, sea $\mathbf{X}_i = (X_{i1}, \ldots, X_{iK})$ el vector de votos recibidos por cada uno de los $K$ partidos de origen, y sea $\mathbf{Y}_i = (Y_{i1}, \ldots, Y_{iJ})$ los votos recibidos por cada uno de los $J$ partidos de destino. Las transferencias de votos esperadas se modelan como:
+
+\begin{equation}
+\label{eq:transferencias_esperadas}
+Y_{ij} = \sum_{k=1}^{K} T_{kj} \cdot X_{ik}
+\end{equation}
+
+En notación matricial, esto puede expresarse como $\mathbf{Y}_i = \mathbf{X}_i \mathbf{T}$, indicando que los votos de destino observados son una combinación lineal de los votos de origen ponderados por las probabilidades de transición.
+
+El método de King ofrece ventajas críticas sobre enfoques clásicos como la regresión ecológica de Goodman \cite{king1997}. Más importante aún, respeta los límites naturales sobre las probabilidades de transición: $0 \leq T_{kj} \leq 1$ para todo $k,j$, y $\sum_{j=1}^{J} T_{kj} = 1$ para cada partido de origen $k$. Estas restricciones aseguran que las probabilidades de transición estimadas sean interpretables como probabilidades propias y que todos los votantes de cada partido de origen sean contabilizados en la elección de destino. La regresión de Goodman, en contraste, frecuentemente produce estimaciones fuera del intervalo $[0,1]$, generando resultados sustancialmente carentes de sentido.
+
+\subsection{Implementación Bayesiana}
+
+Se implementa el método EI de King usando un modelo jerárquico bayesiano con el framework de programación probabilística PyMC \cite{abril2023pymc}. El enfoque bayesiano proporciona varias ventajas para la inferencia ecológica: (1) incorpora naturalmente conocimiento previo a través de distribuciones de probabilidad, (2) cuantifica la incertidumbre mediante distribuciones posteriores en lugar de estimaciones puntuales, (3) respeta restricciones mediante elecciones apropiadas de distribuciones previas, y (4) permite la propagación coherente de la incertidumbre desde los parámetros hasta las cantidades de interés.
+
+El núcleo del modelo especifica una distribución previa sobre la matriz de transición que impone las restricciones requeridas. Específicamente, para cada partido de origen $k$, la fila $\mathbf{T}_k = (T_{k1}, \ldots, T_{kJ})$ sigue una distribución Dirichlet:
+
+\begin{equation}
+\label{eq:prior_dirichlet}
+\mathbf{T}_k \sim \text{Dirichlet}(\boldsymbol{\alpha})
+\end{equation}
+
+donde $\boldsymbol{\alpha} = (\alpha_1, \ldots, \alpha_J)$ es un vector de parámetros de concentración. La distribución Dirichlet es la elección natural para modelar vectores de probabilidad: garantiza que todos los elementos se encuentren en $[0,1]$ y sumen 1, precisamente las restricciones necesarias para las probabilidades de transición \cite{gelman2013bayesian}. Se utiliza una distribución previa uniforme con $\alpha_j = 1$ para todo $j$, lo que expresa información previa mínima y permite que los datos dominen la distribución posterior.
+
+Dada la matriz de transición, se modelan los votos de destino observados usando una aproximación Normal a la distribución Multinomial. Para conteos de votos grandes, la aproximación Normal proporciona eficiencia computacional mientras mantiene precisión estadística \cite{martin2021bayesian}. Para el circuito $i$ y el partido de destino $j$, se especifica:
+
+\begin{equation}
+\label{eq:verosimilitud}
+Y_{ij} \sim \mathcal{N}\left(\mu_{ij}, \sigma_{ij}^2\right)
+\end{equation}
+
+donde la media $\mu_{ij} = \sum_{k=1}^{K} T_{kj} \cdot X_{ik}$ captura los votos esperados basados en la ecuación \ref{eq:transferencias_esperadas}, y la desviación estándar $\sigma_{ij} = \sqrt{\mu_{ij} + 1}$ da cuenta de la variabilidad de muestreo con una pequeña constante para evitar inestabilidad numérica.
+
+La distribución posterior combina el conocimiento previo con la verosimilitud de los datos observados a través del teorema de Bayes. Esta distribución posterior sobre la matriz de transición $\mathbf{T}$ representa la creencia actualizada sobre los patrones de transferencia de votos después de observar los datos electorales. Se resume esta distribución usando medias posteriores (estimaciones puntuales) e intervalos de credibilidad (cuantificación de incertidumbre).
+
+\subsection{Muestreo MCMC y Diagnósticos de Convergencia}
+
+La inferencia posterior se realiza usando muestreo de Monte Carlo mediante Cadenas de Markov (Markov Chain Monte Carlo, MCMC), específicamente el No-U-Turn Sampler (NUTS) \cite{betancourt2017conceptual}, una variante de Monte Carlo Hamiltoniano (Hamiltonian Monte Carlo, HMC). NUTS es particularmente adecuado para modelos bayesianos complejos porque explora eficientemente espacios de parámetros de alta dimensión y se adapta automáticamente a la geometría de la distribución posterior.
+
+Se emplean diferentes configuraciones de muestreo dependiendo del alcance del análisis:
+
+\begin{itemize}
+    \item \textbf{Análisis nacional}: 4 cadenas, 4000 muestras post-calentamiento por cadena, 2000 muestras de calentamiento, tasa de aceptación objetivo 0.95
+    \item \textbf{Análisis estratificados} (urbano/rural, regional): 4 cadenas, 2000 muestras post-calentamiento por cadena, 2000 muestras de calentamiento, tasa de aceptación objetivo 0.90
+\end{itemize}
+
+Estas elecciones de parámetros reflejan un equilibrio cuidadoso entre eficiencia computacional y rigurosidad estadística. El análisis nacional usa más muestras y una tasa de aceptación objetivo más alta porque representa el objetivo inferencial primario y requiere la mayor precisión. Los análisis estratificados usan parámetros ligeramente relajados mientras mantienen estándares científicos, dado que estos análisis involucran tamaños de muestra más pequeños y sirven como exploraciones secundarias de heterogeneidad.
+
+La tasa de aceptación objetivo más alta en el análisis nacional (0.95) reduce el tamaño de paso en HMC, llevando a una exploración más cuidadosa de la distribución posterior a costa de un tiempo de cómputo incrementado. Este enfoque conservador minimiza el riesgo de muestras sesgadas y asegura una mezcla exhaustiva a través de la distribución posterior. El período de calentamiento de 2000 muestras permite al muestreador adaptar sus parámetros (tamaño de paso y matriz de masa) a la geometría específica de cada distribución posterior.
+
+Ejecutar 4 cadenas en paralelo sirve dos propósitos: (1) acelera el cómputo mediante paralelización, y (2) permite verificaciones diagnósticas de convergencia comparando la variabilidad dentro de las cadenas y entre cadenas. Múltiples cadenas iniciadas desde valores iniciales dispersos deberían converger a la misma distribución si el muestreador está funcionando correctamente.
+
+Se evalúa la convergencia usando dos diagnósticos primarios:
+
+\begin{enumerate}
+    \item \textbf{Estadístico de Gelman-Rubin ($\hat{R}$)} \cite{gelman1992inference}: Este diagnóstico compara la varianza dentro de las cadenas con la varianza entre cadenas. Valores de $\hat{R} < 1.01$ indican que las cadenas han convergido a una distribución común. Se requiere que todos los parámetros satisfagan este criterio.
+
+    \item \textbf{Tamaño de Muestra Efectivo (Effective Sample Size, ESS)}: Debido a la autocorrelación en las muestras MCMC, el número efectivo de extracciones independientes es típicamente menor que el número total de muestras. Se requiere ESS $> 1000$ para todos los parámetros para asegurar suficiente precisión en las estimaciones posteriores e intervalos de credibilidad \cite{gelman2013bayesian}.
+\end{enumerate}
+
+Solo los análisis que satisfacen ambos criterios de convergencia ($\hat{R} < 1.01$ y ESS $> 1000$ para todos los parámetros) se incluyen en los resultados reportados. Esta adherencia estricta a los diagnósticos de convergencia asegura la validez científica de las inferencias resultantes.
+
+\subsection{Fuentes de Datos y Procesamiento}
+
+\subsubsection{Datos Electorales 2024}
+
+Los datos electorales oficiales fueron obtenidos de la Corte Electoral de Uruguay, el órgano constitucional responsable de organizar y supervisar las elecciones en Uruguay. Para 2024, se analizan dos elecciones:
+
+\begin{itemize}
+    \item \textbf{Primera vuelta}: 27 de octubre de 2024
+    \item \textbf{Ballotage} (segunda vuelta): 24 de noviembre de 2024
+\end{itemize}
+
+Los datos electorales están organizados a nivel de circuito (\textit{circuito}), la unidad geográfica más pequeña para la cual se reportan resultados oficiales. El conjunto de datos 2024 abarca 7,271 circuitos electorales a través de los 19 departamentos de Uruguay. Cada circuito típicamente atiende entre 100 y 1,000 votantes, proporcionando resolución geográfica de grano fino para el análisis de inferencia ecológica.
+
+Para la primera vuelta 2024, se clasifican los votos en seis categorías (separando el Partido Independiente de la categoría "OTROS" dada su relevancia política):
+\begin{itemize}
+    \item \textbf{FA}: Frente Amplio (coalición de izquierda)
+    \item \textbf{PN}: Partido Nacional (centro-derecha)
+    \item \textbf{PC}: Partido Colorado (centro-derecha)
+    \item \textbf{CA}: Cabildo Abierto (derecha populista)
+    \item \textbf{PI}: Partido Independiente (centro-derecha, 1.79\% de votos)
+    \item \textbf{OTROS}: Partidos pequeños remanentes agregados
+\end{itemize}
+
+\subsubsection{Datos Electorales 2019}
+
+Para el análisis temporal comparativo, se obtuvieron datos electorales de 2019 también de la Corte Electoral:
+
+\begin{itemize}
+    \item \textbf{Primera vuelta}: 27 de octubre de 2019
+    \item \textbf{Ballotage}: 24 de noviembre de 2019
+\end{itemize}
+
+El conjunto de datos 2019 abarca 7,213 circuitos electorales, ligeramente menor al de 2024 debido a cambios en la organización electoral. Se utiliza idéntica categorización de partidos para asegurar comparabilidad temporal. Se define la \textbf{Coalición Republicana} como la suma de PN + PC + CA + PI en ambos años. Notablemente, en 2019 el Partido Independiente obtuvo solo 1.01\% de los votos (23,554 votos), mientras que en 2024 creció a 1.79\% (41,055 votos).
+
+La disponibilidad de datos estructuralmente idénticos en ambas elecciones (primera vuelta y balotaje, misma resolución circuital, mismos partidos principales) permite análisis temporal riguroso de cambios en patrones de transferencia de votos y estabilidad geográfica de comportamientos electorales.
+
+Para el balotaje, solo dos partidos principales compiten, complementados por votos en blanco y anulados:
+\begin{itemize}
+    \item \textbf{FA}: Frente Amplio
+    \item \textbf{PN}: Partido Nacional (representando a la coalición)
+    \item \textbf{Blancos/Nulos}: Votos en blanco y anulados
+\end{itemize}
+
+\subsubsection{Covariables Sociodemográficas}
+
+Para permitir análisis estratificados, se incorporan datos sociodemográficos de dos fuentes:
+
+\begin{itemize}
+    \item \textbf{Censo 2023} (Instituto Nacional de Estadística): Recuentos poblacionales, clasificación urbano/rural
+    \item \textbf{Datos administrativos electorales} (Corte Electoral): Clasificaciones geográficas a nivel de circuito
+\end{itemize}
+
+La clasificación urbano/rural divide los circuitos en dos estratos basados en la densidad poblacional y los patrones de asentamiento. Los circuitos urbanos (86.8\% del total) están ubicados en ciudades y pueblos, mientras que los circuitos rurales (13.2\%) sirven a poblaciones rurales dispersas. Esta estratificación es crítica porque investigaciones previas sobre la política uruguaya sugieren diferencias sustanciales en el comportamiento político entre áreas urbanas y rurales \cite{manacorda2011transfers}.
+
+Adicionalmente, se estratifica por macrorregión:
+\begin{itemize}
+    \item \textbf{Área Metropolitana}: Montevideo y Canelones (conteniendo aproximadamente el 60\% de la población nacional)
+    \item \textbf{Interior}: Todos los otros 17 departamentos
+\end{itemize}
+
+\subsubsection{Calidad y Validación de Datos}
+
+Se implementan varios procedimientos de control de calidad:
+
+\begin{enumerate}
+    \item \textbf{Verificaciones de completitud}: Verificar que los totales de votos coincidan con los agregados oficiales a nivel departamental y nacional
+    \item \textbf{Verificaciones de consistencia}: Asegurar que la suma de votos por partido sea igual al total de votos válidos en cada circuito
+    \item \textbf{Análisis de datos faltantes}: Examinar patrones de datos faltantes y aplicar eliminación por lista cuando sea necesario (menos del 0.1\% de los circuitos tienen valores faltantes)
+    \item \textbf{Detección de valores atípicos}: Identificar circuitos con patrones anómalos que puedan indicar errores en los datos (ninguno detectado)
+\end{enumerate}
+
+\subsection{Estrategia Analítica}
+
+La estrategia analítica procede en tres etapas, avanzando desde patrones nacionales hacia la heterogeneidad geográfica:
+
+\subsubsection{Análisis Nacional}
+
+El análisis nacional agrupa los 7,271 circuitos para estimar patrones generales de transferencia de votos entre la primera vuelta y el balotaje. Esto proporciona la matriz de transición base que representa el comportamiento promedio en Uruguay. Las estimaciones nacionales sirven como puntos de referencia para evaluar la heterogeneidad en los análisis estratificados.
+
+\subsubsection{Análisis Estratificados}
+
+Se realizan dos conjuntos de análisis estratificados para explorar la heterogeneidad geográfica:
+
+\begin{enumerate}
+    \item \textbf{Urbano vs Rural}: Se estiman matrices de transición separadas para circuitos urbanos (n = 6,312) y circuitos rurales (n = 959). Esta estratificación aborda la hipótesis de que los votantes rurales exhiben patrones diferentes de lealtad partidaria y defección comparados con los votantes urbanos.
+
+    \item \textbf{Área Metropolitana vs Interior}: Se compara la región capital (Montevideo y Canelones) con el resto del país. Esta estratificación captura potenciales dinámicas centro-periferia en el comportamiento electoral.
+\end{enumerate}
+
+Cada análisis estratificado produce matrices de transición específicas del estrato con intervalos de credibilidad asociados. Se comparan formalmente los estratos examinando si los intervalos de credibilidad se superponen para las probabilidades de transición clave.
+
+\subsubsection{Análisis a Nivel Departamental}
+
+Para proporcionar perspectivas geográficas detalladas, se estiman matrices de transición separadamente para cada uno de los 19 departamentos de Uruguay. Estos análisis a nivel departamental utilizan tamaños de muestra menores (que van desde aproximadamente 100 hasta 1,500 circuitos por departamento) y consecuentemente exhiben mayor incertidumbre. Sin embargo, revelan importantes variaciones locales en los patrones de transferencia de votos que quedan enmascaradas en los agregados nacionales.
+
+Los resultados a nivel departamental son particularmente valiosos para comprender las dinámicas políticas regionales e identificar áreas donde los partidos nacionales experimentaron ganancias o pérdidas inusuales. Se presentan estos resultados principalmente a través de visualización (mapas y gráficos de bosque) en lugar de tablas detalladas debido al gran número de estimaciones.
+
+\subsection{Validación del Modelo}
+
+Para evaluar la validez de las estimaciones de inferencia ecológica se realizaron varios ejercicios de validación:
+
+\subsubsection{Verificaciones Predictivas Posteriores}
+
+Para cada modelo ajustado, se generan distribuciones predictivas posteriores muestreando de la matriz de transición estimada y simulando recuentos de votos para cada circuito. Luego se compara la distribución de votos simulados con los votos observados. Un buen ajuste del modelo se indica por una superposición sustancial entre las distribuciones predichas y observadas \cite{gelman2013bayesian}.
+
+\subsubsection{Consistencia de Agregación}
+
+Una verificación clave de validez para la inferencia ecológica es la consistencia de agregación: cuando agregamos las predicciones a nivel de circuito a niveles superiores (departamento, región, nación), ¿las predicciones agregadas coinciden con los datos agregados observados? Se verificó que las probabilidades de transición a nivel de circuito reproducen los resultados departamentales y nacionales observados cuando se ponderan por los totales de votos de origen.
+
+\subsubsection{Análisis de Sensibilidad}
+
+Para evaluar la robustez, se realizan análisis de sensibilidad variando:
+\begin{itemize}
+    \item Especificaciones de priors (priors uniformes vs priors Dirichlet débilmente informativos)
+    \item Especificaciones de verosimilitud (Normal vs Multinomial)
+    \item Parámetros MCMC (número de muestras, cadenas, tasa de aceptación)
+\end{itemize}
+
+Los resultados demuestran ser robustos a través de estas variaciones, con medias posteriores que difieren en menos de 0.5 puntos porcentuales e intervalos de credibilidad que muestran superposición sustancial.
+
+\subsubsection{Comparación con Métodos Alternativos}
+
+Aunque la regresión ecológica de Goodman frecuentemente produce estimaciones fuera de los límites (una falla fundamental), se estima con fines de comparación. Como se esperaba, el método de Goodman produce varias probabilidades de transición fuera de $[0,1]$, confirmando la necesidad del enfoque acotado de King. Donde las estimaciones de Goodman están dentro de los límites, se alinean estrechamente con el EI de King, lo que proporciona confianza adicional en la validez de los resultados.
+
+\subsection{Software y Reproducibilidad}
+
+Todos los análisis se realizaron en Python 3.11 utilizando PyMC 5.10 \cite{abril2023pymc} para inferencia bayesiana, NumPy 1.26 y Pandas 2.1 para manipulación de datos, y ArviZ 0.17 para diagnósticos de convergencia y análisis posterior. La visualización utilizó Matplotlib 3.8 y Seaborn 0.13. El pipeline analítico completo, incluyendo procesamiento de datos, estimación de modelos, diagnósticos y visualización, está disponible en un repositorio público para asegurar la reproducibilidad completa de los resultados.
+
+Todos los generadores de números aleatorios se inicializaron con la semilla 42 para permitir la replicación exacta del muestreo MCMC. El muestreador NUTS utilizó la adaptación de matriz de masa predeterminada de PyMC y el ajuste de tamaño de paso durante la fase de warmup.
+
+\subsection{Consideraciones Éticas}
+
+Este análisis utiliza únicamente datos electorales agregados y disponibles públicamente publicados por la Corte Electoral de Uruguay. No se recolectaron ni analizaron datos a nivel individual. Todos los resultados se presentan a nivel agregado (circuito o superior), preservando el anonimato de los votantes. La metodología de inferencia ecológica reconoce explícitamente que las estimaciones a nivel individual son inferencias probabilísticas de datos agregados, no observaciones determinísticas del comportamiento individual.

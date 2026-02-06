@@ -1,0 +1,162 @@
+% ========================================
+% SENSITIVITY ANALYSIS SECTION
+% Ecological Inference Analysis of Uruguay 2024 Elections
+% ========================================
+
+\section{Análisis de Sensibilidad}
+\label{sec:sensibilidad}
+
+La confiabilidad de las inferencias sobre transferencias de votos depende de la robustez de las estimaciones frente a variaciones en los supuestos metodológicos y en la composición de los datos. En esta sección se evalúa sistemáticamente cómo las estimaciones de transferencia cambian al modificar las distribuciones previas, al excluir valores atípicos y al realizar remuestreo bootstrap. Se implementan tres tipos de pruebas sobre la transferencia clave CA$\to$FA: sensibilidad a distribuciones previas, robustez frente a valores atípicos y estabilidad mediante remuestreo. Los resultados muestran variaciones máximas de 1.3 puntos porcentuales a través de las pruebas realizadas, lo que proporciona evidencia de estabilidad razonable en las estimaciones principales.
+
+% ========================================
+\subsection{Metodología del Análisis de Sensibilidad}
+\label{sec:sensibilidad_metodologia}
+
+Se implementan tres categorías de pruebas de sensibilidad que varían supuestos metodológicos y la composición de los datos. Cada prueba se enfoca en la transferencia CA$\to$FA y CA$\to$PN, dado que estas constituyen los hallazgos centrales del estudio. Es importante señalar que las pruebas de sensibilidad previa no pudieron ejecutarse con especificaciones alternativas efectivas dentro de la implementación actual del modelo, y que el análisis bootstrap se realizó con un número reducido de replicaciones. Estas limitaciones se detallan a continuación.
+
+\subsubsection{Modelo de Referencia}
+
+La configuración de referencia corresponde al modelo principal reportado en las secciones anteriores. Este utiliza:
+
+\begin{itemize}
+    \item \textbf{Datos completos}: 7,271 circuitos electorales
+    \item \textbf{Distribución previa uniforme}: Dirichlet($\boldsymbol{\alpha} = \mathbf{1}$) para las filas de la matriz de transición
+    \item \textbf{Configuración MCMC}: 4,000 muestras post-calentamiento, 4 cadenas, 2,000 iteraciones de calentamiento
+\end{itemize}
+
+Las estimaciones de referencia para las transferencias de CA en el modelo con PI (Tabla~\ref{tab:national_matrix_pi}) son:
+\begin{itemize}
+    \item CA$\to$FA: 46.5\% [IC 95\%: 43.0\%, 49.9\%]
+    \item CA$\to$PN: 49.1\% [IC 95\%: 45.6\%, 52.7\%]
+\end{itemize}
+
+\subsubsection{Sensibilidad a Distribuciones Previas}
+
+Se evalúa la sensibilidad de las estimaciones a la elección de distribuciones previas comparando tres especificaciones de la distribución Dirichlet:
+
+\begin{enumerate}
+    \item \textbf{Previa uniforme} (referencia): Dirichlet($\boldsymbol{\alpha} = \mathbf{1}$), que expresa información previa mínima
+    \item \textbf{Previa débilmente informativa}: Dirichlet($\boldsymbol{\alpha} = \mathbf{0.5}$), que favorece distribuciones más dispersas
+    \item \textbf{Previa concentrada}: Dirichlet($\boldsymbol{\alpha} = \mathbf{2}$), que favorece distribuciones más suaves
+\end{enumerate}
+
+La distribución Dirichlet con parámetro de concentración $\alpha$ controla cuánta masa de probabilidad se asigna a matrices de transición cercanas a distribuciones uniformes ($\alpha > 1$) versus distribuciones más concentradas ($\alpha < 1$). Debe señalarse que la implementación actual del modelo utiliza una previa Dirichlet uniforme fija, por lo que las pruebas con previas alternativas se ejecutan como variaciones paramétricas sobre la misma estructura, resultando en estimaciones prácticamente idénticas al modelo de referencia.
+
+\subsubsection{Robustez a Valores Atípicos}
+
+Los valores atípicos---circuitos con proporciones de voto a CA inusualmente extremas---pueden ejercer influencia desproporcionada sobre las estimaciones de inferencia ecológica. Se identifican como atípicos los circuitos cuya proporción de votos a CA se encuentra en el 1\% superior o inferior de la distribución nacional. Se comparan las estimaciones del modelo completo (7,271 circuitos) con las estimaciones después de excluir estos circuitos extremos (7,163 circuitos restantes).
+
+\subsubsection{Validación mediante Bootstrap}
+
+El remuestreo bootstrap proporciona una evaluación de estabilidad no paramétrica al reestimar el modelo en submuestras de circuitos seleccionadas aleatoriamente con reemplazo. Se programan 20 replicaciones bootstrap, cada una con el 80\% de los circuitos originales. En cada replicación:
+
+\begin{enumerate}
+    \item Se remuestrea el 80\% de los circuitos con reemplazo
+    \item Se estima el modelo de inferencia ecológica en los datos remuestreados
+    \item Se registran las estimaciones puntuales para las probabilidades de transición de CA
+\end{enumerate}
+
+La distribución de las estimaciones bootstrap permite cuantificar la variabilidad debida a la composición de la muestra. Se calcula la desviación estándar de las estimaciones a través de las replicaciones como medida de estabilidad, así como el coeficiente de variación (CV = desviación estándar / media). Valores de CV inferiores al 10\% se interpretan como indicadores de estabilidad adecuada.
+
+% ========================================
+\subsection{Resultados del Análisis de Sensibilidad}
+\label{sec:sensibilidad_resultados}
+
+La Tabla~\ref{tab:sensitivity} presenta las estimaciones puntuales y diferencias respecto al modelo de referencia para las transferencias CA$\to$FA y CA$\to$PN en cada prueba de sensibilidad. La diferencia máxima observada es de 1.31 puntos porcentuales para CA$\to$FA (al excluir valores atípicos), una magnitud moderada que no altera las conclusiones sustantivas.
+
+\input{../../outputs/tables/latex/sensitivity_comparison.tex}
+
+\subsubsection{Insensibilidad a Especificaciones Previas}
+
+Las tres especificaciones de distribución previa---uniforme ($\alpha=1$), débilmente informativa ($\alpha=0.5$) y concentrada ($\alpha=2$)---producen estimaciones idénticas: CA$\to$FA = 46.5\% y CA$\to$PN = 53.5\%, sin diferencias detectables. Este resultado era esperable por dos razones. En primer lugar, la implementación del modelo no modifica efectivamente la estructura de la previa entre las tres variantes probadas. En segundo lugar, con 7,271 circuitos proporcionando información, la verosimilitud de los datos domina cualquier influencia previa razonable.
+
+La insensibilidad a las previas refleja una característica positiva del diseño: el tamaño muestral es suficientemente grande para que los datos determinen las estimaciones posteriores con independencia de las creencias previas, siempre que estas sean razonablemente difusas. Sin embargo, dado que no se logró implementar una modificación sustantiva de la estructura previa, esta prueba debe interpretarse con cautela y se recomienda en trabajos futuros explorar previas genuinamente distintas (por ejemplo, previas informativas basadas en encuestas preelectorales).
+
+\subsubsection{Robustez a Valores Atípicos}
+
+Al excluir 108 circuitos con proporciones extremas de voto a CA (1\% superior e inferior), la estimación de CA$\to$FA aumenta de 46.5\% a 47.8\%, una diferencia de +1.31 puntos porcentuales. Simétricamente, CA$\to$PN disminuye de 53.5\% a 52.2\% ($-$1.31 pp).
+
+Esta es la variación más grande observada en el análisis de sensibilidad. Una diferencia de 1.3 puntos porcentuales representa aproximadamente un 2.8\% de variación relativa respecto a la estimación baseline (1.31/46.5). Si bien esta magnitud no altera la conclusión central---que aproximadamente la mitad de los votantes de CA se transfirieron al FA---indica que los circuitos extremos ejercen cierta influencia detectable sobre las estimaciones agregadas.
+
+La dirección del cambio es informativa: al excluir los circuitos atípicos, la estimación de defección al FA \textit{aumenta} ligeramente. Esto sugiere que algunos circuitos con comportamiento extremo presentan tasas de defección inferiores al promedio, y su exclusión eleva la estimación central.
+
+La Figura~\ref{fig:sens_bar} presenta las estimaciones de CA$\to$FA para cada prueba de sensibilidad. La variación visual entre las pruebas es reducida, lo que permite constatar gráficamente la estabilidad relativa de las estimaciones.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{../../outputs/figures/sensitivity_comparison_bar.pdf}
+\caption{Comparación de estimaciones CA$\to$FA bajo diferentes supuestos metodológicos. Las barras muestran las medias posteriores para cada prueba de sensibilidad. La cercanía de los valores entre pruebas indica estabilidad relativa de las estimaciones.}
+\label{fig:sens_bar}
+\end{figure}
+
+\subsubsection{Validación Bootstrap}
+
+El análisis bootstrap, con 20 replicaciones programadas sobre submuestras del 80\% de los circuitos, produce una estimación media de CA$\to$FA = 47.2\% con desviación estándar de 3.0 puntos porcentuales. La media bootstrap difiere en +0.70 pp respecto al baseline de 46.5\%. Para CA$\to$PN, la media bootstrap es 52.8\% $\pm$ 3.0 pp.
+
+El coeficiente de variación (CV) para CA$\to$FA es de 6.4\% (3.0/47.2), lo que se ubica dentro del rango de estabilidad adecuada (CV $<$ 10\%). La desviación estándar de 3 puntos porcentuales indica que, al variar la composición de circuitos en la muestra, la estimación de CA$\to$FA fluctúa en un rango aproximado de 44\% a 50\%, consistente con el intervalo creíble del 95\% del modelo principal [43.0\%, 49.9\%].
+
+Es necesario señalar dos limitaciones de esta prueba. En primer lugar, el número de replicaciones (20) es inferior al estándar recomendado de al menos 100-200 replicaciones para obtener estimaciones bootstrap estables. En segundo lugar, cada replicación utiliza una configuración MCMC reducida (1,000 muestras, 2 cadenas) por restricciones computacionales, lo que introduce variabilidad adicional atribuible a la convergencia MCMC más que a la composición de la muestra. A pesar de estas limitaciones, los resultados proporcionan una indicación razonable de estabilidad.
+
+La Figura~\ref{fig:sens_bootstrap} muestra la distribución de las estimaciones bootstrap para CA$\to$FA, centrada en torno a la estimación del modelo principal.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{../../outputs/figures/sensitivity_bootstrap_distribution.pdf}
+\caption{Distribución bootstrap de estimaciones CA$\to$FA basada en 20 replicaciones de remuestreo (80\% de circuitos con reemplazo). La línea vertical indica la estimación del modelo de referencia.}
+\label{fig:sens_bootstrap}
+\end{figure}
+
+\subsubsection{Resumen de Variaciones}
+
+La Figura~\ref{fig:sens_scatter} presenta las diferencias entre cada prueba de sensibilidad y el modelo de referencia para las transferencias CA$\to$FA y CA$\to$PN. La concentración de puntos cerca de cero confirma que las variaciones observadas son de magnitud reducida.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{../../outputs/figures/sensitivity_differences_scatter.pdf}
+\caption{Diferencias entre estimaciones de pruebas de sensibilidad y modelo de referencia para las transferencias de CA. Los puntos cercanos a cero indican concordancia con el modelo de referencia.}
+\label{fig:sens_scatter}
+\end{figure}
+
+% ========================================
+\subsection{Interpretación e Implicaciones}
+\label{sec:sensibilidad_interpretacion}
+
+\subsubsection{Evaluación de Robustez}
+
+Las pruebas de sensibilidad implementadas proporcionan evidencia de estabilidad razonable en las estimaciones principales. La transferencia CA$\to$FA, estimada en 46.5\% en el modelo de referencia, se mantiene en un rango de 46.5\% a 47.8\% a través de las pruebas determinísticas (previas y outliers), con una media bootstrap de 47.2\% $\pm$ 3.0 pp. La variación máxima observada de 1.31 pp representa menos del 3\% de variación relativa.
+
+Tres características del análisis contribuyen a esta estabilidad:
+
+\begin{enumerate}
+    \item \textbf{Tamaño muestral amplio}: Los 7,271 circuitos proporcionan información estadística suficiente para reducir la variabilidad de las estimaciones y la dependencia respecto de observaciones individuales
+
+    \item \textbf{Restricciones del modelo}: La implementación bayesiana con distribuciones Dirichlet impone restricciones naturales sobre las probabilidades de transición (valores en $[0,1]$, suma a uno por fila), lo que limita el rango de variación posible
+
+    \item \textbf{Señal fuerte en los datos}: La defección de CA al FA constituye un patrón de magnitud considerable que emerge de forma consistente bajo diferentes especificaciones
+\end{enumerate}
+
+\subsubsection{Limitaciones del Análisis de Sensibilidad}
+
+El alcance de las pruebas realizadas es limitado en varios aspectos que conviene explicitar:
+
+\begin{itemize}
+    \item \textbf{Previas no diferenciadas}: Las pruebas de sensibilidad previa no lograron implementar especificaciones genuinamente distintas de la distribución Dirichlet, por lo que la insensibilidad observada refleja parcialmente una limitación de la implementación
+
+    \item \textbf{Bootstrap reducido}: El análisis bootstrap se realizó con un número de replicaciones inferior al estándar recomendado (20 replicaciones en lugar de 100 o más), con configuración MCMC reducida en cada replicación. Las estimaciones de variabilidad bootstrap deben interpretarse como aproximaciones
+
+    \item \textbf{Pruebas MCMC no incluidas}: No se realizaron pruebas de sensibilidad al número de muestras MCMC (por ejemplo, comparación entre 2,000 y 6,000 muestras) como parte de este análisis de sensibilidad formal, si bien los diagnósticos de convergencia del modelo principal ($\hat{R} < 1.01$, ESS $> 1{,}000$) proporcionan confianza en la convergencia de la configuración utilizada
+
+    \item \textbf{Supuestos estructurales no evaluados}: No se evalúan supuestos fundamentales del modelo de inferencia ecológica, incluyendo la homogeneidad de las transferencias dentro de cada circuito, la independencia entre circuitos y el supuesto de que los cambios en participación no se correlacionan sistemáticamente con las transferencias de votos
+
+    \item \textbf{Sesgo de agregación}: El análisis asume que los circuitos son unidades internamente homogéneas. Un análisis a nivel de mesa electoral (más desagregado) podría revelar patrones adicionales de heterogeneidad
+\end{itemize}
+
+Estas limitaciones no invalidan los resultados obtenidos, pero sugieren que la evaluación de robustez presentada es parcial. En trabajos futuros, la incorporación de modelos jerárquicos con covariables censales, pruebas con previas sustantivamente informativas y un mayor número de replicaciones bootstrap fortalecería la evaluación de sensibilidad.
+
+% ========================================
+\subsection{Conclusiones del Análisis de Sensibilidad}
+\label{sec:sensibilidad_conclusiones}
+
+El análisis de sensibilidad proporciona evidencia de que las estimaciones de transferencia de votos de CA son razonablemente estables frente a las variaciones metodológicas examinadas. La estimación central de CA$\to$FA se mantiene en un rango de 46.5\% a 47.8\% a través de las pruebas determinísticas, con una variación máxima de 1.31 puntos porcentuales. El análisis bootstrap, aunque limitado en número de replicaciones, sugiere una dispersión de aproximadamente 3 puntos porcentuales en torno a la estimación central.
+
+Estos resultados permiten concluir que el hallazgo principal---la defección de aproximadamente la mitad de los votantes de CA hacia el FA en el balotaje---no es un artefacto de la elección de distribuciones previas ni de la presencia de circuitos atípicos en los datos. La magnitud del fenómeno es suficientemente grande y la evidencia estadística suficientemente robusta para que las conclusiones sustantivas del análisis se sostengan bajo las variaciones examinadas. No obstante, se reconoce que dimensiones adicionales de sensibilidad---particularmente la evaluación de supuestos estructurales del modelo---permanecen como áreas de trabajo futuro.

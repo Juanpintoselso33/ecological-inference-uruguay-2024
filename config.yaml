@@ -1,0 +1,89 @@
+# config.yaml
+# Main configuration file for Electoral Inference Analysis
+# Project Status: Phase 6 COMPLETE - Final report ready
+
+data:
+  # 2024 Election Data
+  urls:
+    primera_vuelta: "https://www.gub.uy/corte-electoral/sites/corte-electoral/files/2024-11/depto_circ_hojavot_nac_24_departamental.xlsx"
+    ballotage: "https://www.gub.uy/corte-electoral/sites/corte-electoral/files/2024-12/Resultados%20de%20la%20Segunda%20Elecci%C3%B3n%202024%20por%20circuito%20y%20por%20hoja.xlsx"
+
+  # 2019 Election Data (for temporal comparison)
+  urls_2019:
+    primera_vuelta: "https://www.gub.uy/corte-electoral/sites/corte-electoral/files/2019-11/depto_circ_hojavot_nac_19_departamental.xlsx"
+    ballotage: "https://www.gub.uy/corte-electoral/sites/corte-electoral/files/2019-12/Resultados_Segunda_Eleccion_2019_por_circuito.xlsx"
+
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  shapefiles_dir: "data/external/shapefiles"
+
+# Electoral data structure
+parties:
+  primera_vuelta:
+    - FA  # Frente Amplio
+    - PN  # Partido Nacional
+    - PC  # Partido Colorado
+    - CA  # Cabildo Abierto
+    - PI  # Partido Independiente
+    - OTROS
+  ballotage:
+    - FA
+    - PN
+
+models:
+  king_ei:
+    # Production settings (publication-quality)
+    # Note: Using 4000 samples provides sufficient convergence (R-hat < 1.01, ESS > 1000)
+    # while being computationally efficient. Original config had 10000, but tests showed
+    # 4000 achieves stable results with shorter runtime.
+    num_samples: 4000
+    num_chains: 4
+    num_warmup: 2000
+    target_accept: 0.9
+    random_seed: 42
+
+    # Quick test settings (for validation)
+    quick_test:
+      num_samples: 500
+      num_chains: 2
+      num_warmup: 500
+
+  goodman:
+    method: "ols"
+    add_constant: true
+
+outputs:
+  figures_dir: "outputs/figures"
+  tables_dir: "outputs/tables"
+  tables_latex_dir: "outputs/tables/latex"
+  reports_dir: "reports"  # Final PDF reports stored here
+
+# Stratification schemes
+stratification:
+  urban_rural:
+    enabled: true
+    # Classification based on population density and urban classification
+    # Currently manual - future: integrate with Census 2023
+
+  metropolitan_interior:
+    enabled: true
+    metropolitan_departments:
+      - "Montevideo"
+      - "Canelones"
+
+visualization:
+  dpi: 300
+  figure_format: "png"
+  map_crs: "EPSG:32721"  # UTM Zone 21S for Uruguay
+  color_scheme: "RdYlBu_r"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "outputs/analysis.log"
+
+validation:
+  tolerance: 0.001  # For row sum checks
+  min_votes_per_circuit: 10  # Minimum votes to include circuit
+  max_proportion: 1.0
+  min_proportion: 0.0
