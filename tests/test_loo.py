@@ -27,8 +27,8 @@ def test_loo_returns_result(synthetic_data_small, quick_mcmc_params):
     df = synthetic_data_small
     model = KingEI(**quick_mcmc_params)
     model.fit(df, origin_cols=['party_a', 'party_b'],
-              dest_cols=['dest_x', 'dest_y'],
-              total_col='total_primera', total_dest_col='total_ballotage')
+              destination_cols=['dest_x', 'dest_y'],
+              total_origin='total_primera', total_destination='total_ballotage')
     result = compute_loo(model)
     assert isinstance(result, LOOResult)
     assert result.pareto_k.shape == (len(df),)

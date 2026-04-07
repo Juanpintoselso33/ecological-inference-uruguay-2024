@@ -42,7 +42,8 @@ class KingEI(BaseEIModel):
                  num_chains: int = 4,
                  num_warmup: int = 1000,
                  target_accept: float = 0.9,
-                 random_seed: int = 42):
+                 random_seed: int = 42,
+                 likelihood: str = 'normal'):
         """
         Initialize King's EI model.
 
@@ -52,6 +53,8 @@ class KingEI(BaseEIModel):
             num_warmup: Number of warmup/burn-in samples
             target_accept: Target acceptance rate for NUTS sampler
             random_seed: Random seed for reproducibility
+            likelihood: Observation likelihood — 'normal' (default, backward-compatible)
+                or 'dirichlet_multinomial' (statistically correct for count data)
         """
         super().__init__(name="KingEI")
 
@@ -60,6 +63,7 @@ class KingEI(BaseEIModel):
         self.num_warmup = num_warmup
         self.target_accept = target_accept
         self.random_seed = random_seed
+        self.likelihood = likelihood
 
         self.model_ = None
         self.trace_ = None
@@ -69,7 +73,8 @@ class KingEI(BaseEIModel):
             destination_cols: List[str],
             total_origin: str,
             total_destination: str,
-            progressbar: bool = True) -> 'KingEI':
+            progressbar: bool = True,
+            covariate_cols: Optional[List[str]] = None) -> 'KingEI':
         """
         Fit King's EI model using MCMC.
 
@@ -93,8 +98,11 @@ class KingEI(BaseEIModel):
         self.origin_party_names_ = [col.replace('_primera', '').upper() for col in origin_cols]
         self.destination_party_names_ = [col.replace('_ballotage', '').upper() for col in destination_cols]
 
-        # Drop rows with NaN values
-        data_clean = data[origin_cols + destination_cols].dropna()
+        # Drop rows with NaN values — include all needed columns
+        all_cols = origin_cols + destination_cols + [total_origin, total_destination]
+        if covariate_cols:
+            all_cols = all_cols + covariate_cols
+        data_clean = data[all_cols].dropna()
         logger.info(f"Fitting on {len(data_clean)} circuits (dropped {len(data) - len(data_clean)} with NaN)")
 
         # Extract data
@@ -104,48 +112,29 @@ class KingEI(BaseEIModel):
         n_circuits, n_origin = X.shape
         n_dest = Y.shape[1]
 
-        logger.info(f"Building Bayesian model: {n_origin} origin parties → {n_dest} destination parties")
+        # Extract covariates if provided
+        Z = None
+        if covariate_cols:
+            Z = data_clean[covariate_cols].values.astype(float)
 
-        # Build PyMC model
-        with pm.Model() as model:
-            # Dirichlet prior for transition probabilities
-            # Each row of the transition matrix follows a Dirichlet distribution
-            # This ensures: (1) all probabilities in [0,1], (2) rows sum to 1
+        logger.info(f"Building Bayesian model: {n_origin} origin parties → {n_dest} destination parties "
+                    f"[likelihood={self.likelihood}]")
 
-            # Concentration parameters (alpha) - uniform prior
-            alpha = np.ones(n_dest)
-
-            # Transition matrix: T[i,j] = P(j | i)
-            # Shape: (n_origin, n_dest)
-            T = pm.Dirichlet(
-                'transition_matrix',
-                a=alpha,
-                shape=(n_origin, n_dest)
+        # Build PyMC model — dispatch on likelihood type
+        if self.likelihood == 'normal':
+            model = self._build_model_normal(X, Y, n_origin, n_dest)
+        elif self.likelihood == 'dirichlet_multinomial':
+            N2 = data_clean[total_destination].values.astype(int)
+            model = self._build_model_dirichlet_multinomial(X, Y, N2, n_origin, n_dest, Z=Z)
+        else:
+            raise ValueError(
+                f"Unknown likelihood '{self.likelihood}'. "
+                "Choose 'normal' or 'dirichlet_multinomial'."
             )
 
-            # For each circuit, predict destination votes
-            # Y_pred[c,j] = Σ_i X[c,i] * T[i,j]
-            # This is matrix multiplication: Y_pred = X @ T
-
-            # Expected destination votes
-            Y_pred_mean = pm.math.dot(X, T)
-
-            # Observation noise - use Multinomial or Normal approximation
-            # For large vote counts, Normal is a good approximation
-            # Add small constant to avoid zero variance
-            Y_pred_std = pm.math.sqrt(Y_pred_mean + 1.0)
-
-            # Observed destination votes (Normal approximation)
-            Y_obs = pm.Normal(
-                'destination_votes',
-                mu=Y_pred_mean,
-                sigma=Y_pred_std,
-                observed=Y
-            )
-
-            # Sample from posterior
-            logger.info(f"Starting MCMC sampling: {self.num_chains} chains, {self.num_samples} samples, {self.num_warmup} warmup")
-
+        # Sample from posterior
+        logger.info(f"Starting MCMC sampling: {self.num_chains} chains, {self.num_samples} samples, {self.num_warmup} warmup")
+        with model:
             trace = pm.sample(
                 draws=self.num_samples,
                 tune=self.num_warmup,
@@ -159,6 +148,7 @@ class KingEI(BaseEIModel):
         # Store results
         self.model_ = model
         self.trace_ = trace
+        self.data_ = data.copy()
         self.is_fitted = True
 
         # Compute diagnostics
@@ -167,6 +157,77 @@ class KingEI(BaseEIModel):
         logger.info("✓ Model fitted successfully")
 
         return self
+
+    def _build_model_normal(self, X, Y, n_origin, n_dest):
+        """Build PyMC model with Normal (Gaussian) observation likelihood.
+
+        This is the original ad-hoc likelihood — retained for backward
+        compatibility. Uses sqrt(Y_pred + 1) as observation noise.
+        """
+        with pm.Model() as model:
+            T = pm.Dirichlet(
+                'transition_matrix',
+                a=np.ones(n_dest),
+                shape=(n_origin, n_dest)
+            )
+            Y_pred_mean = pm.math.dot(X, T)
+            Y_pred_std = pm.math.sqrt(Y_pred_mean + 1.0)
+            Y_obs = pm.Normal(
+                'destination_votes',
+                mu=Y_pred_mean,
+                sigma=Y_pred_std,
+                observed=Y
+            )
+        return model
+
+    def _build_model_dirichlet_multinomial(self, X, Y, N, n_origin, n_dest, Z=None):
+        """Build PyMC model with DirichletMultinomial observation likelihood.
+
+        Statistically correct for compositional count data. Accounts for
+        overdispersion via a concentration parameter phi ~ HalfNormal(100).
+
+        When Z (covariates) are provided, concentration varies by circuit:
+            log(phi_i) = alpha + Z_i @ gamma
+
+        Args:
+            X: Origin vote counts, shape (n_circuits, n_origin)
+            Y: Destination vote counts, shape (n_circuits, n_dest)
+            N: Total destination votes per circuit, shape (n_circuits,)
+            n_origin: Number of origin parties
+            n_dest: Number of destination parties
+            Z: Optional covariate array, shape (n_circuits, n_covariates)
+        """
+        with pm.Model() as model:
+            T = pm.Dirichlet(
+                'transition_matrix',
+                a=np.ones(n_dest),
+                shape=(n_origin, n_dest),
+            )
+
+            if Z is not None and Z.shape[1] > 0:
+                n_cov = Z.shape[1]
+                alpha_conc = pm.Normal('alpha_concentration', mu=3.0, sigma=1.0)
+                gamma_conc = pm.Normal('gamma_concentration', mu=0.0, sigma=1.0, shape=n_cov)
+                log_phi = alpha_conc + pm.math.dot(Z, gamma_conc)
+                concentration = pm.Deterministic('concentration', pm.math.exp(log_phi))
+            else:
+                concentration = pm.HalfNormal('concentration', sigma=100.0)
+
+            X_prop = X / np.maximum(X.sum(axis=1, keepdims=True), 1)
+            pi = pm.math.dot(X_prop, T)
+
+            if Z is not None and Z.shape[1] > 0:
+                alpha_pred = pi * concentration[:, None]
+            else:
+                alpha_pred = pi * concentration
+
+            Y_obs = pm.DirichletMultinomial(
+                'destination_votes',
+                n=N.astype(int),
+                a=alpha_pred,
+                observed=Y.astype(int),
+            )
+        return model
 
     def get_transition_matrix(self) -> np.ndarray:
         """
@@ -256,6 +317,32 @@ class KingEI(BaseEIModel):
             'lower': posterior.quantile(lower_q, dim=['chain', 'draw']).values,
             'upper': posterior.quantile(upper_q, dim=['chain', 'draw']).values
         }
+
+    def get_bounds(self, origin_cols, dest_cols, total_origin, total_destination):
+        """Compute Duncan-Davis deterministic bounds for this model's data.
+
+        Returns
+        -------
+        dict mapping origin party to {'lower': array(n,d), 'upper': array(n,d)}
+        """
+        if not self.is_fitted:
+            raise ValueError(f"{self.name} model not fitted yet. Call fit() first.")
+        from src.diagnostics.bounds import compute_duncan_davis_bounds
+        return compute_duncan_davis_bounds(
+            self.data_, origin_cols, dest_cols, total_origin, total_destination
+        )
+
+    def get_loo(self):
+        """Compute PSIS/LOO-CV for the fitted model.
+
+        Returns
+        -------
+        LOOResult with elpd_loo, p_loo, looic, se, pareto_k, n_bad_k, warning
+        """
+        if not self.is_fitted:
+            raise ValueError(f"{self.name} model not fitted yet. Call fit() first.")
+        from src.diagnostics.loo import compute_loo
+        return compute_loo(self)
 
     def _compute_diagnostics(self) -> None:
         """Compute MCMC diagnostics (R-hat, ESS, etc.)."""
