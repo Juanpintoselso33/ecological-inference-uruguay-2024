@@ -43,7 +43,8 @@ class KingEI(BaseEIModel):
                  num_warmup: int = 1000,
                  target_accept: float = 0.9,
                  random_seed: int = 42,
-                 likelihood: str = 'normal'):
+                 likelihood: str = 'normal',
+                 trace_dir: Optional[str] = 'outputs/results/traces'):
         """
         Initialize King's EI model.
 
@@ -55,6 +56,8 @@ class KingEI(BaseEIModel):
             random_seed: Random seed for reproducibility
             likelihood: Observation likelihood — 'normal' (default, backward-compatible)
                 or 'dirichlet_multinomial' (statistically correct for count data)
+            trace_dir: Directory to auto-save InferenceData trace (.nc).
+                Set to None to disable auto-save.
         """
         super().__init__(name="KingEI")
 
@@ -64,9 +67,11 @@ class KingEI(BaseEIModel):
         self.target_accept = target_accept
         self.random_seed = random_seed
         self.likelihood = likelihood
+        self.trace_dir = Path(trace_dir) if trace_dir else None
 
         self.model_ = None
         self.trace_ = None
+        self.trace_path_ = None
 
     def fit(self, data: pd.DataFrame,
             origin_cols: List[str],
@@ -144,7 +149,7 @@ class KingEI(BaseEIModel):
                 target_accept=self.target_accept,
                 random_seed=self.random_seed,
                 progressbar=progressbar,
-                return_inferencedata=True
+                return_inferencedata=True,
             )
 
         # Store results
@@ -153,12 +158,47 @@ class KingEI(BaseEIModel):
         self.data_ = data.copy()
         self.is_fitted = True
 
+        # Auto-save trace to disk before diagnostics (so it's safe even if diag fails)
+        self._save_trace(origin_cols, destination_cols)
+
         # Compute diagnostics
         self._compute_diagnostics()
 
         logger.info("✓ Model fitted successfully")
 
         return self
+
+    def _save_trace(self, origin_cols, destination_cols):
+        """Save InferenceData trace to netCDF. Called automatically after sampling."""
+        if self.trace_dir is None:
+            return
+        self.trace_dir.mkdir(parents=True, exist_ok=True)
+        n_origin = len(origin_cols)
+        n_dest = len(destination_cols)
+        fname = f"kingei_{self.likelihood}_{n_origin}x{n_dest}_{self.num_samples}s_{self.num_chains}c.nc"
+        self.trace_path_ = self.trace_dir / fname
+        self.trace_.to_netcdf(str(self.trace_path_))
+        logger.info("Trace guardado: %s", self.trace_path_)
+
+    @classmethod
+    def load_trace(cls, trace_path: str, **kwargs) -> 'KingEI':
+        """Load a previously saved trace without re-running MCMC.
+
+        Args:
+            trace_path: Path to .nc file saved by _save_trace()
+            **kwargs: Passed to KingEI.__init__ (num_samples, likelihood, etc.)
+
+        Returns:
+            Fitted KingEI instance with trace loaded.
+        """
+        import arviz as az
+        model = cls(**kwargs)
+        model.trace_ = az.from_netcdf(trace_path)
+        model.trace_path_ = Path(trace_path)
+        model.is_fitted = True
+        model._compute_diagnostics()
+        logger.info("Trace cargado desde: %s", trace_path)
+        return model
 
     def _build_model_normal(self, X, Y, n_origin, n_dest):
         """Build PyMC model with Normal (Gaussian) observation likelihood.

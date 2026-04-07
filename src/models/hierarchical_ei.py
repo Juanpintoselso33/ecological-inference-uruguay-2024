@@ -10,11 +10,11 @@ Rosen et al. (2001), in contrast to the complete-pooling KingEI model
 which estimates a single national T.
 """
 from typing import Dict, List, Optional
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import pymc as pm
 import arviz as az
-from pathlib import Path
 
 import sys
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -48,6 +48,7 @@ class HierarchicalEI(BaseEIModel):
         num_warmup: int = 1000,
         target_accept: float = 0.9,
         random_seed: int = 42,
+        trace_dir: str = 'outputs/results/traces',
     ):
         super().__init__(name="HierarchicalEI")
         self.num_samples = num_samples
@@ -55,6 +56,8 @@ class HierarchicalEI(BaseEIModel):
         self.num_warmup = num_warmup
         self.target_accept = target_accept
         self.random_seed = random_seed
+        self.trace_dir = Path(trace_dir) if trace_dir else None
+        self.trace_path_ = None
 
     def fit(
         self,
@@ -151,10 +154,36 @@ class HierarchicalEI(BaseEIModel):
         self.model_ = model
         self.trace_ = trace
         self.data_ = data.copy()
-        self._compute_diagnostics()
         self.is_fitted = True
+
+        # Auto-save trace before diagnostics
+        self._save_trace(origin_cols, destination_cols, n_groups)
+        self._compute_diagnostics()
         logger.info("HierarchicalEI fitted successfully")
         return self
+
+    def _save_trace(self, origin_cols, destination_cols, n_groups):
+        """Save InferenceData trace to netCDF."""
+        if self.trace_dir is None:
+            return
+        self.trace_dir.mkdir(parents=True, exist_ok=True)
+        fname = (f"hierarchical_{len(origin_cols)}x{len(destination_cols)}"
+                 f"_{n_groups}g_{self.num_samples}s_{self.num_chains}c.nc")
+        self.trace_path_ = self.trace_dir / fname
+        self.trace_.to_netcdf(str(self.trace_path_))
+        logger.info("Trace guardado: %s", self.trace_path_)
+
+    @classmethod
+    def load_trace(cls, trace_path: str, **kwargs) -> 'HierarchicalEI':
+        """Load a previously saved trace without re-running MCMC."""
+        import arviz as az
+        model = cls(**kwargs)
+        model.trace_ = az.from_netcdf(trace_path)
+        model.trace_path_ = Path(trace_path)
+        model.is_fitted = True
+        model._compute_diagnostics()
+        logger.info("Trace cargado desde: %s", trace_path)
+        return model
 
     def get_transition_matrix(self) -> np.ndarray:
         """Returns national-level T (mean over groups and posterior)."""
