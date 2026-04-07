@@ -169,31 +169,37 @@ class KingEI(BaseEIModel):
         return self
 
     def _save_trace(self, origin_cols, destination_cols):
-        """Save InferenceData trace to netCDF. Called automatically after sampling."""
+        """Save InferenceData trace to pickle. Called automatically after sampling."""
         if self.trace_dir is None:
             return
-        self.trace_dir.mkdir(parents=True, exist_ok=True)
-        n_origin = len(origin_cols)
-        n_dest = len(destination_cols)
-        fname = f"kingei_{self.likelihood}_{n_origin}x{n_dest}_{self.num_samples}s_{self.num_chains}c.nc"
-        self.trace_path_ = self.trace_dir / fname
-        self.trace_.to_netcdf(str(self.trace_path_))
-        logger.info("Trace guardado: %s", self.trace_path_)
+        try:
+            import pickle
+            self.trace_dir.mkdir(parents=True, exist_ok=True)
+            n_origin = len(origin_cols)
+            n_dest = len(destination_cols)
+            fname = f"kingei_{self.likelihood}_{n_origin}x{n_dest}_{self.num_samples}s_{self.num_chains}c.pkl"
+            self.trace_path_ = self.trace_dir / fname
+            with open(self.trace_path_, 'wb') as f:
+                pickle.dump(self.trace_, f)
+            logger.info("Trace guardado: %s", self.trace_path_)
+        except Exception as e:
+            logger.warning("No se pudo guardar el trace: %s", e)
 
     @classmethod
     def load_trace(cls, trace_path: str, **kwargs) -> 'KingEI':
         """Load a previously saved trace without re-running MCMC.
 
         Args:
-            trace_path: Path to .nc file saved by _save_trace()
+            trace_path: Path to .pkl file saved by _save_trace()
             **kwargs: Passed to KingEI.__init__ (num_samples, likelihood, etc.)
 
         Returns:
             Fitted KingEI instance with trace loaded.
         """
-        import arviz as az
+        import pickle
         model = cls(**kwargs)
-        model.trace_ = az.from_netcdf(trace_path)
+        with open(trace_path, 'rb') as f:
+            model.trace_ = pickle.load(f)
         model.trace_path_ = Path(trace_path)
         model.is_fitted = True
         model._compute_diagnostics()

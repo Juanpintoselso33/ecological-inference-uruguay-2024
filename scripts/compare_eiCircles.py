@@ -95,10 +95,13 @@ def main():
     print("=" * 60)
     print(results_df.to_string(index=False))
 
-    # LOO diagnostics
-    logger.info("Computing PSIS/LOO-CV...")
-    loo_result = compute_loo(model)
-    print("\n" + loo_summary(loo_result))
+    # LOO diagnostics (opcional — requiere log_likelihood en el trace)
+    try:
+        logger.info("Computing PSIS/LOO-CV...")
+        loo_result = compute_loo(model)
+        print("\n" + loo_summary(loo_result))
+    except Exception as e:
+        logger.warning("LOO no disponible: %s", e)
 
     print("\n" + "=" * 60)
     print("TO COMPARE WITH eiCircles IN R:")
