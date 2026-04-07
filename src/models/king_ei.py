@@ -124,7 +124,9 @@ class KingEI(BaseEIModel):
         if self.likelihood == 'normal':
             model = self._build_model_normal(X, Y, n_origin, n_dest)
         elif self.likelihood == 'dirichlet_multinomial':
-            N2 = data_clean[total_destination].values.astype(int)
+            # Use sum of observed destination cols as n (NOT total_destination, which
+            # includes nulos/observados not in our destination categories)
+            N2 = Y.sum(axis=1).astype(int)
             model = self._build_model_dirichlet_multinomial(X, Y, N2, n_origin, n_dest, Z=Z)
         else:
             raise ValueError(
