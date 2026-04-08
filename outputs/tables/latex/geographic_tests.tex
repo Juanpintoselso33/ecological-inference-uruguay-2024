@@ -1,0 +1,28 @@
+% Test formal de diferencias geográficas (DirichletMultinomial)
+% Generado por scripts/test_geographic_differences.py
+
+\begin{table}[htbp]
+\centering
+\caption{Test bayesiano de diferencias geográficas en tasas de defección (2024). Se reporta la diferencia posterior media con IC al 95\% y la probabilidad posterior $P(A > B)$ bajo aproximación normal de los posteriors DirichletMultinomial.}
+\label{tab:geographic_tests}
+\small
+\begin{tabular}{lcccc}
+\toprule
+Comparación & $\bar{\theta}_A$ & $\bar{\theta}_B$ & $\Delta$ [IC 95\%] & $P(A > B)$ \\
+\midrule
+\multicolumn{5}{l}{\textit{Urbano vs Rural}} \\
+\quad CA->FA & 66.3\% & 48.0\% & +18.4 [+5.8, +30.9] & 0.998$^*$ \\
+\quad PC->FA & 3.2\% & 7.3\% & -4.0 [-7.1, -0.9] & 0.005$^*$ \\
+\quad PN->FA & 9.8\% & 8.2\% & +1.5 [-0.3, +3.3] & 0.950 \\
+\midrule
+\multicolumn{5}{l}{\textit{Metropolitano vs Interior}} \\
+\quad CA->FA & 56.1\% & 47.8\% & +8.2 [+0.1, +16.4] & 0.976$^*$ \\
+\quad PC->FA & 5.2\% & 7.1\% & -1.9 [-4.1, +0.3] & 0.044 \\
+\quad PN->FA & 8.5\% & 0.2\% & +8.3 [+7.4, +9.1] & 1.000$^*$ \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\small
+\item $^*$ El IC al 95\% de la diferencia no incluye cero.
+\item $A$ = estrato con mayor defección esperada (Rural / Interior); $B$ = estrato de referencia (Urbano / Metropolitano).
+\end{tablenotes}
+\end{table}

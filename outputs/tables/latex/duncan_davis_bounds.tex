@@ -1,0 +1,30 @@
+% Bounds de Duncan-Davis / Fréchet para verificación de estimados DM
+% Generado por scripts/check_duncan_davis_bounds.py
+
+\begin{table}[htbp]
+\centering
+\caption{Cotas de Duncan-Davis (Fréchet) para los estimados del modelo DirichletMultinomial (2024). Las cotas definen el rango lógicamente posible para cada tasa de transferencia dados los conteos electorales observados. Todos los estimados dentro de las cotas son logicamente consistentes.}
+\label{tab:duncan_davis_bounds}
+\small
+\begin{tabular}{llcccc}
+\toprule
+Origen & Destino & Cota inferior & Estimado DM & Cota superior & ¿Válido? \\
+\midrule
+\textsc{CA} & BLANCOS & 0.0\% & \textbf{4.7\%} & 54.6\% & $\checkmark$ \\
+\textsc{CA} & FA & 0.2\% & \textbf{44.3\%} & 100.0\% & $\checkmark$ \\
+\textsc{CA} & PN & 0.2\% & \textbf{51.0\%} & 100.0\% & $\checkmark$ \\
+\textsc{FA} & BLANCOS & 0.0\% & \textbf{0.6\%} & 3.7\% & $\checkmark$ \\
+\textsc{FA} & FA & 23.1\% & \textbf{99.2\%} & 99.9\% & $\checkmark$ \\
+\textsc{FA} & PN & 0.1\% & \textbf{0.2\%} & 78.3\% & $\checkmark$ \\
+\textsc{PC} & BLANCOS & 0.0\% & \textbf{2.2\%} & 10.2\% & $\checkmark$ \\
+\textsc{PC} & FA & 0.0\% & \textbf{5.1\%} & 98.1\% & $\checkmark$ \\
+\textsc{PC} & PN & 2.2\% & \textbf{92.7\%} & 100.0\% & $\checkmark$ \\
+\textsc{PN} & BLANCOS & 0.0\% & \textbf{1.8\%} & 6.1\% & $\checkmark$ \\
+\textsc{PN} & FA & 0.0\% & \textbf{7.5\%} & 92.4\% & $\checkmark$ \\
+\textsc{PN} & PN & 8.2\% & \textbf{90.6\%} & 100.0\% & $\checkmark$ \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\small
+\item Cotas calculadas usando el método de Fréchet (Duncan y Davis, 1953): $\beta^-_i = \max(0, (y_i - N_i + x_i)/x_i)$, $\beta^+_i = \min(1, y_i/x_i)$, agregadas ponderando por $x_i$.
+\end{tablenotes}
+\end{table}
