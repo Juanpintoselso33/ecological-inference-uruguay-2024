@@ -8,56 +8,68 @@
 
 El análisis comparativo entre las elecciones de 2019 y 2024 revela una paradoja fundamental en la política uruguaya reciente: la Coalición Republicana perdió en 2024 a pesar de mejorar dramáticamente su cohesión interna. Esta sección examina la evolución temporal de los patrones de transferencia de votos, identifica cambios estructurales en el electorado, y proporciona explicaciones para el resultado electoral aparentemente contradictorio.
 
-\textbf{Nota metodológica:} Las cifras de esta sección corresponden a promedios departamentales ponderados por votos, que difieren de las estimaciones nacionales directas presentadas en las secciones anteriores. La diferencia se debe a que el modelo nacional estima una única matriz de transición para todos los circuitos simultáneamente, mientras que los promedios departamentales agregan estimaciones locales. Por ejemplo, la defección de CA a FA se estima en 46.5\% con el modelo nacional con PI (Tabla~\ref{tab:national_matrix_pi}), frente a 27.6\% como promedio departamental ponderado (Tabla~\ref{tab:comparison_2019_2024}). Para la comparación temporal 2019--2024, se utiliza el mismo método---promedios departamentales ponderados---en ambos años para garantizar comparabilidad intertemporal.
+\begin{quote}
+\small\textbf{Nota metodológica.} Esta sección presenta dos enfoques complementarios para la comparación temporal. \textit{(i) Modelo nacional DirichletMultinomial (Tabla~\ref{tab:temporal_comparison_dm})}: estimación simultánea sobre los 7{,}118--7{,}271 circuitos de cada año; constituye la referencia principal para la comparación 2019--2024 por su consistencia metodológica entre años. \textit{(ii) Promedios departamentales ponderados (Tabla~\ref{tab:comparison_2019_2024})}: agregación de modelos departamentales independientes; permite el análisis subnacional pero puede diferir del modelo nacional por efecto de composición geográfica. Las estimaciones nacionales directas del modelo con PI para 2024 se presentan en la Tabla~\ref{tab:national_matrix_pi}.
+\end{quote}
 
 \subsection{Resultados Nacionales 2019}
 \label{sec:resultados_2019}
 
-La Tabla~\ref{tab:national_transitions_2019} presenta la matriz de transición nacional para la elección de 2019, estimada utilizando 7,213 circuitos electorales. Los patrones de 2019 difieren marcadamente de los observados en 2024, particularmente en la magnitud de las defecciones coalicionales.
+La Tabla~\ref{tab:national_transitions_2019} presenta la matriz de transición nacional para la elección de 2019, estimada utilizando 7{,}118 circuitos electorales. Los patrones de 2019 difieren marcadamente de los observados en 2024, particularmente en el comportamiento del electorado de Cabildo Abierto.
 
 % Matriz de transición nacional 2019
 \input{../../outputs/tables/latex/national_transition_matrix_2019}
 
-\textbf{Cabildo Abierto 2019.} En 2019, CA experimentó una hemorragia masiva hacia el Frente Amplio, con un 69.5\% de sus votantes defectando a FA en segunda vuelta. Esta tasa de defección extremadamente alta resultó en aproximadamente 186,316 votos transferidos a FA—la mayor contribución individual a la victoria del PN en 2019 proveniente paradójicamente de un partido coalicional. Solo el 29.4\% de los votantes de CA permanecieron leales a la coalición votando por PN. Este patrón contrasta dramáticamente con 2024, donde el modelo nacional de inferencia ecológica estima que CA se dividió casi equitativamente (46.5\% a FA vs 49.1\% a PN según el modelo con PI, Tabla~\ref{tab:national_matrix_pi}), mientras que el promedio departamental ponderado arroja una defección del 27.6\% a FA (Tabla~\ref{tab:comparison_2019_2024}).
+\subsection{Comparación Nacional 2019 vs.\ 2024: Modelo DirichletMultinomial}
+\label{sec:comparacion_dm}
 
-\textbf{Partido Colorado 2019.} El PC mostró una defección del 33.8\% a FA en 2019, aproximadamente triple la tasa observada en 2024 (7.2\%). Con una base de 299,798 votos en primera vuelta, esta defección representó aproximadamente 101,412 votos para FA. El 64.5\% retuvo lealtad a la coalición votando PN, sustancialmente menor que el 86.7\% observado en 2024.
+La Tabla~\ref{tab:temporal_comparison_dm} presenta la comparación sistemática de matrices de transición entre 2019 y 2024 estimadas con el modelo nacional DirichletMultinomial. Este modelo estima simultáneamente los flujos de todos los circuitos, produciendo intervalos de credibilidad más estrechos y comparaciones metodológicamente consistentes entre elecciones.
 
-\textbf{Partido Nacional 2019.} El PN exhibió una defección sorprendentemente alta del 36.0\% a FA en 2019, diez veces mayor que la tasa de 2024 (3.6\%). Esta defección masiva resultó en aproximadamente 250,260 votos transferidos al ideológicamente distante FA. Solo el 62.4\% de votantes del PN votaron por su propio partido en segunda vuelta—un patrón de auto-defección notable que sugiere profundas divisiones internas o insatisfacción con el candidato presidencial.
+% Comparación temporal DM 2019 vs 2024
+\input{../../outputs/tables/latex/temporal_comparison_dm}
 
-\textbf{Partido Independiente 2019.} El PI mostró un patrón extremo en 2019, con un estimado de 94.8\% de defección a FA. Este resultado debe interpretarse con cautela debido al pequeño tamaño de muestra (23,554 votos) y posibles problemas de convergencia MCMC. Los intervalos de credibilidad para PI 2019 son excepcionalmente amplios, sugiriendo alta incertidumbre en la estimación.
+\textbf{Cabildo Abierto 2019--2024.} Según el modelo DirichletMultinomial, en 2019 el 28.5\% [IC 95\%: 27.5\%, 29.5\%] de los votantes de CA defectaron a FA en segunda vuelta, mientras el 69.6\% [68.5\%, 70.6\%] votó por PN. Esta tasa de retención coalicional es consistente con la victoria del PN en 2019. En contraste, en 2024 la defección de CA hacia FA aumentó a 44.3\% [40.2\%, 48.3\%], con solo el 51.0\% [47.0\%, 55.1\%] apoyando a PN---un incremento de +15.8 pp en defección que constituyó el factor determinante de la derrota coalicional.
 
-\textbf{Comparación agregada.} En 2019, la coalición total perdió un estimado de 560,323 votos a FA a través de defecciones—4.6 veces más que en 2024 (122,905 votos). Esta diferencia dramática subraya la mejora sustancial en cohesión coalicional entre elecciones.
+\textbf{Partido Colorado 2019--2024.} El PC mostró la evolución más favorable: defección a FA se redujo de 9.2\% [8.4\%, 10.1\%] en 2019 a 5.1\% [4.0\%, 6.2\%] en 2024 ($-4.1$ pp). La lealtad coalicional del PC (voto a PN) aumentó de 89.1\% a 92.7\%, consolidándose como el partido más confiable de la coalición.
+
+\textbf{Partido Nacional 2019--2024.} El PN exhibió retención casi perfecta en 2019 (97.9\% votó PN), con prácticamente cero defección a FA (0.0\% [0.0\%, 0.2\%]). En 2024, la retención cayó a 90.6\% [90.0\%, 91.2\%], con una defección a FA del 7.5\% [6.9\%, 8.1\%]. Aun así, la auto-retención del PN permaneció alta en términos absolutos.
+
+\textbf{Partido Independiente 2019--2024.} El PI mostró un comportamiento extremo pero consistente: en ambos años, la casi totalidad de sus votantes apoyó al PN en segunda vuelta (87.9\% en 2019, 99.9\% en 2024). Los intervalos de credibilidad amplios en 2019 reflejan la incertidumbre inherente al pequeño tamaño del partido (23{,}554 votos).
+
+\textbf{Frente Amplio.} La lealtad del FA fue casi perfecta en ambos años: 99.8\% en 2019 y 99.2\% en 2024, lo que confirma que la coalición izquierdista no tuvo fugas significativas hacia el PN en ninguna de las dos elecciones.
 
 \subsection{Evolución de la Cohesión Coalicional}
 \label{sec:evolucion_cohesion}
 
-La Tabla~\ref{tab:comparison_2019_2024} presenta la comparación sistemática de defecciones coalicionales entre 2019 y 2024. Todos los partidos de la coalición mejoraron dramáticamente su retención:
+La Tabla~\ref{tab:comparison_2019_2024} presenta la comparación de defecciones coalicionales por departamento entre 2019 y 2024, basada en promedios departamentales ponderados. El modelo nacional DirichletMultinomial (Tabla~\ref{tab:temporal_comparison_dm}, Sección~\ref{sec:comparacion_dm}) ofrece la estimación de referencia a nivel nacional.
 
-% Comparación 2019-2024
+% Comparación 2019-2024 (promedios departamentales)
 \input{../../outputs/tables/latex/comparison_table_2019_2024}
 
+Según el modelo DirichletMultinomial nacional, la evolución de la defección coalicional presenta un cuadro mixto:
+
 \begin{itemize}
-    \item \textbf{CA}: Reducción de defección de 41.9 pp (de 69.5\% a 27.6\%)
-    \item \textbf{PC}: Reducción de defección de 26.6 pp (de 33.8\% a 7.2\%)
-    \item \textbf{PN}: Reducción de defección de 32.4 pp (de 36.0\% a 3.6\%)
-    \item \textbf{PI}: Reducción de defección de 92.1 pp (de 94.8\% a 2.8\%)
+    \item \textbf{CA}: \textit{Aumento} de defección de $+$15.8 pp (de 28.5\% en 2019 a 44.3\% en 2024) --- el cambio más desfavorable
+    \item \textbf{PN}: \textit{Aumento} de defección de $+$7.5 pp (de 0.0\% en 2019 a 7.5\% en 2024)
+    \item \textbf{PC}: \textit{Reducción} de defección de $-$4.1 pp (de 9.2\% en 2019 a 5.1\% en 2024) --- única mejora significativa
+    \item \textbf{PI}: Retención casi total en ambos años ($\approx$88\% y $\approx$100\% hacia PN)
 \end{itemize}
 
-La Figura~\ref{fig:cohesion_comparison} visualiza esta evolución dramática. La mejora fue generalizada—ningún partido coalicional empeoró su retención—sugiriendo un proceso sistemático de consolidación coalicional entre 2019 y 2024. Posibles explicaciones incluyen: (1) aprendizaje organizacional y mejor coordinación entre partidos coalicionales, (2) mayor identificación ideológica de votantes con la coalición después de cinco años de gobierno conjunto, (3) polarización incrementada que redujo transferencias entre bloques ideológicos, o (4) cambios en la composición del electorado de cada partido.
+La Figura~\ref{fig:cohesion_comparison} visualiza la evolución comparativa. El hallazgo del modelo nacional DirichletMultinomial revela que la derrota de 2024 no fue paradójica: CA defectó en mayor proporción que en 2019 (+15.8 pp), y el PN también experimentó mayor sangría interna (+7.5 pp). El PC fue el único partido que mejoró su fidelidad coalicional.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\textwidth]{coalition_cohesion_comparison.png}
-\caption{Comparación de cohesión coalicional 2019 vs 2024. Todos los partidos de la Coalición Republicana mejoraron sustancialmente su retención: CA redujo defección en 41.9 pp, PC en 26.6 pp, PN en 32.4 pp, y PI en 92.1 pp. A pesar de esta mejora dramática, la coalición perdió en 2024.}
+\includegraphics[width=0.92\textwidth]{coalition_cohesion_comparison.png}
+\caption{Comparación de cohesión coalicional 2019 vs 2024 (promedios departamentales). El modelo nacional DirichletMultinomial indica que la defección de CA \textit{aumentó} en $+$15.8 pp entre elecciones (28.5\% $\to$ 44.3\%). El PC fue el único partido coalicional con reducción significativa de defección ($-$4.1 pp).}
 \label{fig:cohesion_comparison}
 \end{figure}
 
-\textbf{La Paradoja de Cabildo Abierto.} A pesar de mejorar su cohesión en 41.9 pp—la mayor mejora entre todos los partidos—CA colapsó electoralmente. El partido perdió 208,722 votos (-77.8\%) entre primera vuelta 2019 (268,134 votos) y primera vuelta 2024 (59,412 votos). Aunque en 2024 CA retuvo mejor a sus votantes, simplemente tenía muchos menos votantes para retener. En términos absolutos de votos transferidos a FA, CA contribuyó 186,316 votos en 2019 pero solo 16,382 en 2024—una reducción de 169,934 votos que paradójicamente benefició a la coalición.
+\textbf{El Rol de Cabildo Abierto.} El colapso de la coalición en 2024 se explica por la convergencia de dos procesos en CA: (1) pérdida masiva de votos en primera vuelta ($-$208{,}722 votos, $-$77.8\%) y (2) mayor defección de sus votantes remanentes en segunda vuelta (+15.8 pp según el modelo DM). CA pasó de 268{,}134 votos en 2019 a solo 59{,}412 en 2024, y de estos, el 44.3\% defectó a FA---frente al 28.5\% en 2019. Ambos factores operaron en la misma dirección desfavorable para la coalición.
 
-\subsection{La Paradoja del Colapso: ¿Por qué perdió la coalición en 2024?}
+\subsection{Por qué perdió la coalición en 2024}
 \label{sec:paradoja_colapso}
 
-La mejora dramática en cohesión coalicional plantea una pregunta fundamental: si todos los partidos retuvieron mejor en 2024, ¿por qué perdió la coalición? Se identifican tres factores complementarios:
+El modelo DirichletMultinomial nacional disuelve la aparente paradoja: la coalición perdió porque tanto CA como PN defectaron en mayor proporción en 2024 que en 2019, y simultáneamente la base electoral coalicional se redujo en primera vuelta. Se identifican tres factores complementarios:
 
 \subsubsection{Factor 1: Pérdida en Primera Vuelta}
 
@@ -86,7 +98,7 @@ Los votantes de CA en 2019 que no votaron CA en primera vuelta 2024 representan 
 
 Si la participación total en segunda vuelta fue mayor en 2024 que en 2019, los votantes adicionales pudieron haber favorecido desproporcionadamente a FA. Sin embargo, no se tienen datos completos de participación para cuantificar este efecto. Análisis futuros deberían incorporar tasas de participación a nivel circuital para distinguir entre abstención diferencial y movilización de nuevos votantes.
 
-\textbf{Conclusión clave:} La cohesión en segunda vuelta no compensa la derrota en primera vuelta. La lección política fundamental es que las coaliciones deben enfocarse en crecer o mantener su base electoral inicial, no solo en retener mejor. En el sistema electoral uruguayo, la primera vuelta determina la magnitud del desafío—una coalición más pequeña pero más leal aún puede perder si el oponente tiene mayor base inicial.
+\textbf{Conclusión clave:} La pérdida de 2024 resulta de la combinación de menor base electoral en primera vuelta ($-$154{,}251 votos, $-$12\%) y mayor defección de CA en segunda vuelta (+15.8 pp). Ambos vectores apuntaron en contra de la coalición. La lección política es doble: (1) las coaliciones deben crecer o mantener su base inicial, y (2) los partidos bisagra volátiles como CA representan un riesgo estructural---su colapso en primera vuelta y mayor defección en segunda se retroalimentan.
 
 \subsection{Estabilidad Geográfica Temporal}
 \label{sec:estabilidad_geografica}
@@ -100,12 +112,12 @@ Ninguna correlación es estadísticamente significativa. Un departamento con alt
 
 \begin{figure}[H]
 \centering
-\begin{subfigure}[b]{0.42\textwidth}
+\begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{scatter_ca_2019_2024.png}
     \caption{Cabildo Abierto (r = 0.133)}
 \end{subfigure}
 \hfill
-\begin{subfigure}[b]{0.42\textwidth}
+\begin{subfigure}[b]{0.48\textwidth}
     \includegraphics[width=\textwidth]{scatter_pc_2019_2024.png}
     \caption{Partido Colorado (r = 0.006)}
 \end{subfigure}
@@ -131,26 +143,26 @@ Las Tablas~\ref{tab:dept_changes_ca_top10}, \ref{tab:dept_changes_pc_top10}, y \
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\textwidth]{temporal_evolution_forest.png}
+\includegraphics[width=0.92\textwidth]{temporal_evolution_forest.png}
 \caption{Evolución temporal de defecciones CA por departamento (2019 vs 2024). Forest plot muestra reducciones generalizadas de defección en casi todos los departamentos, con excepciones notables en Colonia, Treinta y Tres y Rocha que aumentaron defección.}
 \label{fig:temporal_forest}
 \end{figure}
 
 \textbf{Cambios dramáticos en CA} (mayor reducción de defección):
 \begin{itemize}
-    \item \textbf{Soriano}: -72.9 pp (de 97.5\% a 24.6\%)
-    \item \textbf{Paysandú}: -70.2 pp (de 98.0\% a 27.8\%)
-    \item \textbf{San José}: -68.0 pp (de 98.8\% a 30.8\%)
-    \item \textbf{Canelones}: -61.9 pp (de 77.4\% a 15.4\%)
+    \item \textbf{Soriano}: -72.9 pp (de 97.5\% en 2019 a 24.6\% en 2024)
+    \item \textbf{Paysandú}: -70.2 pp (de 98.0\% en 2019 a 27.8\% en 2024)
+    \item \textbf{San José}: -68.0 pp (de 98.8\% en 2019 a 30.8\% en 2024)
+    \item \textbf{Canelones}: -61.9 pp (de 77.4\% en 2019 a 15.4\% en 2024)
 \end{itemize}
 
 En estos departamentos, CA pasó de defección casi universal a FA ($>$97\%) en 2019 a retención substancial de la coalición en 2024. Esta transformación radical sugiere que CA consolidó su identidad coalicional en el litoral y área metropolitana.
 
 \textbf{Cambios contraintuitivos} (aumento de defección CA):
 \begin{itemize}
-    \item \textbf{Colonia}: +22.3 pp (de 30.2\% a 52.6\%)
-    \item \textbf{Treinta y Tres}: +11.9 pp (de 58.4\% a 70.2\%)
-    \item \textbf{Rocha}: +3.4 pp (de 36.7\% a 40.0\%)
+    \item \textbf{Colonia}: +22.3 pp (de 30.2\% en 2019 a 52.6\% en 2024)
+    \item \textbf{Treinta y Tres}: +11.9 pp (de 58.4\% en 2019 a 70.2\% en 2024)
+    \item \textbf{Rocha}: +3.4 pp (de 36.7\% en 2019 a 40.0\% en 2024)
 \end{itemize}
 
 Solo tres departamentos exhibieron más defección CA en 2024 que en 2019. Estos casos atípicos merecen investigación cualitativa—¿factores locales específicos?, ¿cambios en liderazgos departamentales?, ¿composición diferente del electorado de CA?
@@ -166,7 +178,7 @@ La Figura~\ref{fig:synthesis} proporciona una visualización comprehensiva del a
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{synthesis_2019_2024.png}
+\includegraphics[width=0.95\textwidth]{synthesis_2019_2024.png}
 \caption{Síntesis comprehensiva del análisis temporal 2019-2024. Panel superior: matrices de transición nacionales comparadas. Panel inferior: cambios departamentales y correlaciones geográficas ($r < 0.13$), evidenciando reconfiguración profunda del electorado.}
 \label{fig:synthesis}
 \end{figure}
@@ -174,25 +186,29 @@ La Figura~\ref{fig:synthesis} proporciona una visualización comprehensiva del a
 \textbf{¿Qué cambió entre 2019 y 2024?}
 
 \begin{enumerate}
-    \item \textbf{Consolidación coalicional}: Todos los partidos mejoraron retención dramáticamente (26.6 a 92.1 pp)
-    \item \textbf{Colapso de CA}: Pérdida de 209 mil votos (-78\%) en primera vuelta
-    \item \textbf{Crecimiento de PC}: Ganancia de 87 mil votos (+29\%) en primera vuelta
-    \item \textbf{Pérdida neta coalicional}: -154 mil votos en primera vuelta (-12\%)
+    \item \textbf{Mayor defección de CA}: +15.8 pp (de 28.5\% a 44.3\%) según modelo DirichletMultinomial nacional
+    \item \textbf{Mayor defección de PN}: +7.5 pp (de 0.0\% a 7.5\%) en segunda vuelta
+    \item \textbf{Colapso de CA}: Pérdida de 209 mil votos ($-$78\%) en primera vuelta
+    \item \textbf{Crecimiento de PC}: Ganancia de 87 mil votos (+29\%) en primera vuelta, pero insuficiente
+    \item \textbf{Pérdida neta coalicional}: $-$154 mil votos en primera vuelta ($-$12\%)
     \item \textbf{Reconfiguración geográfica}: Correlaciones departamentales cercanas a cero
 \end{enumerate}
 
 \textbf{¿Por qué perdió la coalición?}
 
-La coalición NO perdió por mayor defección—mejoró dramáticamente en ese aspecto. Perdió porque:
+Según el modelo DirichletMultinomial, la coalición perdió por acción simultánea de dos mecanismos:
 
 \begin{itemize}
-    \item \textbf{Perdió la primera vuelta}: 154 mil votos menos para movilizar en balotaje
-    \item \textbf{Colapso de CA}: Su socio más volátil simplemente desapareció como fuerza electoral
-    \item \textbf{Insuficiente compensación}: El crecimiento del PC (+87k) no compensó pérdidas de CA (-209k) y PN (-50k)
+    \item \textbf{Menor base en primera vuelta}: $-$154 mil votos para movilizar en balotaje
+    \item \textbf{Mayor defección de CA en segunda vuelta}: +15.8 pp; el partido bisagra fue más desleal en 2024 que en 2019
+    \item \textbf{Mayor defección del PN}: +7.5 pp respecto a su propia retención de 2019
+    \item \textbf{Compensación insuficiente del PC}: Solo partido coalicional que mejoró ($-$4.1 pp), pero su mejora no alcanzó para revertir los demás factores
 \end{itemize}
 
 \textbf{Lección política fundamental:}
 
-> "La cohesión en segunda vuelta NO compensa la derrota en primera vuelta. Las coaliciones deben enfocarse en crecer o mantener su base electoral inicial."
+\begin{quote}
+``La coalición perdió porque CA se volvió más desleal en segunda vuelta (+15.8 pp) al mismo tiempo que colapsó en primera vuelta ($-$209 mil votos). Las coaliciones deben gestionar tanto el tamaño de su base inicial como la fidelidad de sus socios en el balotaje.''
+\end{quote}
 
-Esta lección tiene implicaciones profundas para estrategia electoral en sistemas de dos vueltas. Los partidos pequeños volátiles (como CA) son activos riesgosos—su eventual lealtad en segunda vuelta no compensa el riesgo de colapso electoral que deja a la coalición sin votos suficientes para ganar.
+Esta lección tiene implicaciones directas para la estrategia electoral en sistemas de dos vueltas. Los partidos bisagra volátiles como CA generan riesgo estructural en ambas dimensiones: pueden colapsar antes del ballotage dejando a la coalición con menos votos base, y sus votantes remanentes pueden defectar en mayor proporción hacia el adversario.
