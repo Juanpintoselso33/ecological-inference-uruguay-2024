@@ -1,0 +1,34 @@
+name: ei2024
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  # NumPy pinned para compatibilidad con numba (nutpie backend rapido)
+  - numpy>=1.26,<2.3
+  - pandas>=2.2
+  - scipy>=1.12
+  - matplotlib>=3.8
+  - seaborn>=0.13
+  - scikit-learn>=1.4
+  - pyarrow>=15
+  - pyyaml>=6
+  - tqdm>=4.66
+  - requests
+  - openpyxl
+  # PyMC stack
+  - pymc>=5.18
+  - pytensor>=2.25
+  - arviz>=0.20,<1.0
+  # nutpie: sampler Rust con backend numba (requiere numpy<2.3)
+  - nutpie>=0.13
+  - numba>=0.59
+  # Jupyter
+  - jupyterlab>=4
+  - jupyter
+  - ipykernel
+  - pip
+  - pip:
+    # JAX con CUDA 12 (funciona en WSL2 con RTX 3060 + CUDA 12/13)
+    # En Windows nativo instala version CPU automaticamente
+    - "jax[cuda12_pip]"
+    - blackjax>=1.2

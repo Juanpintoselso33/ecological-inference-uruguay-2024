@@ -21,6 +21,66 @@ from src.utils import get_logger, get_config
 logger = get_logger(__name__)
 
 
+def _detect_sampler(requested: str) -> tuple:
+    """Detect the best available NUTS sampler.
+
+    Priority: blackjax (GPU) > nutpie+jax > nutpie+numba > default PyMC.
+
+    Args:
+        requested: 'auto', 'blackjax', 'nutpie', or 'pymc'
+
+    Returns:
+        Tuple (sampler_name, extra_kwargs) where sampler_name is the string
+        to pass to pm.sample(nuts_sampler=...) or None for PyMC default,
+        and extra_kwargs is a dict to merge into pm.sample() kwargs.
+    """
+    if requested == 'pymc':
+        return None, {}
+
+    # blackjax solo cuando se pide explicitamente (tiene incompatibilidades con
+    # DirichletMultinomial via pmap — no va en 'auto')
+    if requested == 'blackjax':
+        try:
+            import jax
+            devices = jax.devices('gpu')
+            if devices:
+                import blackjax  # noqa: F401
+                logger.info("GPU detectada (%s) — usando blackjax", devices[0])
+                return 'blackjax', {}
+        except Exception:
+            pass
+        raise RuntimeError(
+            "nuts_sampler='blackjax' solicitado pero JAX+GPU o blackjax no disponible. "
+            "Instalar con: pip install 'jax[cuda12]' blackjax"
+        )
+
+    if requested in ('nutpie', 'auto'):
+        try:
+            import nutpie  # noqa: F401
+            import numpy as np
+            numpy_major, numpy_minor = [int(x) for x in np.__version__.split('.')[:2]]
+            if numpy_major < 2 or (numpy_major == 2 and numpy_minor < 3):
+                logger.info("nutpie disponible — usando backend numba (numpy %s)", np.__version__)
+                return 'nutpie', {}
+            else:
+                # numpy >= 2.3: numba incompatible, use JAX backend
+                try:
+                    import jax  # noqa: F401
+                    logger.info("nutpie disponible — usando backend JAX (numpy %s, numba incompatible)", np.__version__)
+                    return 'nutpie', {'nuts_sampler_kwargs': {'backend': 'jax'}}
+                except ImportError:
+                    pass
+        except ImportError:
+            if requested == 'nutpie':
+                raise RuntimeError(
+                    "nuts_sampler='nutpie' solicitado pero nutpie no está instalado. "
+                    "Instalar con: conda install -c conda-forge nutpie"
+                )
+
+    logger.info("Usando sampler PyMC por defecto")
+    return None, {}
+
+
 class KingEI(BaseEIModel):
     """
     King's Ecological Inference model using PyMC.
@@ -44,6 +104,7 @@ class KingEI(BaseEIModel):
                  target_accept: float = 0.9,
                  random_seed: int = 42,
                  likelihood: str = 'normal',
+                 nuts_sampler: str = 'auto',
                  trace_dir: Optional[str] = 'outputs/results/traces'):
         """
         Initialize King's EI model.
@@ -56,6 +117,8 @@ class KingEI(BaseEIModel):
             random_seed: Random seed for reproducibility
             likelihood: Observation likelihood — 'normal' (default, backward-compatible)
                 or 'dirichlet_multinomial' (statistically correct for count data)
+            nuts_sampler: NUTS backend — 'auto' (GPU→nutpie→default), 'blackjax' (JAX/GPU),
+                'nutpie' (Rust, fast CPU), or 'pymc' (default sampler).
             trace_dir: Directory to auto-save InferenceData trace (.nc).
                 Set to None to disable auto-save.
         """
@@ -67,6 +130,7 @@ class KingEI(BaseEIModel):
         self.target_accept = target_accept
         self.random_seed = random_seed
         self.likelihood = likelihood
+        self.nuts_sampler = nuts_sampler
         self.trace_dir = Path(trace_dir) if trace_dir else None
 
         self.model_ = None
@@ -140,17 +204,25 @@ class KingEI(BaseEIModel):
             )
 
         # Sample from posterior
-        logger.info(f"Starting MCMC sampling: {self.num_chains} chains, {self.num_samples} samples, {self.num_warmup} warmup")
+        sampler, sampler_kwargs = _detect_sampler(self.nuts_sampler)
+        logger.info(
+            f"Starting MCMC sampling: {self.num_chains} chains, {self.num_samples} samples, "
+            f"{self.num_warmup} warmup [backend={sampler or 'pymc'}]"
+        )
+        sample_kwargs = dict(
+            draws=self.num_samples,
+            tune=self.num_warmup,
+            chains=self.num_chains,
+            target_accept=self.target_accept,
+            random_seed=self.random_seed,
+            progressbar=progressbar,
+            return_inferencedata=True,
+        )
+        if sampler is not None:
+            sample_kwargs['nuts_sampler'] = sampler
+        sample_kwargs.update(sampler_kwargs)
         with model:
-            trace = pm.sample(
-                draws=self.num_samples,
-                tune=self.num_warmup,
-                chains=self.num_chains,
-                target_accept=self.target_accept,
-                random_seed=self.random_seed,
-                progressbar=progressbar,
-                return_inferencedata=True,
-            )
+            trace = pm.sample(**sample_kwargs)
 
         # Store results
         self.model_ = model

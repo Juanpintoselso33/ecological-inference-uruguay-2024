@@ -1,0 +1,42 @@
+% Tabla comparacion temporal 2019 vs 2024 (DirichletMultinomial)
+% Generada por scripts/run_all_dm.py
+
+\begin{table}[htbp]
+\centering
+\caption{Comparaci\'{o}n de matrices de transici\'{o}n electoral: 2019 vs.\ 2024 (verosimilitud DirichletMultinomial). Se reporta la media posterior con intervalo de credibilidad al 95\%.}
+\label{tab:temporal_comparison_dm}
+\small
+\begin{tabular}{llcccc}
+\toprule
+Origen & Destino & 2019 & 2024 & $\Delta$ (pp) & \\
+\midrule
+\textsc{CA} & FA & 0.285 [0.275, 0.295] & 0.443 [0.402, 0.483] & +0.158 & $^*$ \\
+\textsc{CA} & PN & 0.696 [0.685, 0.706] & 0.510 [0.470, 0.551] & -0.185 & $^*$ \\
+\textsc{CA} & BLANCOS & 0.020 [0.017, 0.023] & 0.047 [0.035, 0.059] & +0.027 & $^*$ \\
+\midrule
+\textsc{FA} & FA & 0.998 [0.996, 0.999] & 0.992 [0.989, 0.994] & -0.005 & $^*$ \\
+\textsc{FA} & PN & 0.000 [0.000, 0.000] & 0.002 [0.000, 0.005] & +0.002 &  \\
+\textsc{FA} & BLANCOS & 0.002 [0.001, 0.004] & 0.006 [0.005, 0.007] & +0.004 & $^*$ \\
+\midrule
+\textsc{PC} & FA & 0.092 [0.084, 0.101] & 0.051 [0.040, 0.062] & -0.041 & $^*$ \\
+\textsc{PC} & PN & 0.891 [0.882, 0.900] & 0.927 [0.916, 0.938] & +0.036 & $^*$ \\
+\textsc{PC} & BLANCOS & 0.017 [0.014, 0.020] & 0.022 [0.019, 0.025] & +0.005 &  \\
+\midrule
+\textsc{PN} & FA & 0.000 [0.000, 0.002] & 0.075 [0.069, 0.081] & +0.075 & $^*$ \\
+\textsc{PN} & PN & 0.979 [0.977, 0.980] & 0.906 [0.900, 0.912] & -0.072 & $^*$ \\
+\textsc{PN} & BLANCOS & 0.021 [0.019, 0.023] & 0.018 [0.017, 0.020] & -0.002 &  \\
+\midrule
+\textsc{PI} & FA & 0.006 [0.000, 0.023] & 0.001 [0.000, 0.003] & -0.006 &  \\
+\textsc{PI} & PN & 0.879 [0.846, 0.910] & 0.999 [0.996, 1.000] & +0.120 & $^*$ \\
+\textsc{PI} & BLANCOS & 0.115 [0.084, 0.145] & 0.001 [0.000, 0.002] & -0.114 & $^*$ \\
+\midrule
+\textsc{OTROS} & FA & 0.744 [0.719, 0.769] & 0.287 [0.254, 0.322] & -0.457 & $^*$ \\
+\textsc{OTROS} & PN & 0.180 [0.157, 0.205] & 0.626 [0.592, 0.659] & +0.446 & $^*$ \\
+\textsc{OTROS} & BLANCOS & 0.075 [0.064, 0.087] & 0.087 [0.076, 0.097] & +0.011 &  \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\small
+\item $^*$ Los intervalos de credibilidad al 95\% no se solapan.
+\item Modelo: inferencia ecol\'{o}gica bayesiana, verosimilitud DirichletMultinomial, 4{,}000 muestras por cadena.
+\end{tablenotes}
+\end{table}

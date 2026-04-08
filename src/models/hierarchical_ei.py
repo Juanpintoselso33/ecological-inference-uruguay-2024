@@ -20,6 +20,7 @@ import sys
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from src.models.base_ei import BaseEIModel
+from src.models.king_ei import _detect_sampler
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -48,6 +49,7 @@ class HierarchicalEI(BaseEIModel):
         num_warmup: int = 1000,
         target_accept: float = 0.9,
         random_seed: int = 42,
+        nuts_sampler: str = 'auto',
         trace_dir: str = 'outputs/results/traces',
     ):
         super().__init__(name="HierarchicalEI")
@@ -56,6 +58,7 @@ class HierarchicalEI(BaseEIModel):
         self.num_warmup = num_warmup
         self.target_accept = target_accept
         self.random_seed = random_seed
+        self.nuts_sampler = nuts_sampler
         self.trace_dir = Path(trace_dir) if trace_dir else None
         self.trace_path_ = None
 
@@ -139,17 +142,25 @@ class HierarchicalEI(BaseEIModel):
                 observed=Y,
             )
 
-        logger.info(f"Starting MCMC: {self.num_chains} chains, {self.num_samples} draws")
+        sampler, sampler_kwargs = _detect_sampler(self.nuts_sampler)
+        logger.info(
+            f"Starting MCMC: {self.num_chains} chains, {self.num_samples} draws "
+            f"[backend={sampler or 'pymc'}]"
+        )
+        sample_kwargs = dict(
+            draws=self.num_samples,
+            chains=self.num_chains,
+            tune=self.num_warmup,
+            target_accept=self.target_accept,
+            random_seed=self.random_seed,
+            progressbar=progressbar,
+            return_inferencedata=True,
+        )
+        if sampler is not None:
+            sample_kwargs['nuts_sampler'] = sampler
+        sample_kwargs.update(sampler_kwargs)
         with model:
-            trace = pm.sample(
-                draws=self.num_samples,
-                chains=self.num_chains,
-                tune=self.num_warmup,
-                target_accept=self.target_accept,
-                random_seed=self.random_seed,
-                progressbar=progressbar,
-                return_inferencedata=True,
-            )
+            trace = pm.sample(**sample_kwargs)
 
         self.model_ = model
         self.trace_ = trace
