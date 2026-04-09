@@ -1,20 +1,20 @@
 \begin{table}[htbp]
 \centering
-\caption{Comparación de estimaciones de transferencia CA bajo diferentes supuestos metodológicos. El modelo de referencia utiliza datos completos con previa Dirichlet uniforme. Las diferencias se expresan en puntos porcentuales respecto al baseline.}
+\caption{Comparación de estimaciones de transferencia CA$\to$FA bajo diferentes supuestos metodológicos. El modelo de referencia utiliza todos los circuitos con previa Dirichlet uniforme ($\alpha=1$). Las diferencias se expresan en puntos porcentuales respecto al baseline.}
 \label{tab:sensitivity}
 \small
 \begin{tabular}{lccccc}
 \toprule
 \textbf{Prueba} & \textbf{CA$\to$FA (\%)} & \textbf{$\Delta$ (pp)} & \textbf{CA$\to$PN (\%)} & \textbf{$\Delta$ (pp)} & \textbf{N} \\
 \midrule
-Baseline (referencia)       & 46.5 & ---     & 53.5 & ---     & 7{,}271 \\
-Previa conservadora         & 46.5 & 0.00    & 53.5 & 0.00    & 7{,}271 \\
-Previa informativa          & 46.5 & 0.00    & 53.5 & 0.00    & 7{,}271 \\
-Sin valores atípicos        & 47.8 & $+$1.31 & 52.2 & $-$1.31 & 7{,}163 \\
-Bootstrap (media $\pm$ DE)  & 47.2 $\pm$ 3.0 & $+$0.70 & 52.8 $\pm$ 3.0 & $-$0.70 & 20 rep. \\
+Baseline ($\alpha=1$, referencia)     & 46.5 & ---     & 49.1 & ---     & 7{,}271 \\
+Previa Jeffreys ($\alpha=0.5$)        & 46.4 & $-$0.1  & 49.2 & $+$0.1  & 7{,}271 \\
+Previa concentrada ($\alpha=5$)       & 46.6 & $+$0.1  & 48.9 & $-$0.2  & 7{,}271 \\
+Sin valores atípicos                  & 47.8 & $+$1.3  & 48.0 & $-$1.1  & 7{,}163 \\
+Bootstrap ($\pm$DE, 500 rep.)         & 46.5 $\pm$ 2.4 & $\approx$0 & 49.1 $\pm$ 2.4 & $\approx$0 & 500 \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
-\small \textit{Nota:} Las pruebas de sensibilidad previa comparan tres especificaciones Dirichlet ($\alpha = 0.5$, $1$, $2$). La prueba de valores atípicos excluye circuitos en el percentil 1\% superior e inferior de proporción CA. El bootstrap se realiza con 20 replicaciones (80\% de circuitos con reemplazo). DE: desviación estándar; pp: puntos porcentuales.
+\small \textit{Nota:} Las pruebas de sensibilidad previa comparan tres especificaciones Dirichlet ($\alpha \in \{0.5, 1, 5\}$); las diferencias son menores a 0.2 pp, confirmando insensibilidad a la elección del prior. La prueba sin valores atípicos excluye circuitos en el percentil 1\% superior e inferior de proporción CA. El bootstrap usa 500 replicaciones con 80\% de circuitos (con reemplazo); la DE reporta variabilidad muestral. DE: desviación estándar; pp: puntos porcentuales.
 \end{flushleft}
 \end{table}
