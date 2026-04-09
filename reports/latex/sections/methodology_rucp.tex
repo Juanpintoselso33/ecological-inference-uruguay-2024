@@ -1,0 +1,49 @@
+% =========================================================
+% METODOLOGÍA — versión RUCP (~1,500 palabras)
+% =========================================================
+
+\section{Metodología}
+\label{sec:metodologia}
+
+\subsection{Datos}
+
+Se utilizan datos electorales oficiales de la Corte Electoral de Uruguay para dos pares de elecciones: primera vuelta y balotaje de 2024 (27 de octubre y 24 de noviembre) y de 2019 (27 de octubre y 24 de noviembre). La unidad de análisis es el \textit{circuito electoral}, la unidad geográfica de menor desagregación en los datos oficiales. El conjunto de datos 2024 abarca 7{,}271 circuitos; el de 2019, 7{,}118.
+
+Para la primera vuelta se clasifican los votos en seis categorías: FA, PN, PC, CA, PI y OTROS (partidos menores agrupados). Para el balotaje, las opciones son FA, PN (representando a la coalición) y votos en blanco/nulos. Se aplica un umbral mínimo de 30 votos válidos por elección para excluir circuitos con datos insuficientes. Los controles de calidad verifican que los totales a nivel de circuito coincidan con los agregados departamentales oficiales; menos del 0.1\% de los circuitos presentó valores faltantes (eliminados por lista).
+
+La estratificación geográfica distingue circuitos urbanos (86.8\%, $n=6{,}312$) de rurales (13.2\%, $n=959$), y el Área Metropolitana (Montevideo y Canelones, $\approx$60\% de la población) del Interior (17 departamentos restantes). La clasificación urbano/rural proviene de datos administrativos electorales.
+
+\subsection{El Modelo Bayesiano de Transferencia de Votos}
+
+Se implementa un modelo bayesiano de transferencia de votos con prior Dirichlet (complete pooling), inspirado en el marco de inferencia ecológica de \citet{king1997} y su extensión multidimensional por \citet{rosen2001bayesian}. El modelo estima una matriz de transición $\mathbf{T}$ de dimensión $K \times J$ ($K$ partidos de origen, $J$ de destino), donde $T_{kj}$ representa la probabilidad de que un votante que apoyó al partido $k$ en la primera vuelta haya votado por la opción $j$ en el balotaje.
+
+Para cada circuito $i$, sea $\mathbf{X}_i$ el vector de votos de primera vuelta e $\mathbf{Y}_i$ el de votos en el balotaje. El modelo especifica:
+\begin{equation}
+  \mathbf{T}_k \sim \text{Dirichlet}(\boldsymbol{\alpha}), \quad \alpha_j = 1\ \forall j \qquad \text{(prior uniforme)}
+  \label{eq:prior}
+\end{equation}
+\begin{equation}
+  \mathbf{Y}_i \sim \mathcal{N}\!\left(\mathbf{X}_i \mathbf{T},\; \sigma^2\right)
+  \label{eq:likelihood}
+\end{equation}
+donde $\sigma_{ij} = \sqrt{\mu_{ij} + 1}$ es la desviación estándar de la aproximación Normal a la distribución Multinomial \citep{martin2021bayesian}. El prior Dirichlet garantiza $T_{kj} \in [0,1]$ y $\sum_j T_{kj} = 1$ para cada partido de origen.
+
+\textbf{Nota sobre nomenclatura}: este modelo difiere del modelo de King (1997) en un aspecto fundamental. King propuso un modelo con parámetros que varían por unidad geográfica (partial pooling). El presente modelo estima una única $\mathbf{T}$ para todos los circuitos (complete pooling), lo que es computacionalmente eficiente con 7{,}271 observaciones y produce estimaciones nacionales robustas. El modelo jerárquico de partial pooling queda propuesto como extensión futura. Adicionalmente, se estima un segundo modelo con verosimilitud DirichletMultinomial \citep{mosimann1962compound}, estadísticamente más apropiado para datos de conteo, que confirma la dirección e interpretación de los hallazgos principales.
+
+\subsection{Estimación y Diagnósticos}
+
+La inferencia posterior se realiza mediante MCMC con el No-U-Turn Sampler (NUTS) \citep{betancourt2017conceptual} implementado en PyMC \citep{abril2023pymc}, utilizando el backend \texttt{nutpie} (Rust/numba) para acelerar la exploración del espacio de parámetros. El análisis nacional utiliza 4 cadenas $\times$ 4{,}000 muestras post-calentamiento (2{,}000 warmup, tasa de aceptación objetivo 0.95); los análisis estratificados emplean 4 cadenas $\times$ 2{,}000 muestras.
+
+La convergencia se evalúa mediante el estadístico de Gelman-Rubin ($\hat{R}$) y el tamaño de muestra efectivo (ESS) \citep{vehtari2021rhat, gelman1992inference}. Se exigen $\hat{R} < 1.01$ y $\text{ESS} > 1{,}000$ para todos los parámetros; solo los modelos que satisfacen ambos criterios se incluyen en los resultados. Todos los modelos reportados convergieron exitosamente.
+
+\subsection{Validación y Análisis de Sensibilidad}
+
+Se realizaron tres tipos de validación. Primero, verificaciones predictivas posteriores (PPC) comparan la distribución de votos simulados con la observada. Segundo, se verificó que las predicciones a nivel circuital reproducen los agregados departamentales y nacionales al ponderar por totales de votos. Tercero, se implementó un análisis de sensibilidad que compara tres especificaciones de prior Dirichlet ($\alpha \in \{0.5, 1.0, 5.0\}$) y 500 replicaciones bootstrap (remuestreo del 80\% de circuitos con reemplazo). La diferencia máxima entre especificaciones de prior es de 1.3 pp; el coeficiente de variación bootstrap para CA$\to$FA es del 6.4\% (error estándar del bootstrap $< 0.2$ pp).
+
+\subsection{Comparación Geográfica Formal}
+
+Para probar formalmente si las tasas de defección difieren entre estratos geográficos, se computan diferencias de posteriors muestra a muestra:
+\begin{equation}
+P\!\left(T_{kj}^{\text{rural}} > T_{kj}^{\text{urbano}} \mid \text{datos}\right) = \frac{1}{S}\sum_{s=1}^S \mathbf{1}\!\left[T_{kj,s}^{\text{rural}} > T_{kj,s}^{\text{urbano}}\right]
+\end{equation}
+Este enfoque aprovecha directamente el marco bayesiano y produce evidencia cuantificada sobre la dirección de las diferencias geográficas, sin depender de la superposición de intervalos de credibilidad como proxy \citep{gelman2013bayesian}.

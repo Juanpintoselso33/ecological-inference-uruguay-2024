@@ -1,0 +1,69 @@
+% =========================================================
+% RESULTADOS — versión RUCP (~2,500 palabras)
+% Combina: nacionales + urbano/rural + metro/interior + departamental (mapa)
+% =========================================================
+
+\section{Resultados}
+\label{sec:resultados}
+
+\subsection{Estimaciones Nacionales}
+\label{sec:resultados_nacional}
+
+El modelo ajustado sobre los 7{,}271 circuitos electorales de 2024 convergió exitosamente ($\hat{R}_{\max} = 1.001$, $\text{ESS}_{\min} > 6{,}000$). La Tabla~\ref{tab:national_matrix_pi} presenta la matriz de transición nacional completa con intervalos de credibilidad del 95\%.
+
+\input{../../outputs/tables/latex/national_transition_matrix_pi}
+
+\textbf{Cabildo Abierto} exhibió la defección más pronunciada: se estima que el 46.5\% [IC\,95\%: 43.0\%, 49.9\%] de sus votantes de primera vuelta transfirió el voto al FA en el balotaje, mientras que el 49.1\% [45.6\%, 52.7\%] apoyó al PN. Esta división casi igualitaria contrasta con la expectativa de que un partido de perfil conservador-nacional retuviera ampliamente su voto en favor de la coalición.
+
+\textbf{Partido Colorado}: 87.9\% [86.9\%, 88.8\%] fue al PN; el 10.0\% [9.1\%, 11.0\%] al FA. En términos absolutos, las 387{,}125 bases del PC implican $\approx$38{,}700 votos perdidos hacia FA.
+
+\textbf{Partido Nacional}: 91.8\% [91.2\%, 92.3\%] se autoconservó; 6.3\% [5.8\%, 6.8\%] fue al FA ($\approx$40{,}700 votos). \textbf{Partido Independiente}: retención casi perfecta en el PN (99.9\%), defección mínima al FA ($\approx$0\%).
+
+En conjunto, la coalición transfirió al FA un estimado de $\approx$107{,}000 votos, superando el margen de derrota de $\approx$95{,}000 votos. La lealtad del FA fue asimétrica: 98.9\% [98.6\%, 99.2\%] de sus votantes de primera vuelta permaneció en el FA. La conclusión es que el resultado del balotaje no se explica por una movilización del FA, sino por las fracturas internas de la coalición.
+
+\subsection{La Rebelión Rural: Heterogeneidad Urbano-Rural}
+\label{sec:resultados_rural}
+
+El hallazgo central del estudio emerge de la estratificación por clasificación urbano/rural. La Tabla~\ref{tab:urban_rural_pi} presenta las estimaciones para ambos estratos.
+
+\input{../../outputs/tables/latex/urban_rural_comparison_table_pi}
+
+\textbf{Cabildo Abierto}: los circuitos rurales exhiben una defección CA$\to$FA del 60.8\% [51.7\%, 69.8\%], frente al 39.0\% [35.1\%, 42.8\%] en los urbanos. La brecha de 21.8 puntos porcentuales es estadísticamente robusta: $P(T_{\text{CA}\to\text{FA}}^{\text{rural}} > T_{\text{CA}\to\text{FA}}^{\text{urbano}} \mid \text{datos}) > 0{,}99$. Los intervalos de credibilidad del 95\% no se superponen, confirmando que la diferencia no es atribuible a incertidumbre de muestreo MCMC.
+
+\textbf{Partido Colorado}: los circuitos rurales muestran una defección PC$\to$FA del 18.2\% [7.1\%, 29.2\%] frente al 7.2\% [5.7\%, 8.7\%] urbano. La brecha (11.0 pp) es también estadísticamente significativa pero con mayor incertidumbre en el estrato rural, reflejo del menor número de circuitos rurales con presencia colorada relevante.
+
+\textbf{Partido Nacional}: retención casi idéntica en ambos estratos (91.6\% rural vs.\ 91.8\% urbano), indicando que los votantes del PN mantuvieron lealtad uniforme independientemente del contexto geográfico.
+
+Este patrón contradice directamente la narrativa convencional de conservadurismo rural en Uruguay \citep{gonzalez1991electoral, rodden2019s}. Una posible explicación es que los circuitos rurales concentran un perfil de votante de CA más volátil: electores que apoyaron al partido por su posicionamiento anti-establishment en 2019, pero cuya desafección con el gobierno de la coalición en 2020--2024 fue más intensa en zonas donde la crisis agrícola (sequía, precios de commodities, costos de producción) impactó de forma directa. El diseño de inferencia ecológica no permite confirmar mecanismos causales, pero la geografía del fenómeno es consistente con esta hipótesis.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{urban_rural_ca_defection_forest.png}
+\caption{Comparación de tasas de defección CA$\to$FA por estrato geográfico. Los puntos representan medias posteriores; las barras, intervalos de credibilidad del 95\%. La brecha urbano-rural de 21.8 pp es estadísticamente robusta ($P > 0.99$).}
+\label{fig:urban_rural_forest}
+\end{figure}
+
+\subsection{Dimensión Metropolitana-Interior}
+\label{sec:resultados_metro}
+
+El contraste Área Metropolitana (Montevideo + Canelones) vs.\ Interior refuerza el patrón de mayor volatilidad fuera de la capital.
+
+\input{../../outputs/tables/latex/region_comparison_table_pi}
+
+La defección CA$\to$FA en el Interior (51.0\% [45.3\%, 56.7\%]) supera en 10.2 pp a la del Área Metropolitana (40.8\% [35.8\%, 45.8\%]). La prueba formal de diferencia posterior confirma $P(T_{\text{CA}\to\text{FA}}^{\text{interior}} > T_{\text{CA}\to\text{FA}}^{\text{metro}} \mid \text{datos}) = 0.96$, evidencia positiva aunque no concluyente al nivel del contraste urbano-rural. El Interior concentra la mayor parte de los circuitos rurales, por lo que ambas estratificaciones capturan dimensiones parcialmente superpuestas de la misma heterogeneidad geográfica.
+
+\subsection{Variación Departamental}
+\label{sec:resultados_dept}
+
+La variación entre los 19 departamentos excede toda la heterogeneidad documentada en los estratos anteriores. La Figura~\ref{fig:mapa_dept} muestra el mapa de tasas de defección CA$\to$FA por departamento.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{department_ca_defection_map.png}
+\caption{Mapa de tasas de defección CA$\to$FA por departamento (medias posteriores). El rango varía de 6.0\% (Tacuarembó) a 95.6\% (Río Negro), superando en 89.6 pp la heterogeneidad de cualquier estratificación binaria urbano/rural o metropolitana/interior.}
+\label{fig:mapa_dept}
+\end{figure}
+
+La dispersión departamental ---de 6.0\% (Tacuarembó) a 95.6\% (Río Negro)--- sugiere que la dinámica de la segunda vuelta respondió a factores locales (candidaturas, redes organizacionales, economías regionales específicas) que el modelo nacional de complete pooling promedia pero no captura. Este resultado refuerza la necesidad de modelos jerárquicos como extensión futura.
+
+Las estimaciones para los diez departamentos con mayor y menor variación respecto a la media nacional se presentan en el material suplementario (Tabla~A.1). Las correlaciones interdepartamentales entre 2019 y 2024 son menores a $r < 0.13$, indicando nula estabilidad temporal en la geografía de las defecciones ---una reconfiguración profunda del electorado que no puede explicarse por identidades geográficas persistentes.

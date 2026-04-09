@@ -1,0 +1,28 @@
+% =========================================================
+% INTRODUCCIÓN — versión RUCP (~1,500 palabras)
+% =========================================================
+
+\section{Introducción}
+\label{sec:introduccion}
+
+El 24 de noviembre de 2024, Yamandú Orsi (Frente Amplio, FA) derrotó a Álvaro Delgado (Partido Nacional, PN) en el balotaje presidencial uruguayo por aproximadamente 95{,}000 votos, poniendo fin a cinco años de gobierno de la Coalición Republicana. El resultado sorprendió a analistas que estimaban que la coalición ---integrada por el PN, el Partido Colorado (PC), Cabildo Abierto (CA) y el Partido Independiente (PI)--- capitalizaría su organización en segunda vuelta. Un análisis posterior revela un patrón inesperado que motiva este estudio: los votantes rurales de CA transfirieron su apoyo al FA en proporciones \textit{mayores} que los votantes urbanos del mismo partido, contradiciendo la expectativa convencional de mayor conservadurismo en zonas rurales para un partido de perfil militar-populista. Se denomina este fenómeno ``rebelión rural'' y constituye la tesis central del trabajo.
+
+La evidencia de este patrón no es accesible de forma directa. El secreto del voto impide conocer las decisiones individuales; solo se dispone de recuentos de votos agregados a nivel de circuito electoral. El desafío de inferir comportamiento individual a partir de datos agregados ---el \textit{problema de la inferencia ecológica} \citep{king1997}--- es la razón por la que la \textit{falacia ecológica} \citep{robinson1950ecological} acecha a los análisis de transferencias que utilizan correlaciones agregadas sin corrección estadística. El trabajo fundacional de \citet{king1997} propuso un marco bayesiano para resolver este problema en el caso binario; \citet{rosen2001bayesian} extendieron el enfoque al caso multidimensional $R \times C$ requerido por sistemas multipartidistas como el uruguayo. Trabajo reciente de \citet{greiner2009rxc} evaluó los supuestos de identificación de estos modelos, e \citet{imai2008bayesian} propusieron formulaciones alternativas. En América Latina, las aplicaciones sistemáticas de estos métodos a nivel circuital siguen siendo escasas \citep{calvo2003local}, confiriéndole al presente estudio un carácter exploratorio regionalmente relevante.
+
+El caso de CA merece atención especial en la literatura. Fundado en 2019 por el general retirado Guido Manini Ríos, irrumpió en el sistema de partidos con el 11\% de los votos y colapsó al 2.7\% en 2024 ($-$78\% en caudal electoral). La comprensión del destino de sus votantes remanentes en el balotaje ---y de por qué los circuitos rurales exhiben patrones distintos--- resulta decisiva para interpretar la estabilidad del sistema de partidos uruguayo, uno de los más institucionalizados de América Latina \citep{mainwaring1995party, sartori1976parties}. La consolidación del FA como actor central del sistema ha sido documentada por \citet{perezbentancur2019frente}; el rol de las alianzas coalicionales en el presidencialismo latinoamericano ha sido analizado por \citet{chasquetti2004democracia}.
+
+La literatura sobre divisiones urbano-rurales sugiere que los votantes rurales tienden a preferir partidos de derecha, particularmente en contextos donde la economía agrícola es central \citep{rodden2019s, gonzalez1991electoral}. La segunda vuelta, sin embargo, introduce dinámicas propias: la elección binaria fuerza un reposicionamiento estratégico que puede revertir alineaciones habituales \citep{birch2003tworound}. Cuando el partido del votante queda fuera del balotaje ---como le ocurrió a todos los socios menores de la coalición--- la decisión de cuál de los dos candidatos apoyar queda determinada por factores sustantivos (política pública, liderazgos, identidades) que pueden diferir sistemáticamente entre contextos geográficos.
+
+El presente estudio realiza las siguientes contribuciones:
+
+\begin{enumerate}
+    \item \textbf{Documenta la ``rebelión rural''}: los circuitos rurales exhiben tasas de defección de CA al FA 21{,}8 pp superiores a los urbanos ($P(T_{\text{rural}} > T_{\text{urbano}} \mid \text{datos}) > 0{,}99$), el hallazgo más contraintuitivo del estudio.
+
+    \item \textbf{Primera aplicación sistemática de inferencia ecológica bayesiana a nivel circuital en balotajes uruguayos}: 7{,}271 circuitos en 2024 y 7{,}118 en 2019, máxima resolución geográfica disponible en datos oficiales.
+
+    \item \textbf{Identifica la paradoja de la coalición cohesiva derrotada}: pese a mejoras generalizadas en la retención de votos entre 2019 y 2024, la coalición perdió el balotaje ---efecto directo del colapso del caudal de CA ($-$78\%)---, con implicancias para la teoría de coaliciones presidenciales.
+
+    \item \textbf{Valida metodológicamente los resultados}: análisis de sensibilidad con priors Dirichlet genuinamente distintos ($\alpha \in \{0.5, 1, 5\}$) y 500 replicaciones bootstrap confirman la estabilidad de los hallazgos.
+\end{enumerate}
+
+El artículo se organiza como sigue. La Sección~\ref{sec:metodologia} describe el modelo bayesiano de transferencia de votos, los datos y la estrategia analítica. La Sección~\ref{sec:resultados} presenta los resultados nacionales y la heterogeneidad geográfica. La Sección~\ref{sec:temporal} examina la evolución 2019--2024. La Sección~\ref{sec:discusion} discute las implicaciones teóricas y las limitaciones del estudio.
