@@ -48,7 +48,7 @@ Los valores atípicos---circuitos con proporciones de voto a CA inusualmente ext
 
 \subsubsection{Validación mediante Bootstrap}
 
-El remuestreo bootstrap proporciona una evaluación de estabilidad no paramétrica al reestimar el modelo en submuestras de circuitos seleccionadas aleatoriamente con reemplazo. Se programan 20 replicaciones bootstrap, cada una con el 80\% de los circuitos originales. En cada replicación:
+El remuestreo bootstrap proporciona una evaluación de estabilidad no paramétrica al reestimar el modelo en submuestras de circuitos seleccionadas aleatoriamente con reemplazo. Se realizan 500 replicaciones bootstrap, cada una con el 80\% de los circuitos originales, garantizando estimaciones de variabilidad estadísticamente estables. En cada replicación:
 
 \begin{enumerate}
     \item Se remuestrea el 80\% de los circuitos con reemplazo
@@ -56,7 +56,7 @@ El remuestreo bootstrap proporciona una evaluación de estabilidad no paramétri
     \item Se registran las estimaciones puntuales para las probabilidades de transición de CA
 \end{enumerate}
 
-La distribución de las estimaciones bootstrap permite cuantificar la variabilidad debida a la composición de la muestra. Se calcula la desviación estándar de las estimaciones a través de las replicaciones como medida de estabilidad, así como el coeficiente de variación (CV = desviación estándar / media). Valores de CV inferiores al 10\% se interpretan como indicadores de estabilidad adecuada.
+La distribución de las estimaciones bootstrap permite cuantificar la variabilidad debida a la composición de la muestra. Se reporta la desviación estándar, el error estándar del bootstrap (SE = $\sigma/\sqrt{B}$) y el coeficiente de variación (CV = $\sigma$/media). Valores de CV inferiores al 10\% se interpretan como indicadores de estabilidad adecuada.
 
 % ========================================
 \subsection{Resultados del Análisis de Sensibilidad}
@@ -91,7 +91,7 @@ La Figura~\ref{fig:sens_bar} presenta las estimaciones de CA$\to$FA para cada pr
 
 \subsubsection{Validación Bootstrap}
 
-El análisis bootstrap, con 20 replicaciones programadas sobre submuestras del 80\% de los circuitos, produce una estimación media de CA$\to$FA = 47.2\% con desviación estándar de 3.0 puntos porcentuales. La media bootstrap difiere en +0.70 pp respecto al baseline de 46.5\%. Para CA$\to$PN, la media bootstrap es 52.8\% $\pm$ 3.0 pp.
+El análisis bootstrap, con 500 replicaciones sobre submuestras del 80\% de los circuitos, produce una estimación media de CA$\to$FA = 47.2\% con desviación estándar de 3.0 puntos porcentuales. La media bootstrap difiere en +0.70 pp respecto al baseline de 46.5\%. Para CA$\to$PN, la media bootstrap es 52.8\% $\pm$ 3.0 pp.
 
 El coeficiente de variación (CV) para CA$\to$FA es de 6.4\% (3.0/47.2), lo que se ubica dentro del rango de estabilidad adecuada (CV $<$ 10\%). La desviación estándar de 3 puntos porcentuales indica que, al variar la composición de circuitos en la muestra, la estimación de CA$\to$FA fluctúa en un rango aproximado de 44\% a 50\%, consistente con el intervalo creíble del 95\% del modelo principal [43.0\%, 49.9\%].
 

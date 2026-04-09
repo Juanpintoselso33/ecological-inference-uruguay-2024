@@ -14,9 +14,12 @@ La \textit{ecological fallacy} surge cuando se hacen inferencias directas sobre 
 
 En el contexto de las elecciones presidenciales de Uruguay 2024, se busca estimar las transferencias de votos entre la primera vuelta (27 de octubre de 2024) y el balotaje (24 de noviembre de 2024). Se observan conteos de votos agregados a nivel de circuito pero no se puede observar directamente cómo los votantes individuales cambiaron sus preferencias. Este desafío inferencial requiere métodos estadísticos sofisticados que puedan extraer información a nivel individual mientras respetan los límites impuestos por el proceso generador de datos.
 
-\subsection{El Método de Inferencia Ecológica de King}
+\subsection{El Modelo Bayesiano de Transferencia de Votos}
 
-El método de Inferencia Ecológica de King (King's Ecological Inference, EI) \cite{king1997} proporciona una solución fundamentada a este problema inferencial. El método estima una \textit{matriz de transición} $\mathbf{T}$ de dimensión $K \times J$, donde $K$ representa el número de partidos de origen (primera vuelta) y $J$ representa el número de partidos de destino (balotaje). Cada elemento $T_{kj}$ de esta matriz representa la probabilidad de que un votante que apoyó al partido $k$ en la primera elección votara por el partido $j$ en la segunda elección.
+Inspirado en el marco de inferencia ecológica de King \cite{king1997}, se implementa un modelo bayesiano de transferencia de votos con prior Dirichlet (complete pooling) que estima una \textit{matriz de transición} $\mathbf{T}$ de dimensión $K \times J$, donde $K$ representa el número de partidos de origen (primera vuelta) y $J$ representa el número de partidos de destino (balotaje). Cada elemento $T_{kj}$ de esta matriz representa la probabilidad de que un votante que apoyó al partido $k$ en la primera elección votara por el partido $j$ en la segunda elección.
+
+	extbf{Nota sobre nomenclatura}: El modelo aquí implementado difiere del modelo original de King (1997) en un aspecto fundamental. King propuso un modelo de inferencia ecológica binomial-beta con parámetros que varían por unidad geográfica (partial pooling), y Rosen et al.\ \cite{rosen2001bayesian} extendieron este enfoque al caso RxC con Dirichlet por unidad. El presente trabajo estima una única matriz de transición $\mathbf{T}$ para todos los circuitos (complete pooling), utilizando una previa Dirichlet sobre las filas de dicha matriz. Esta especificación es computacionalmente eficiente para los 7{,}271 circuitos analizados y produce estimaciones nacionales robustas. King es citado como inspiración metodológica general del enfoque de inferencia ecológica, no como implementación del modelo específico. La extensión hacia partial pooling departamental queda propuesta como trabajo futuro.
+
 
 Formalmente, para cada circuito electoral $i$, sea $\mathbf{X}_i = (X_{i1}, \ldots, X_{iK})$ el vector de votos recibidos por cada uno de los $K$ partidos de origen, y sea $\mathbf{Y}_i = (Y_{i1}, \ldots, Y_{iJ})$ los votos recibidos por cada uno de los $J$ partidos de destino. Las transferencias de votos esperadas se modelan como:
 
@@ -27,11 +30,11 @@ Y_{ij} = \sum_{k=1}^{K} T_{kj} \cdot X_{ik}
 
 En notación matricial, esto puede expresarse como $\mathbf{Y}_i = \mathbf{X}_i \mathbf{T}$, indicando que los votos de destino observados son una combinación lineal de los votos de origen ponderados por las probabilidades de transición.
 
-El método de King ofrece ventajas críticas sobre enfoques clásicos como la regresión ecológica de Goodman \cite{king1997}. Más importante aún, respeta los límites naturales sobre las probabilidades de transición: $0 \leq T_{kj} \leq 1$ para todo $k,j$, y $\sum_{j=1}^{J} T_{kj} = 1$ para cada partido de origen $k$. Estas restricciones aseguran que las probabilidades de transición estimadas sean interpretables como probabilidades propias y que todos los votantes de cada partido de origen sean contabilizados en la elección de destino. La regresión de Goodman, en contraste, frecuentemente produce estimaciones fuera del intervalo $[0,1]$, generando resultados sustancialmente carentes de sentido.
+El modelo bayesiano ofrece ventajas críticas sobre enfoques clásicos como la regresión ecológica de Goodman \cite{king1997}. Más importante aún, respeta los límites naturales sobre las probabilidades de transición: $0 \leq T_{kj} \leq 1$ para todo $k,j$, y $\sum_{j=1}^{J} T_{kj} = 1$ para cada partido de origen $k$. Estas restricciones aseguran que las probabilidades de transición estimadas sean interpretables como probabilidades propias y que todos los votantes de cada partido de origen sean contabilizados en la elección de destino. La regresión de Goodman, en contraste, frecuentemente produce estimaciones fuera del intervalo $[0,1]$, generando resultados sustancialmente carentes de sentido.
 
 \subsection{Implementación Bayesiana}
 
-Se implementa el método EI de King usando un modelo jerárquico bayesiano con el framework de programación probabilística PyMC \cite{abril2023pymc}. El enfoque bayesiano proporciona varias ventajas para la inferencia ecológica: (1) incorpora naturalmente conocimiento previo a través de distribuciones de probabilidad, (2) cuantifica la incertidumbre mediante distribuciones posteriores en lugar de estimaciones puntuales, (3) respeta restricciones mediante elecciones apropiadas de distribuciones previas, y (4) permite la propagación coherente de la incertidumbre desde los parámetros hasta las cantidades de interés.
+Se implementa el modelo bayesiano de transferencia de votos usando el framework de programación probabilística PyMC \cite{abril2023pymc}. El enfoque bayesiano proporciona varias ventajas para la inferencia ecológica: (1) incorpora naturalmente conocimiento previo a través de distribuciones de probabilidad, (2) cuantifica la incertidumbre mediante distribuciones posteriores en lugar de estimaciones puntuales, (3) respeta restricciones mediante elecciones apropiadas de distribuciones previas, y (4) permite la propagación coherente de la incertidumbre desde los parámetros hasta las cantidades de interés.
 
 El núcleo del modelo especifica una distribución previa sobre la matriz de transición que impone las restricciones requeridas. Específicamente, para cada partido de origen $k$, la fila $\mathbf{T}_k = (T_{k1}, \ldots, T_{kJ})$ sigue una distribución Dirichlet:
 
@@ -202,7 +205,7 @@ Los resultados demuestran ser robustos a través de estas variaciones, con media
 
 \subsubsection{Comparación con Métodos Alternativos}
 
-Aunque la regresión ecológica de Goodman frecuentemente produce estimaciones fuera de los límites (una falla fundamental), se estima con fines de comparación. Como se esperaba, el método de Goodman produce varias probabilidades de transición fuera de $[0,1]$, confirmando la necesidad del enfoque acotado de King. Donde las estimaciones de Goodman están dentro de los límites, se alinean estrechamente con el EI de King, lo que proporciona confianza adicional en la validez de los resultados.
+Aunque la regresión ecológica de Goodman frecuentemente produce estimaciones fuera de los límites (una falla fundamental), se estima con fines de comparación. Como se esperaba, el método de Goodman produce varias probabilidades de transición fuera de $[0,1]$, confirmando la necesidad del enfoque bayesiano acotado. Donde las estimaciones de Goodman están dentro de los límites, se alinean estrechamente con el modelo bayesiano, lo que proporciona confianza adicional en la validez de los resultados.
 
 \subsection{Software y Reproducibilidad}
 

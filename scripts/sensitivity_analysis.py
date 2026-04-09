@@ -100,27 +100,67 @@ def test_baseline(df, origin_cols, destination_cols, num_samples=2000, num_chain
 
 
 def test_conservative_prior(df, origin_cols, destination_cols, num_samples=2000, num_chains=4):
-    """Test with more conservative (tighter) priors."""
-    logger.info("TEST 2/7: Conservative Prior (Dirichlet[2,2,2])...")
+    """Test with Jeffreys-like sparse prior (alpha=0.5)."""
+    logger.info("TEST 2/7: Jeffreys-like Prior (Dirichlet[0.5,0.5,0.5])...")
 
-    # Note: KingEI uses hardcoded Dirichlet(1) prior in model
-    # This test would require modifying the model class to accept custom priors
-    # For now, we'll document this as a limitation
-
-    logger.warning("  Custom priors no soportados en implementación actual")
-    logger.warning("  Se requiere modificar src/models/king_ei.py para aceptar prior_alpha parameter")
-
-    return None
+    model = KingEI(
+        num_samples=num_samples,
+        num_chains=num_chains,
+        num_warmup=num_samples // 2,
+        prior_alpha=0.5,
+        random_seed=42
+    )
+    model.fit(
+        data=df,
+        origin_cols=origin_cols,
+        destination_cols=destination_cols,
+        total_origin='total_primera',
+        total_destination='total_ballotage',
+        progressbar=True
+    )
+    T = model.get_transition_matrix()
+    ci = model.get_credible_intervals(prob=0.95)
+    diag = model.get_diagnostics()
+    logger.info(f"  CA→FA: {T[0,0]:.1%} [{ci['lower'][0,0]:.1%}, {ci['upper'][0,0]:.1%}]")
+    logger.info(f"  CA→PN: {T[0,1]:.1%} [{ci['lower'][0,1]:.1%}, {ci['upper'][0,1]:.1%}]")
+    logger.info(f"  R-hat max: {np.max(diag['rhat']):.4f}")
+    return {
+        'name': 'Jeffreys_Prior',
+        'description': 'Jeffreys-like prior (Dirichlet[0.5])',
+        'T': T, 'ci': ci, 'diag': diag, 'trace': model.trace_
+    }
 
 
 def test_informative_prior(df, origin_cols, destination_cols, num_samples=2000, num_chains=4):
-    """Test with informative prior (biased toward retention)."""
-    logger.info("TEST 3/7: Informative Prior (Dirichlet[5,1,1])...")
+    """Test with concentrated prior (alpha=5.0) — strong prior toward uniform transitions."""
+    logger.info("TEST 3/7: Concentrated Prior (Dirichlet[5,5,5])...")
 
-    # Same limitation as conservative prior
-    logger.warning("  Custom priors no soportados en implementación actual")
-
-    return None
+    model = KingEI(
+        num_samples=num_samples,
+        num_chains=num_chains,
+        num_warmup=num_samples // 2,
+        prior_alpha=5.0,
+        random_seed=42
+    )
+    model.fit(
+        data=df,
+        origin_cols=origin_cols,
+        destination_cols=destination_cols,
+        total_origin='total_primera',
+        total_destination='total_ballotage',
+        progressbar=True
+    )
+    T = model.get_transition_matrix()
+    ci = model.get_credible_intervals(prob=0.95)
+    diag = model.get_diagnostics()
+    logger.info(f"  CA→FA: {T[0,0]:.1%} [{ci['lower'][0,0]:.1%}, {ci['upper'][0,0]:.1%}]")
+    logger.info(f"  CA→PN: {T[0,1]:.1%} [{ci['lower'][0,1]:.1%}, {ci['upper'][0,1]:.1%}]")
+    logger.info(f"  R-hat max: {np.max(diag['rhat']):.4f}")
+    return {
+        'name': 'Concentrated_Prior',
+        'description': 'Concentrated prior (Dirichlet[5])',
+        'T': T, 'ci': ci, 'diag': diag, 'trace': model.trace_
+    }
 
 
 def test_remove_outliers_ca_share(df, origin_cols, destination_cols, num_samples=2000, num_chains=4):
@@ -175,10 +215,10 @@ def test_remove_outliers_ca_share(df, origin_cols, destination_cols, num_samples
     }
 
 
-def test_bootstrap(df, origin_cols, destination_cols, n_bootstrap=20, sample_frac=0.8,
+def test_bootstrap(df, origin_cols, destination_cols, n_bootstrap=500, sample_frac=0.8,
                    num_samples=1000, num_chains=2):
     """Bootstrap stability test (reduced samples for speed)."""
-    logger.info(f"TEST 5/7: Bootstrap Stability ({n_bootstrap} samples, {sample_frac:.0%} each)...")
+    logger.info(f"TEST 5/7: Bootstrap Stability ({n_bootstrap} replicaciones, {sample_frac:.0%} cada una)...")
 
     bootstrap_results = []
 
@@ -222,14 +262,20 @@ def test_bootstrap(df, origin_cols, destination_cols, n_bootstrap=20, sample_fra
 
     if len(df_bootstrap) > 0:
         logger.info(f"  Successful bootstrap samples: {len(df_bootstrap)}/{n_bootstrap}")
-        logger.info(f"  CA→FA: {df_bootstrap['ca_to_fa'].mean():.1%} ± {df_bootstrap['ca_to_fa'].std():.1%}")
-        logger.info(f"  CA→PN: {df_bootstrap['ca_to_pn'].mean():.1%} ± {df_bootstrap['ca_to_pn'].std():.1%}")
+        se_fa = df_bootstrap['ca_to_fa'].std() / np.sqrt(len(df_bootstrap))
+        se_pn = df_bootstrap['ca_to_pn'].std() / np.sqrt(len(df_bootstrap))
+        logger.info(f"  CA→FA: {df_bootstrap['ca_to_fa'].mean():.1%} ± {df_bootstrap['ca_to_fa'].std():.1%} (SE={se_fa:.2%})")
+        logger.info(f"  CA→PN: {df_bootstrap['ca_to_pn'].mean():.1%} ± {df_bootstrap['ca_to_pn'].std():.1%} (SE={se_pn:.2%})")
 
+    se_fa = df_bootstrap['ca_to_fa'].std() / np.sqrt(len(df_bootstrap)) if len(df_bootstrap) > 1 else np.nan
+    se_pn = df_bootstrap['ca_to_pn'].std() / np.sqrt(len(df_bootstrap)) if len(df_bootstrap) > 1 else np.nan
     return {
         'name': 'Bootstrap',
-        'description': f'{n_bootstrap} bootstrap samples with {sample_frac:.0%} circuits each',
+        'description': f'{n_bootstrap} replicaciones bootstrap con {sample_frac:.0%} de circuitos',
         'results': df_bootstrap,
-        'n_successful': len(df_bootstrap)
+        'n_successful': len(df_bootstrap),
+        'se_ca_fa': se_fa,
+        'se_ca_pn': se_pn,
     }
 
 
@@ -493,7 +539,7 @@ def main():
     parser = argparse.ArgumentParser(description='Análisis de Sensibilidad')
     parser.add_argument('--samples', type=int, default=2000, help='MCMC samples para tests principales')
     parser.add_argument('--chains', type=int, default=4, help='MCMC chains')
-    parser.add_argument('--bootstrap', type=int, default=20, help='Número de muestras bootstrap')
+    parser.add_argument('--bootstrap', type=int, default=500, help='Número de replicaciones bootstrap (recomendado ≥500)')
     args = parser.parse_args()
 
     config = get_config()

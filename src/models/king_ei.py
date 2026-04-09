@@ -83,9 +83,9 @@ def _detect_sampler(requested: str) -> tuple:
 
 class KingEI(BaseEIModel):
     """
-    King's Ecological Inference model using PyMC.
+    Modelo bayesiano de transferencia de votos con prior Dirichlet (complete pooling).
 
-    Implements a Bayesian hierarchical model to estimate transition probabilities
+    Implementa un modelo bayesiano to estimate transition probabilities
     from origin election to destination election while respecting bounds [0,1].
 
     For each origin party i and destination party j, estimates:
@@ -103,6 +103,7 @@ class KingEI(BaseEIModel):
                  num_warmup: int = 1000,
                  target_accept: float = 0.9,
                  random_seed: int = 42,
+                 prior_alpha: float = 1.0,
                  likelihood: str = 'normal',
                  nuts_sampler: str = 'auto',
                  trace_dir: Optional[str] = 'outputs/results/traces'):
@@ -115,6 +116,8 @@ class KingEI(BaseEIModel):
             num_warmup: Number of warmup/burn-in samples
             target_accept: Target acceptance rate for NUTS sampler
             random_seed: Random seed for reproducibility
+            prior_alpha: Dirichlet concentration parameter for the transition matrix prior.
+                1.0 = uniform (default), 0.5 = Jeffreys-like, >1 = concentrates toward uniform.
             likelihood: Observation likelihood — 'normal' (default, backward-compatible)
                 or 'dirichlet_multinomial' (statistically correct for count data)
             nuts_sampler: NUTS backend — 'auto' (GPU→nutpie→default), 'blackjax' (JAX/GPU),
@@ -129,6 +132,7 @@ class KingEI(BaseEIModel):
         self.num_warmup = num_warmup
         self.target_accept = target_accept
         self.random_seed = random_seed
+        self.prior_alpha = prior_alpha
         self.likelihood = likelihood
         self.nuts_sampler = nuts_sampler
         self.trace_dir = Path(trace_dir) if trace_dir else None
@@ -287,7 +291,7 @@ class KingEI(BaseEIModel):
         with pm.Model() as model:
             T = pm.Dirichlet(
                 'transition_matrix',
-                a=np.ones(n_dest),
+                a=np.ones(n_dest) * self.prior_alpha,
                 shape=(n_origin, n_dest)
             )
             Y_pred_mean = pm.math.dot(X, T)
@@ -320,7 +324,7 @@ class KingEI(BaseEIModel):
         with pm.Model() as model:
             T = pm.Dirichlet(
                 'transition_matrix',
-                a=np.ones(n_dest),
+                a=np.ones(n_dest) * self.prior_alpha,
                 shape=(n_origin, n_dest),
             )
 
