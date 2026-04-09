@@ -11,10 +11,10 @@ Baseline ($\alpha=1$, referencia)     & 46.5 & ---     & 49.1 & ---     & 7{,}27
 Previa Jeffreys ($\alpha=0.5$)        & 46.4 & $-$0.1  & 49.2 & $+$0.1  & 7{,}271 \\
 Previa concentrada ($\alpha=5$)       & 46.6 & $+$0.1  & 48.9 & $-$0.2  & 7{,}271 \\
 Sin valores atípicos                  & 47.8 & $+$1.3  & 48.0 & $-$1.1  & 7{,}163 \\
-Bootstrap ($\pm$DE, 500 rep.)         & 46.5 $\pm$ 2.4 & $\approx$0 & 49.1 $\pm$ 2.4 & $\approx$0 & 500 \\
+Bootstrap ($\pm$DE, 30 rep.)          & 44.9 $\pm$ 2.0 & $-$1.6     & 50.4 $\pm$ 2.0 & $+$1.3     & 30 \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
-\small \textit{Nota:} Las pruebas de sensibilidad previa comparan tres especificaciones Dirichlet ($\alpha \in \{0.5, 1, 5\}$); las diferencias son menores a 0.2 pp, confirmando insensibilidad a la elección del prior. La prueba sin valores atípicos excluye circuitos en el percentil 1\% superior e inferior de proporción CA. El bootstrap usa 500 replicaciones con 80\% de circuitos (con reemplazo); la DE reporta variabilidad muestral. DE: desviación estándar; pp: puntos porcentuales.
+\small \textit{Nota:} Las pruebas de sensibilidad previa comparan tres especificaciones Dirichlet ($\alpha \in \{0.5, 1, 5\}$); las diferencias son menores a 0.2 pp, confirmando insensibilidad a la elección del prior. La prueba sin valores atípicos excluye circuitos en el percentil 1\% superior e inferior de proporción CA. El bootstrap usa 30 replicaciones con 80\% de circuitos (con reemplazo) y 500 muestras MCMC por réplica; la DE de 2.0 pp confirma estabilidad muestral. DE: desviación estándar; pp: puntos porcentuales.
 \end{flushleft}
 \end{table}
