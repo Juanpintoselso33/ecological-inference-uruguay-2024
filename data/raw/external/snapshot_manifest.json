@@ -1,0 +1,239 @@
+{
+  "created_utc": "2026-06-13T19:18:55.892317+00:00",
+  "source_repo_data_dir": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data",
+  "elecciones": [
+    "nacionales-2024",
+    "balotaje-2024"
+  ],
+  "files": [
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "artigas",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\artigas\\votes-circuito.json",
+      "sha256": "51968f6ebe9c674894815c5ca0aae928ee55e7f9964dcb495c823297f948ca1f"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "canelones",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\canelones\\votes-circuito.json",
+      "sha256": "6c8572670dbae0f63debc33c9e34e3a8cb21d1fc9adb6edd7597d2dc0497481a"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "cerro_largo",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\cerro_largo\\votes-circuito.json",
+      "sha256": "6867df18fb37b59169b38870eb70ce096fbc6207e0247b626a38510f89a730f0"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "colonia",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\colonia\\votes-circuito.json",
+      "sha256": "d7edfe6f5694bea6cd4775d8f2af2ed3a180dd85743fc30281fc10fe66dd224e"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "durazno",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\durazno\\votes-circuito.json",
+      "sha256": "3f5065b57cce735015bfed8aa8c7c3ecf36c97913be24723697c088c00b89e56"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "flores",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\flores\\votes-circuito.json",
+      "sha256": "6e5f9d5af75ab9c80ed0f69c20f15b1ab249968f58e3f4c21d717949b5430abc"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "florida",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\florida\\votes-circuito.json",
+      "sha256": "f7d90bd6db1b4aa362dd10e7f71f9100bf1a79ef534e682f55799037f476bca6"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "lavalleja",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\lavalleja\\votes-circuito.json",
+      "sha256": "7ca5a8ff65f55838595358412f31d9bd0965e11af2baea52acf683870bcedf08"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "maldonado",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\maldonado\\votes-circuito.json",
+      "sha256": "ec316de2bf9893d987a9fd56088c3a4b8ba87fef9ffeb3f549298de6466256b1"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "montevideo",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\montevideo\\votes-circuito.json",
+      "sha256": "e423fed95c992ca30f20d1fa839cd98a655734f5a3bd423d2d999aa24507549f"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "paysandu",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\paysandu\\votes-circuito.json",
+      "sha256": "5b71cec9899bfc4008e2c25d7217c8ad829c75a54b597f6c1b77858f434adc1c"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "rio_negro",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\rio_negro\\votes-circuito.json",
+      "sha256": "e6ffe86362f6a11b779c617415f0eaff1fa34eb6bd22fa592aa2552171cfc5d4"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "rivera",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\rivera\\votes-circuito.json",
+      "sha256": "f39c0bbc11fffb19b7c02087087b35a29ed1eee32c181872565e4ab34d2431b1"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "rocha",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\rocha\\votes-circuito.json",
+      "sha256": "53fbb8e2b7f3670a0fbc6afe14b3a806fc27bcec9b189d566ff5859d3232e2c5"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "salto",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\salto\\votes-circuito.json",
+      "sha256": "75418c43d181d991690b3f3b2ce49dec6ea706a37732848a4ce14459c4e0581d"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "san_jose",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\san_jose\\votes-circuito.json",
+      "sha256": "642be0a895f5f7e66e068a18ddfae6145fd96bf702b83600eb94e8d49d5af373"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "soriano",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\soriano\\votes-circuito.json",
+      "sha256": "a979366e94b274f993ad164f0a58e4474ccb8f74a2387f31d96db5eb78522269"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "tacuarembo",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\tacuarembo\\votes-circuito.json",
+      "sha256": "c4606ac06fc880b8714dc0051a0cd7f5bf3610a3fb60a3b510c5741965ab3585"
+    },
+    {
+      "eleccion": "nacionales-2024",
+      "departamento": "treinta_y_tres",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\nacionales-2024\\treinta_y_tres\\votes-circuito.json",
+      "sha256": "922659d3545e7a1af40dc7e3f6efeae7642ecc785033419dca8a4009bcc35ddb"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "artigas",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\artigas\\votes-circuito.json",
+      "sha256": "0f4979fc40c7c2141f803083847c73cb6b20a2f3359fddba222336d1c2e071a5"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "canelones",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\canelones\\votes-circuito.json",
+      "sha256": "83fd5920a421601cefbc4eae1be2e340dee50d7f8614f89d971eed62be98d845"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "cerro_largo",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\cerro_largo\\votes-circuito.json",
+      "sha256": "c9c892546f35c5eb1b26337f384a1c25f9c27942eadc8ebbd2ca48bef0e15699"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "colonia",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\colonia\\votes-circuito.json",
+      "sha256": "c9d1db682dc2d3b49a72b58b4dee81b0ebca4939cad931904d161aee31b6ff4d"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "durazno",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\durazno\\votes-circuito.json",
+      "sha256": "2284b6cf87513160235496b5602f1d09213ea0787cdd07397c21120966a43cf4"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "flores",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\flores\\votes-circuito.json",
+      "sha256": "d6e788b2126e98d6720535b3d424a7d78a58d927ff728d9424b45faab34eaed1"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "florida",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\florida\\votes-circuito.json",
+      "sha256": "778fa3a3cf14f7572b026c9cf099cf1fcde99e7525b9821ee34fee6bb0ef473b"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "lavalleja",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\lavalleja\\votes-circuito.json",
+      "sha256": "1e98076772097910586bf95b4055c18e456c1f83ecbaa1f71dead428721b89af"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "maldonado",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\maldonado\\votes-circuito.json",
+      "sha256": "e16ff0e97ac811491a3a27ed1d489b10f89d4bdd3c51bbb0b71fe0834bcd2e0d"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "montevideo",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\montevideo\\votes-circuito.json",
+      "sha256": "bf86f904bb907bcdbdb02e510e1305983e01faa0971373a61b031d33f15a9c0e"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "paysandu",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\paysandu\\votes-circuito.json",
+      "sha256": "606b252154701dee724d00065b43b0f174d4b02a0fda60eeefdf666ac4d60646"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "rio_negro",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\rio_negro\\votes-circuito.json",
+      "sha256": "e06b6b7c820d4533c381cac0db193da038d0f84712a8a6677a3b5b528388c90a"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "rivera",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\rivera\\votes-circuito.json",
+      "sha256": "bef764048b7fe67a626b3be44904455d526e8b989e6679ff969aae6df5c281eb"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "rocha",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\rocha\\votes-circuito.json",
+      "sha256": "73104bd5fea8bc44d996feb9283ef14e86c79270db2005013661de9588a909eb"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "salto",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\salto\\votes-circuito.json",
+      "sha256": "b50c18440c5d23c53b6ae5b44be5a202ba6575822724c38ea9059663133aa0d8"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "san_jose",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\san_jose\\votes-circuito.json",
+      "sha256": "4c7487bcb2abefc76a3a1d97a730496a010bb668abe6c5cdfd5ee521f9863419"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "soriano",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\soriano\\votes-circuito.json",
+      "sha256": "9f6323c4a4c7b599fa50e7446274e4e8e823821d6dd98bc82cc68c05a25d4f90"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "tacuarembo",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\tacuarembo\\votes-circuito.json",
+      "sha256": "595fb462b6fc20965624765c0c5afd513b0ecf36221c309ab47c3775423cf586"
+    },
+    {
+      "eleccion": "balotaje-2024",
+      "departamento": "treinta_y_tres",
+      "origen": "E:\\Proyectos VS CODE\\Uruguay Electoral Map\\uruguay-electoral-map\\public\\data\\balotaje-2024\\treinta_y_tres\\votes-circuito.json",
+      "sha256": "263a4ab1c763d8a71c0661359d5b0e5dcd064cfe577be1189eee812d4762d417"
+    }
+  ],
+  "snapshot_sha256": "42e279fc69b6a07d2c4c85b63b7792868864786bde3abd68fecbb5ccbf8d3c84"
+}

@@ -193,3 +193,61 @@ El sub-proyecto se considera terminado cuando:
 - **Diferencia 7.271 vs 7.222:** circuitos faltantes/extra entre fuentes. Mitigación:
   set-diff explícito; ningún circuito se descarta en silencio.
 - **`escrutinio` mixto:** confirmar que todas las elecciones objetivo son `definitivo`.
+
+## 10. Resultado de reconciliación (ejecutado 2026-06-13)
+
+Snapshot `snapshot_sha256=42e279fc…` (38 archivos, 19 deptos × 2 elecciones).
+v2 construido: **7.221 circuitos** (1 de primera sin balotaje, logueado).
+
+### Cobertura y voto (vs parquet viejo, 7.271 circuitos)
+
+- **Circuitos apareados: 7.165.** En ellos, **`max|Δ| = 0` en todas las columnas de
+  partido** (ca/fa/pc/pn/pi/otros primera; fa/pn balotaje): el v2 reproduce el voto
+  exactamente.
+- **106 solo-viejo: todos serie ≥9000** (circuitos especiales / voto observado
+  consolidado), 30.174 votos = **1,32%** del total. El desglose nuevo a nivel circuito
+  no los expone como circuito separado.
+- **56 solo-nuevo: todos regulares** (numeración <9000); el dato nuevo es más granular.
+- Composición de no-partidarios verificada al 100% sobre los apareados:
+  `OLD(blancos+anulados) == V2(enBlanco+anulados)`, `OLD total == V2 total`,
+  `OLD residual == V2 observados` (32.876).
+
+### Definición de la categoría destino "blancos" (decisión registrada)
+
+La primera versión de v2 fusionaba `anulados` dentro de `blancos_ballotage`, lo que
+distorsionaba el EI (OTROS→Blancos +21pp). Se corrigió para **igualar el esquema
+publicado**: `blancos_ballotage = enBlanco` solo, con `anulados_ballotage` y
+`observados_ballotage` como columnas separadas fuera de los destinos modelados.
+Tras el fix, `blancos` y `anulados` matchean el viejo al 100%.
+
+### Impacto en el EI nacional (King's EI, 4000 muestras / 4 cadenas)
+
+Tres corridas convergidas (R-hat < 1.01, ESS > 1800):
+
+| Comparación | Max\|Δ\| tasas de transferencia |
+|---|---|
+| v2 (7.221) vs publicado-viejo (7.271) | 7,56 pp |
+| **v2 (7.221) vs viejo-restringido-a-matcheados (7.165)** | **0,21 pp** |
+
+**Sobre los mismos circuitos, v2 y viejo dan resultados idénticos (Δ ≤ 0,21 pp = ruido
+MCMC).** Las diferencias contra el análisis publicado (hasta 7,6 pp, concentradas en
+PC y OTROS) se explican **íntegramente** por los 106 circuitos especiales serie-9000:
+al incluirlos, el publicado daba PC→FA 10,0% y OTROS→PN 69,4%; sin ellos (v2 y
+viejo-restringido coinciden) son PC→FA 4,5% y OTROS→PN 62%. Los partidos grandes
+(FA, PN, PI) y CA coinciden dentro de ruido en todas las corridas.
+
+### Decisión
+
+**La capa de datos v2 queda validada como reemplazo fiel** y se adopta como fuente del
+EI. Reproduce exactamente el voto y, a igualdad de circuitos, las estimaciones del
+análisis publicado. La diferencia frente al publicado es atribuible y deseable: el v2
+excluye del nivel-circuito 106 circuitos especiales (voto observado consolidado, 1,32%
+del padrón de votos) que sesgaban las estimaciones de partidos chicos. Al migrar el
+análisis a v2 se debe **documentar este cambio en los resultados de partidos menores**
+(PC, OTROS) respecto del informe previo.
+
+Artefactos regenerables (gitignored): `circuitos_merged_v2.parquet`,
+`national_transfers_with_pi_v2.pkl`. Reproducibles vía
+`scripts/snapshot_external_data.py` → `python -m src.data.build_ei_dataset` →
+`scripts/national_analysis_with_pi.py`. Registro persistente del snapshot:
+`data/raw/external/snapshot_manifest.json`.
