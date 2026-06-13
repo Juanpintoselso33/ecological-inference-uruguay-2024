@@ -33,3 +33,8 @@ def test_departamento_display_has_accents():
 
 def test_departamento_display_count():
     assert len(DEPARTAMENTO_DISPLAY) == 19
+
+
+def test_departamento_display_unknown_raises():
+    with pytest.raises(KeyError):
+        departamento_display("inventado")

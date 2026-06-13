@@ -3,6 +3,8 @@ Mapeos canónicos entre los identificadores del proyecto Uruguay Electoral Map
 y los códigos usados por el pipeline de inferencia ecológica.
 """
 
+from types import MappingProxyType
+
 # opcionId (lema) -> código EI. Los lemas no listados se agregan en 'otros'.
 _EXPLICIT_PARTY_MAP = {
     "cabildo-abierto": "ca",
@@ -22,9 +24,10 @@ _KNOWN_OTROS = {
     "avanzar-republicano",
 }
 
-PARTY_MAP = dict(_EXPLICIT_PARTY_MAP)
-for _lema in _KNOWN_OTROS:
-    PARTY_MAP[_lema] = "otros"
+_PARTY_MAP = {**_EXPLICIT_PARTY_MAP, **{k: "otros" for k in _KNOWN_OTROS}}
+
+# Vista de solo lectura: evita que los callers muten el mapeo en runtime.
+PARTY_MAP = MappingProxyType(_PARTY_MAP)
 
 
 def map_opcion(opcion_id: str) -> str:
@@ -39,7 +42,7 @@ def map_opcion(opcion_id: str) -> str:
 
 
 # slug del repo vecino -> nombre con acento usado en el parquet histórico.
-DEPARTAMENTO_DISPLAY = {
+_DEPARTAMENTO_DISPLAY = {
     "artigas": "Artigas",
     "canelones": "Canelones",
     "cerro_largo": "Cerro Largo",
@@ -61,10 +64,16 @@ DEPARTAMENTO_DISPLAY = {
     "treinta_y_tres": "Treinta y Tres",
 }
 
+# Vista de solo lectura: evita que los callers muten el mapeo en runtime.
+DEPARTAMENTO_DISPLAY = MappingProxyType(_DEPARTAMENTO_DISPLAY)
+
 
 def departamento_display(slug: str) -> str:
     """slug lowercase del repo vecino -> nombre con acento. KeyError si desconocido."""
     try:
         return DEPARTAMENTO_DISPLAY[slug]
     except KeyError as exc:
-        raise KeyError(f"departamento desconocido: {slug!r}") from exc
+        raise KeyError(
+            f"departamento desconocido: {slug!r}. "
+            f"Agregalo a mappings.DEPARTAMENTO_DISPLAY."
+        ) from exc
