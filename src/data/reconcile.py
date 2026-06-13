@@ -35,6 +35,8 @@ def compare_party_votes(old: pd.DataFrame, new: pd.DataFrame, cols: list[str]) -
             diff = (merged[f"{c}_old"] - merged[f"{c}_new"]).abs()
             per_col[c] = {"max": int(diff.max()), "n_nonzero": int((diff > 0).sum())}
             max_abs = max(max_abs, int(diff.max()))
+        else:
+            raise KeyError(f"columna {c} no presente en ambos datasets")
 
     return {
         "n_matched": len(merged),
@@ -49,8 +51,12 @@ def compare_party_votes(old: pd.DataFrame, new: pd.DataFrame, cols: list[str]) -
 
 def compare_dept_totals(new: pd.DataFrame, reference_csv: Path,
                         primera_eleccion: str) -> pd.DataFrame:
-    """Suma votos partidarios de v2 por departamento y los compara con el CSV de
-    referencia (nivel departamento del dump oficial) para la 1ª vuelta."""
+    """DIAGNÓSTICO ONLY (no es un gate de pasa/falla). Suma votos partidarios de v2
+    por departamento y los compara con el CSV de referencia (totales departamentales
+    del dump oficial) para la 1ª vuelta. Las desviaciones distintas de cero son
+    ESPERADAS: el CSV de referencia es el universo completo del dump, mientras que v2
+    excluye los ~106 circuitos especiales de la serie 9000. El gate de reconciliación
+    autoritativo es `compare_party_votes` (match exacto de votos por circuito)."""
     from src.data.mappings import map_opcion, departamento_display
     ref = pd.read_csv(reference_csv)
     ref = ref[ref["eleccion"] == primera_eleccion].copy()
