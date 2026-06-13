@@ -17,6 +17,15 @@ data:
   processed_dir: "data/processed"
   shapefiles_dir: "data/external/shapefiles"
 
+  # Fuente externa robusta (proyecto Uruguay Electoral Map)
+  external:
+    map_repo_data_dir: "E:/Proyectos VS CODE/Uruguay Electoral Map/uruguay-electoral-map/public/data"
+    map_repo_dumps_dir: "E:/Proyectos VS CODE/Uruguay Electoral Map/uruguay-electoral-map/public/api/v1/dumps"
+    snapshot_dir: "data/raw/external"
+    elections:
+      primera: "nacionales-2024"
+      ballotage: "balotaje-2024"
+
 # Electoral data structure
 parties:
   primera_vuelta:
