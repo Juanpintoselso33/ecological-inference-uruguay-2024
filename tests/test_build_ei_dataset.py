@@ -54,7 +54,8 @@ def test_build_columns_and_merge(tmp_path):
     # balotaje
     assert row["fa_ballotage"] == 34
     assert row["pn_ballotage"] == 152
-    assert row["blancos_ballotage"] == 8   # enBlanco 4 + anulados 4
+    assert row["blancos_ballotage"] == 4   # enBlanco only
+    assert row["anulados_ballotage"] == 4
     assert row["observados_ballotage"] == 27
     assert row["total_ballotage"] == 186 + 4 + 4 + 27
     # identidad / procedencia
@@ -122,11 +123,12 @@ def test_build_inner_join_drops_unmatched(tmp_path):
     assert df.iloc[0]["circuito_id"] == "Artigas_1"
 
 
-def test_build_ballotage_shares_with_observados_sum_to_one(tmp_path):
+def test_build_ballotage_shares_sum_to_one(tmp_path):
     _setup(tmp_path)
     df = build_ei_dataset(tmp_path, "nacionales-2024", "balotaje-2024",
                           departamentos=["artigas"], snapshot_hash="abc123")
     row = df.iloc[0]
     total = (row["fa_share_ballotage"] + row["pn_share_ballotage"]
-             + row["blancos_share_ballotage"] + row["observados_share_ballotage"])
+             + row["blancos_share_ballotage"] + row["anulados_share_ballotage"]
+             + row["observados_share_ballotage"])
     assert abs(total - 1.0) < 1e-9

@@ -60,7 +60,8 @@ def build_ei_dataset(snapshot_dir, primera_eleccion, ballotage_eleccion,
         "departamento": bal["departamento"],
         "geoId": bal["geoId"],
         "fa_ballotage": bal["fa"], "pn_ballotage": bal["pn"],
-        "blancos_ballotage": bal["enBlanco"] + bal["anulados"],
+        "blancos_ballotage": bal["enBlanco"],
+        "anulados_ballotage": bal["anulados"],
         "observados_ballotage": bal["observados"],
     })
     bal_out["total_ballotage"] = (bal["fa"] + bal["pn"] + bal["enBlanco"]
@@ -87,6 +88,7 @@ def build_ei_dataset(snapshot_dir, primera_eleccion, ballotage_eleccion,
     for d in ["fa", "pn"]:
         df[f"{d}_share_ballotage"] = df[f"{d}_ballotage"] / df["total_ballotage"]
     df["blancos_share_ballotage"] = df["blancos_ballotage"] / df["total_ballotage"]
+    df["anulados_share_ballotage"] = df["anulados_ballotage"] / df["total_ballotage"]
     df["observados_share_ballotage"] = df["observados_ballotage"] / df["total_ballotage"]
 
     return df
