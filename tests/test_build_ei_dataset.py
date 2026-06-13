@@ -4,10 +4,11 @@ import pandas as pd
 from src.data.build_ei_dataset import build_ei_dataset
 
 
-def _write(snap_dir, eleccion, tipo, zonas):
-    doc = {"eleccionId": eleccion, "departamento": "artigas", "nivel": "circuito",
-           "escrutinio": "definitivo", "tipo": tipo, "zonas": zonas}
-    p = snap_dir / eleccion / "artigas" / "votes-circuito.json"
+def _write(snap_dir, eleccion, tipo, zonas, departamento="artigas",
+           escrutinio="definitivo"):
+    doc = {"eleccionId": eleccion, "departamento": departamento, "nivel": "circuito",
+           "escrutinio": escrutinio, "tipo": tipo, "zonas": zonas}
+    p = snap_dir / eleccion / departamento / "votes-circuito.json"
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(doc), encoding="utf-8")
 
@@ -69,3 +70,63 @@ def test_build_shares(tmp_path):
     row = df.iloc[0]
     assert abs(row["pn_share_primera"] - 80 / 200) < 1e-9
     assert abs(row["fa_share_ballotage"] - 34 / row["total_ballotage"]) < 1e-9
+
+
+def _circuito(geoId, validos, por_opcion, npart=None):
+    return {"geoId": geoId, "local": f"L{geoId}", "validos": validos,
+            "porOpcion": por_opcion,
+            "noPartidarios": npart or {"enBlanco": 0, "anulados": 0, "observados": 0}}
+
+
+def test_build_multi_department_escrutinio(tmp_path):
+    # dos departamentos, cada uno con 1 circuito en ambas elecciones,
+    # con valores de escrutinio distintos para validar la alineación por clave.
+    _write(tmp_path, "nacionales-2024", "nacional",
+           [_circuito("1", 100, [{"opcionId": "nacional", "votos": 100}])],
+           departamento="artigas", escrutinio="definitivo")
+    _write(tmp_path, "nacionales-2024", "nacional",
+           [_circuito("5", 100, [{"opcionId": "frente-amplio", "votos": 100}])],
+           departamento="canelones", escrutinio="provisorio")
+    _write(tmp_path, "balotaje-2024", "balotaje",
+           [_circuito("1", 90, [{"opcionId": "nacional", "votos": 90}])],
+           departamento="artigas", escrutinio="definitivo")
+    _write(tmp_path, "balotaje-2024", "balotaje",
+           [_circuito("5", 90, [{"opcionId": "frente-amplio", "votos": 90}])],
+           departamento="canelones", escrutinio="provisorio")
+
+    df = build_ei_dataset(tmp_path, "nacionales-2024", "balotaje-2024",
+                          departamentos=["artigas", "canelones"],
+                          snapshot_hash="abc123")
+    assert len(df) == 2
+    by_id = df.set_index("circuito_id")
+    assert by_id.loc["Artigas_1", "escrutinio"] == "definitivo"
+    assert by_id.loc["Canelones_5", "escrutinio"] == "provisorio"
+    assert by_id.loc["Artigas_1", "pn_primera"] == 100
+    assert by_id.loc["Canelones_5", "fa_primera"] == 100
+
+
+def test_build_inner_join_drops_unmatched(tmp_path):
+    # primera tiene geoId "1" y "2"; balotaje sólo "1" -> sobrevive sólo "1".
+    _write(tmp_path, "nacionales-2024", "nacional", [
+        _circuito("1", 100, [{"opcionId": "nacional", "votos": 100}]),
+        _circuito("2", 100, [{"opcionId": "nacional", "votos": 100}]),
+    ], departamento="artigas")
+    _write(tmp_path, "balotaje-2024", "balotaje", [
+        _circuito("1", 90, [{"opcionId": "nacional", "votos": 90}]),
+    ], departamento="artigas")
+
+    df = build_ei_dataset(tmp_path, "nacionales-2024", "balotaje-2024",
+                          departamentos=["artigas"], snapshot_hash="abc123")
+    assert len(df) == 1
+    assert df.iloc[0]["geoId"] == "1"
+    assert df.iloc[0]["circuito_id"] == "Artigas_1"
+
+
+def test_build_ballotage_shares_with_observados_sum_to_one(tmp_path):
+    _setup(tmp_path)
+    df = build_ei_dataset(tmp_path, "nacionales-2024", "balotaje-2024",
+                          departamentos=["artigas"], snapshot_hash="abc123")
+    row = df.iloc[0]
+    total = (row["fa_share_ballotage"] + row["pn_share_ballotage"]
+             + row["blancos_share_ballotage"] + row["observados_share_ballotage"])
+    assert abs(total - 1.0) < 1e-9

@@ -8,6 +8,9 @@ import pandas as pd
 
 from src.data.ingest_votes_circuito import load_election
 from src.data.mappings import map_opcion, departamento_display
+from src.utils import get_logger
+
+logger = get_logger(__name__)
 
 ORIGIN_PARTIES = ["ca", "fa", "pc", "pn", "pi", "otros"]
 
@@ -45,10 +48,12 @@ def build_ei_dataset(snapshot_dir, primera_eleccion, ballotage_eleccion,
         "geoId": prim["geoId"],
         "ca_primera": prim["ca"], "fa_primera": prim["fa"], "pc_primera": prim["pc"],
         "pn_primera": prim["pn"], "pi_primera": prim["pi"], "otros_primera": prim["otros"],
-        "escrutinio": prim_long.groupby(["departamento", "geoId"])["escrutinio"]
-                      .first().reset_index(drop=True),
     })
     prim_out["total_primera"] = prim_out[[f"{p}_primera" for p in ORIGIN_PARTIES]].sum(axis=1)
+
+    # adjuntar escrutinio por clave explícita (no por alineación posicional)
+    esc = prim_long.groupby(["departamento", "geoId"])["escrutinio"].first().reset_index()
+    prim_out = prim_out.merge(esc, on=["departamento", "geoId"], how="left")
 
     # --- balotaje ---
     bal_out = pd.DataFrame({
@@ -64,6 +69,13 @@ def build_ei_dataset(snapshot_dir, primera_eleccion, ballotage_eleccion,
     # --- merge por clave de circuito ---
     df = prim_out.merge(bal_out, on=["departamento", "geoId"], how="inner")
 
+    # el inner join descarta circuitos cuyos universos no coinciden entre vueltas
+    n_drop_prim = len(prim_out) - len(df)
+    n_drop_bal = len(bal_out) - len(df)
+    if n_drop_prim or n_drop_bal:
+        logger.warning("Inner merge dropped %d circuitos sin balotaje y %d sin primera",
+                       n_drop_prim, n_drop_bal)
+
     # identidad + procedencia
     df["departamento"] = df["departamento"].map(departamento_display)
     df["circuito_id"] = df["departamento"] + "_" + df["geoId"].astype(str)
@@ -75,6 +87,7 @@ def build_ei_dataset(snapshot_dir, primera_eleccion, ballotage_eleccion,
     for d in ["fa", "pn"]:
         df[f"{d}_share_ballotage"] = df[f"{d}_ballotage"] / df["total_ballotage"]
     df["blancos_share_ballotage"] = df["blancos_ballotage"] / df["total_ballotage"]
+    df["observados_share_ballotage"] = df["observados_ballotage"] / df["total_ballotage"]
 
     return df
 
